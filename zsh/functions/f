@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+# recursive text search (ack is also nifty)
+  function f()
+  {
+    find . -name '*' | xargs grep -s --color=auto $1
+  }

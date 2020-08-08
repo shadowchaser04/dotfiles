@@ -1,0 +1,379 @@
+Acura	ILX	
+Acura	MDX	
+Acura	NSX	
+Acura	RDX	
+Acura	RLX	
+Acura	RLX Sport Hybrid	
+Acura	TLX	
+Acura	MDX Sport Hybrid	
+Alfa Romeo	4C Spider	
+Alfa Romeo	Giulia	
+Alfa Romeo	Stelvio	
+Alfa Romeo	4C	
+Aston Martin	Vanquish S	
+Aston Martin	DB11	
+Audi	A3	
+Audi	A3 Sportback e-tron	
+Audi	A4	
+Audi	A4 allroad	
+Audi	A5	
+Audi	A6	
+Audi	A7	
+Audi	A8	
+Audi	Q3	
+Audi	Q7	
+Audi	R8	
+Audi	RS 3	
+Audi	RS 7	
+Audi	S3	
+Audi	S4	
+Audi	S5	
+Audi	S6	
+Audi	S7	
+Audi	S8	
+Audi	SQ5	
+Audi	TT	
+Audi	RS 5	
+Bentley	Bentayga	
+Bentley	Continental	
+Bentley	Mulsanne	
+BMW	3 Series	
+BMW	6 Series	
+BMW	7 Series	
+BMW	i3	
+BMW	M3	
+BMW	M4	
+BMW	M5	
+BMW	M6	
+BMW	X1	
+BMW	X2	
+BMW	X3	
+BMW	X5	
+BMW	X5 M	
+BMW	X6	
+BMW	M2	
+BMW	X6 M	
+Buick	Cascada	
+Buick	Enclave	
+Buick	Encore	
+Buick	Envision	
+Buick	LaCrosse	
+Buick	Regal Sportback	
+Buick	Regal TourX	
+Cadillac	ATS	
+Cadillac	ATS-V	
+Cadillac	CT6	
+Cadillac	CTS	
+Cadillac	CTS-V	
+Cadillac	Escalade	
+Cadillac	Escalade ESV	
+Cadillac	XTS	
+Chevrolet	Bolt EV	
+Chevrolet	City Express	
+Chevrolet	Colorado Crew Cab	
+Chevrolet	Colorado Extended Cab	
+Chevrolet	Corvette	
+Chevrolet	Silverado 1500 Crew Cab	
+Chevrolet	Silverado 1500 Regular Cab	
+Chevrolet	Silverado 2500 HD Crew Cab	
+Chevrolet	Silverado 3500 HD Crew Cab	
+Chevrolet	Sonic	
+Chevrolet	Spark	
+Chevrolet	Suburban	
+Chevrolet	Tahoe	
+Chevrolet	Traverse	
+Chevrolet	Trax	
+Chevrolet	Express 2500 Cargo	
+Chevrolet	Express 2500 Passenger	
+Chevrolet	Express 3500 Cargo	
+Chevrolet	Express 3500 Passenger	
+Chevrolet	Silverado 2500 HD Double Cab	
+Chevrolet	Silverado 2500 HD Regular Cab	
+Chevrolet	Silverado 3500 HD Double Cab	
+Chevrolet	Silverado 3500 HD Regular Cab	
+Chrysler	300	
+Chrysler	Pacifica	
+Chrysler	Pacifica Hybrid	
+Dodge	Durango	
+Dodge	Grand Caravan Passenger	
+Dodge	Journey	
+FIAT	124 Spider	
+FIAT	500L	
+FIAT	500X	
+FIAT	500	
+FIAT	500 Abarth	
+FIAT	500c	
+FIAT	500c Abarth	
+FIAT	500e	
+Ford	C-MAX Hybrid	
+Ford	EcoSport	
+Ford	Edge	
+Ford	Expedition	
+Ford	Expedition MAX	
+Ford	Explorer	
+Ford	F150 Regular Cab	
+Ford	F150 Super Cab	
+Ford	F250 Super Duty Crew Cab	
+Ford	F250 Super Duty Regular Cab	
+Ford	F250 Super Duty Super Cab	
+Ford	Fiesta	
+Ford	Flex	
+Ford	Focus	
+Ford	Fusion Energi	
+Ford	Mustang	
+Ford	Taurus	
+Ford	Transit 250 Van	
+Ford	Transit Connect Cargo	
+Ford	F350 Super Duty Crew Cab	
+Ford	F350 Super Duty Regular Cab	
+Ford	F350 Super Duty Super Cab	
+Ford	F450 Super Duty Crew Cab	
+Ford	Transit 150 Van	
+Ford	Transit 150 Wagon	
+Ford	Transit 350 HD Van	
+Ford	Transit 350 Van	
+Ford	Transit 350 Wagon	
+Ford	Transit Connect Passenger	
+Freightliner	Sprinter 2500 Cargo	
+Freightliner	Sprinter 2500 Crew	
+Freightliner	Sprinter 2500 Passenger	
+Freightliner	Sprinter 3500 Cargo	
+Freightliner	Sprinter 3500XD Cargo	
+Genesis	G80	
+Genesis	G90	
+GMC	Acadia	
+GMC	Canyon Crew Cab	
+GMC	Canyon Extended Cab	
+GMC	Sierra 1500 Crew Cab	
+GMC	Sierra 1500 Double Cab	
+GMC	Sierra 1500 Regular Cab	
+GMC	Sierra 2500 HD Crew Cab	
+GMC	Sierra 2500 HD Regular Cab	
+GMC	Yukon	
+GMC	Yukon XL	
+GMC	Savana 2500 Cargo	
+GMC	Savana 2500 Passenger	
+GMC	Savana 3500 Cargo	
+GMC	Savana 3500 Passenger	
+GMC	Sierra 2500 HD Double Cab	
+GMC	Sierra 3500 HD Crew Cab	
+GMC	Sierra 3500 HD Double Cab	
+GMC	Sierra 3500 HD Regular Cab	
+Honda	Accord	
+Honda	Civic	
+Honda	Civic Type R	
+Honda	Clarity Plug-in Hybrid	
+Honda	CR-V	
+Honda	Fit	
+Honda	HR-V	
+Honda	Odyssey	
+Honda	Pilot	
+Honda	Ridgeline	
+Honda	Accord Hybrid	
+Honda	Clarity Electric	
+Honda	Clarity Fuel Cell	
+Hyundai	Accent	
+Hyundai	Elantra GT	
+Hyundai	Ioniq Hybrid	
+Hyundai	Ioniq Plug-in Hybrid	
+Hyundai	Kona	
+Hyundai	Santa Fe	
+Hyundai	Santa Fe Sport	
+Hyundai	Sonata	
+Hyundai	Ioniq Electric	
+Hyundai	Sonata Hybrid	
+Hyundai	Sonata Plug-in Hybrid	
+INFINITI	Q50	
+INFINITI	Q60	
+INFINITI	Q70	
+INFINITI	QX60	
+INFINITI	QX80	
+Jaguar	E-PACE	
+Jaguar	F-TYPE	
+Jaguar	XE	
+Jaguar	XF	
+Jaguar	XJ	
+Jeep	Cherokee	
+Jeep	Compass	
+Jeep	Grand Cherokee	
+Jeep	Renegade	
+Jeep	Wrangler	
+Jeep	Wrangler Unlimited	
+Kia	Cadenza	
+Kia	Forte	
+Kia	Forte5	
+Kia	Niro	
+Kia	Optima Hybrid	
+Kia	Optima Plug-in Hybrid	
+Kia	Rio	
+Kia	Sedona	
+Kia	Sorento	
+Kia	Soul	
+Kia	Soul EV	
+Kia	Stinger	
+Kia	Niro Plug-in Hybrid	
+Lamborghini	Huracan	
+Land Rover	Discovery	
+Land Rover	Discovery Sport	
+Land Rover	Range Rover	
+Land Rover	Range Rover Evoque	
+Land Rover	Range Rover Sport	
+Land Rover	Range Rover Velar	
+Lexus	ES	
+Lexus	GS	
+Lexus	GX	
+Lexus	IS	
+Lexus	LC	
+Lexus	LS	
+Lexus	LX	
+Lexus	NX	
+Lexus	RC	
+Lexus	RX	
+Lincoln	Continental	
+Lincoln	MKC	
+Lincoln	MKT	
+Lincoln	MKX	
+Lincoln	MKZ	
+Lincoln	Navigator	
+Lincoln	Navigator L	
+Maserati	Ghibli	
+Maserati	Levante	
+Maserati	Quattroporte	
+Mazda	CX-3	
+Mazda	CX-5	
+Mazda	CX-9	
+Mazda	MAZDA3	
+Mazda	MAZDA6	
+Mercedes-Benz	C-Class	
+Mercedes-Benz	E-Class	
+Mercedes-Benz	G-Class	
+Mercedes-Benz	GLA	
+Mercedes-Benz	GLC	
+Mercedes-Benz	GLE	
+Mercedes-Benz	GLS	
+Mercedes-Benz	Mercedes-AMG C-Class	
+Mercedes-Benz	Mercedes-AMG CLA	
+Mercedes-Benz	Mercedes-AMG E-Class	
+Mercedes-Benz	Mercedes-AMG G-Class	
+Mercedes-Benz	Mercedes-AMG GLA	
+Mercedes-Benz	S-Class	
+Mercedes-Benz	CLS	
+Mercedes-Benz	GLC Coupe	
+Mercedes-Benz	Mercedes-AMG CLS	
+Mercedes-Benz	Mercedes-AMG GLC Coupe	
+Mercedes-Benz	Mercedes-AMG GLE	
+Mercedes-Benz	Mercedes-AMG GLE Coupe	
+Mercedes-Benz	Mercedes-AMG GT	
+Mercedes-Benz	Mercedes-AMG S-Class	
+Mercedes-Benz	Mercedes-AMG SL	
+Mercedes-Benz	Mercedes-AMG SLC	
+Mercedes-Benz	Metris Cargo	
+Mercedes-Benz	Metris Passenger	
+Mercedes-Benz	Metris WORKER Cargo	
+Mercedes-Benz	Metris WORKER Passenger	
+Mercedes-Benz	SL	
+Mercedes-Benz	SLC	
+Mercedes-Benz	Sprinter 2500 Cargo	
+Mercedes-Benz	Sprinter 2500 Crew	
+Mercedes-Benz	Sprinter 2500 Passenger	
+Mercedes-Benz	Sprinter 3500 Cargo	
+Mercedes-Benz	Sprinter 3500 XD Cargo	
+MINI	Clubman	
+MINI	Convertible	
+MINI	Hardtop 4 Door	
+Mitsubishi	Eclipse Cross	
+Mitsubishi	Mirage	
+Mitsubishi	Mirage G4	
+Mitsubishi	Outlander	
+Mitsubishi	Outlander PHEV	
+Mitsubishi	Outlander Sport	
+Nissan	370Z	
+Nissan	Armada	
+Nissan	Frontier Crew Cab	
+Nissan	Frontier King Cab	
+Nissan	GT-R	
+Nissan	LEAF	
+Nissan	Maxima	
+Nissan	Murano	
+Nissan	NV200	
+Nissan	Pathfinder	
+Nissan	Rogue Sport	
+Nissan	Sentra	
+Nissan	Titan Crew Cab	
+Nissan	TITAN XD Crew Cab	
+Nissan	Versa Note	
+Nissan	Kicks	
+Nissan	NV1500 Cargo	
+Nissan	NV2500 HD Cargo	
+Nissan	NV3500 HD Cargo	
+Nissan	NV3500 HD Passenger	
+Nissan	Titan King Cab	
+Nissan	TITAN Single Cab	
+Nissan	TITAN XD King Cab	
+Nissan	TITAN XD Single Cab	
+Porsche	718 Boxster	
+Porsche	718 Cayman	
+Porsche	911	
+Porsche	Cayenne	
+Porsche	Macan	
+Porsche	Panamera	
+Ram	1500 Regular Cab	
+Ram	2500 Crew Cab	
+Ram	ProMaster City	
+Ram	2500 Mega Cab	
+Ram	2500 Regular Cab	
+Ram	3500 Crew Cab	
+Ram	3500 Mega Cab	
+Ram	3500 Regular Cab	
+Ram	ProMaster Cargo Van	
+smart	fortwo electric drive	
+smart	fortwo electric drive cabrio	
+Subaru	BRZ	
+Subaru	Crosstrek	
+Subaru	Forester	
+Subaru	Impreza	
+Subaru	Outback	
+Subaru	WRX	
+Tesla	Model 3	
+Tesla	Model S	
+Tesla	Model X	
+Toyota	4Runner	
+Toyota	Avalon	
+Toyota	Avalon Hybrid	
+Toyota	Camry Hybrid	
+Toyota	Corolla iM	
+Toyota	Highlander	
+Toyota	Highlander Hybrid	
+Toyota	Land Cruiser	
+Toyota	Prius	
+Toyota	Prius c	
+Toyota	Prius Prime	
+Toyota	RAV4	
+Toyota	RAV4 Hybrid	
+Toyota	Sequoia	
+Toyota	Sienna	
+Toyota	Tacoma Access Cab	
+Toyota	Tacoma Double Cab	
+Toyota	Tundra CrewMax	
+Toyota	Tundra Double Cab	
+Toyota	Yaris	
+Toyota	Yaris iA	
+Toyota	86	
+Toyota	Mirai	
+Volkswagen	Atlas	
+Volkswagen	Beetle	
+Volkswagen	Golf	
+Volkswagen	Golf Alltrack	
+Volkswagen	Golf GTI	
+Volkswagen	Golf R	
+Volkswagen	Golf SportWagen	
+Volkswagen	Jetta	
+Volkswagen	Passat	
+Volkswagen	Tiguan	
+Volkswagen	Tiguan Limited	
+Volvo	S60	
+Volvo	S90	
+Volvo	V60	
+Volvo	V90	
+Volvo	XC60	
+Volvo	XC90	

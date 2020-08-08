@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+
+# unsuspend jobs name or number
+function jn {
+    %$@
+}

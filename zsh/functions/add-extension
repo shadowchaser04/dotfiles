@@ -1,0 +1,14 @@
+#!/usr/bin/env zsh
+
+# This function will add a file extention to all files in a directory.
+# It will not replace files already with a file extention.
+function add-extension {
+
+  echo -n "Continue?"
+  read REPLY
+
+  if [[ $REPLY =~ ^[Yy]$ ]]
+  then
+    find . -type f -exec mv '{}' '{}'.$@ \;
+  fi
+}

@@ -1,0 +1,52 @@
+snippet t "creates any tag"
+<${1}>
+    ${2}
+</${1/(\w+).*/$1/}>
+endsnippet
+
+snippet rt "creates any embeded ruby tag"
+<% ${1} %>
+endsnippet
+
+snippet rt= "creates any embeded ruby = tag"
+<%= ${1} %>
+endsnippet
+
+snippet eac "create a each do loop"
+<% ${1:model}.each do |${2:item}|  %>
+    <% $2.${3:attribute} %>
+<% end %>
+endsnippet
+
+snippet for "for loop"
+<% for ${1:item} in ${2:model_name} %>
+    ${3}
+<% end %>
+endsnippet
+
+snippet if "creates an if statment"
+<% if ${1} %>
+    ${2}
+<% end %>
+endsnippet
+
+snippet ife "creates an if else statment"
+<% if ${1} %>
+    ${2}
+<% else %>
+<% end %>
+endsnippet
+
+snippet un "creates an if statment"
+<% unless ${1} %>
+    ${2}
+<% end %>
+endsnippet
+
+snippet lt "link to"
+<%= link_to ${1:title}, ${2:path} %>
+endsnippet
+
+snippet it "image tag"
+<%= image_tag(${1:attribute}) %>
+endsnippet

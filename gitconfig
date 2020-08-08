@@ -1,0 +1,428 @@
+#------------------------------------------------------------------------------
+# User Config 
+#------------------------------------------------------------------------------
+[user]
+    name = shadowchaser04
+    email = shadowchasing@icloud.com
+    username = shadowchaser04
+
+#[url "https://github.com/"]
+#    insteadOf = gh:
+#
+#[url "https://gist.github.com/"]
+#    insteadOf = gist:
+
+#------------------------------------------------------------------------------
+# Keychain
+#------------------------------------------------------------------------------
+[credential]
+	helper = osxkeychain
+
+#------------------------------------------------------------------------------
+# Commit
+#------------------------------------------------------------------------------
+[commit]
+	template = /Users/shadow_chaser/.gitmessage.txt
+
+#------------------------------------------------------------------------------
+# Core
+#------------------------------------------------------------------------------
+[core]
+	excludesfile = /Users/shadowchaser/.gitignore_global
+    editor = vim
+
+    # The -r flag causes "raw" control characters to be displayed.
+    pager = less -r
+
+    # Treat spaces before tabs and all kinds of trailing whitespace as an error
+    # [default] trailing-space: short-hand to cover both blank-at-eol and blank-at-eof
+    # [default] space-before-tab: looks for spaces before tabs at the beginning of a line
+    whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+
+[apply]
+    # to fix whitespace errors in patches
+    whitespace = fix
+
+#------------------------------------------------------------------------------
+# Formatting
+#------------------------------------------------------------------------------
+# pretty formatting aliases
+[pretty]
+    log-long = "%C(dim blue)%h%C(reset) - %C(bold blue)%ad%C(reset)%C(reset)%C(auto)%d %C(bold white)(%ar)               %C(reset)%n          %C(white)%s%C(reset) %C(dim white)- %cn%C(reset)%n"
+    log-short = "%C(dim blue)%h%Creset - %C(bold blue)%ad%Creset%C(auto)%d %s %C(dim white)- %cn %Creset"
+
+# sets the default formatting for log, and show.
+[format]
+    pretty = log-long
+
+[log]
+    abbrevCommit = true
+    date = format:%a, %d %b %Y %H:%M:%S
+
+#------------------------------------------------------------------------------
+#
+#------------------------------------------------------------------------------
+[push]
+    # push all matching branches
+    default = matching
+    # upstream: push the current branch to its upstream branch
+    # default = upstream
+    # push the current branch to its upstream branch
+    # default = current
+
+[diff]
+    tool = vimdiff
+
+[fetch]
+    prune = true
+
+[status]
+    submoduleSummary = true
+
+#------------------------------------------------------------------------------
+# Color
+#------------------------------------------------------------------------------
+[color]
+    ui = auto
+    branch = auto
+    diff = auto
+    status = auto
+    showbranch = auto
+    pager = true
+
+[color "status"]
+    branch = blue bold
+    added = green
+    untracked = red
+    changed = cyan
+
+[color "branch"]
+    upstream = white
+    current = white
+    local = white
+    remote = white
+
+[color "decorate"]
+    HEAD = blue
+    branch = white bold
+    tag = white
+    remoteBranch = green
+    stash = white
+
+[color "diff"]
+    commit = blue
+    old = red
+    new = green
+    frag = magenta bold
+    plain = cyan
+    meta = white
+    whitespaces = red reverse
+
+[color "grep"]
+    match = green
+
+#------------------------------------------------------------------------------
+# Aliases
+#------------------------------------------------------------------------------
+[alias]
+
+    # root of the directory
+    root = rev-parse --show-toplevel
+
+    # add changes
+    a = !git add . && git status
+    aa = !git add -A && git status
+
+    # show current status 
+    st = status
+
+    # commit with message flag
+    cm = commit -m
+
+    # combine add and commit
+    acm = !git add -A && git commit -m
+
+    # Amend the currently staged files to the latest commit
+    amend = commit --amend --reuse-message=HEAD
+
+    # wipe adds all and commits with a default message. then resets the head
+    # removing the commit and reverting to last state. the commit is removed from 
+    # the log though it can still be found by,
+    # git reflog under the default message "WIPE SAVEPOINT"
+    wipe = !git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
+
+    # The first command pulls changes from the remote. If I have any local 
+    # commits, it’ll rebase them to come after the commits I pulled down.
+    # The --prune option removes remote-tracking branches that no longer exist
+    # on the remote.
+    up = pull --rebase --prune
+
+    update = remote update
+    #--------------------------------------------------------------------------
+    # commits
+    #--------------------------------------------------------------------------
+    # comits this month
+    c-t-m = !git log --author=\"`git config user.name`\" --before=now --after={`date "+%Y-%m-1"`} --reverse
+
+    # Source: http://stackoverflow.com/a/5178739/1367612
+    # comits today
+    c-t = log --author=\"`git config user.name`\" --since=\"6am\"
+
+    #--------------------------------------------------------------------------
+    # tasks
+    #--------------------------------------------------------------------------
+    # Source: http://www.commandlinefu.com/commands/view/12842/get-a-list-of-all-todofixme-tasks-left-to-be-done-in-your-git-project
+    tasks = grep --extended-regexp -I --line-number --break --heading --color=auto "TODO|FIXME|NOTE"
+    tasks-count = grep --extended-regexp -I --line-number --count "TODO|FIXME|NOTE"
+
+    #--------------------------------------------------------------------------
+    #checkout
+    #--------------------------------------------------------------------------
+    #checkout
+    co = checkout
+
+    # checkout a branch 
+    cob = checkout -b
+
+    # checks out the last branch 
+    col = checkout -
+
+    #--------------------------------------------------------------------------
+    # push
+    #--------------------------------------------------------------------------
+    # push changes to origin master
+    psuom = "push -u origin master"
+
+    # push changes to origin branch
+    psuob = !git push -u origin $(git bc)
+
+    #--------------------------------------------------------------------------
+    # pull
+    #--------------------------------------------------------------------------
+    # pull from origin master 
+    plom = pull origin master
+
+    # pull from origin branch
+    plob = !git pull origin $(git bc)
+
+    #--------------------------------------------------------------------------
+    # reset
+    #--------------------------------------------------------------------------
+    re = reset
+    rh = reset HEAD
+    reh = reset --hard
+    rem = reset --mixed
+    res = reset --soft
+    rehh = reset --hard HEAD
+    remh = reset --mixed HEAD
+    resh = reset --soft HEAD
+
+    #--------------------------------------------------------------------------
+    # stage and unstage
+    #--------------------------------------------------------------------------
+    # show all branches that have commits waiting to be pushed
+    commited-branches = !git log --branches --not --remotes
+
+    # show commit for branch you are currently on
+    commited = !git log origin/$(git bc)..HEAD
+
+    # show staged changes for branch
+    staged = !git diff --stat --cached origin/$(git bc)
+
+    # unstage pre commit
+    unstage = reset HEAD --
+
+    # roll back a commit pre pushing
+    uncommit = reset HEAD~
+
+    # undo
+    undo = reset --soft HEAD^
+
+    #--------------------------------------------------------------------------
+    # diff
+    #--------------------------------------------------------------------------
+    # diff of what is changed but not staged
+    diff-unstaged = diff
+
+    # diff of what is staged but not yet committed
+    diff-staged =  diff --staged
+
+    # diff committed
+    diff-commited = !git log origin/master..HEAD -p --oneline
+
+    #--------------------------------------------------------------------------
+    # show
+    #--------------------------------------------------------------------------
+    # show head only
+    sh = show HEAD
+
+    # show all
+    sha = show --all
+
+    #--------------------------------------------------------------------------
+    # log
+    #--------------------------------------------------------------------------
+    # log all in history
+    # la = log --format='medium' --decorate --graph
+
+    # log one line overview
+    l = log --graph --decorate --all --date-order --format=log-short
+
+    la = log --graph --abbrev-commit --decorate --all
+
+    # log all in history
+    #la = log --format='medium' --decorate --graph
+
+    # first entry
+    first = "!git log --no-walk `git rev-list HEAD | tail -n 1`"
+
+    # list to screen all new commits have been created with the previous pull.
+    new = !sh -c 'git log $1@{1}..$1@{0} "$@"'
+
+    # last entry
+    last = log --format='medium' -1
+    last = log -1
+
+    # used inconjunction with log
+    # it will look up and open any comit-id or message(s) matching the arg.
+    look = "!f() { git l | grep \"$1\" | cut -d ' ' -f 1 | xargs git show; }; f"
+
+    # detailed log summary
+    sumary = log --summary
+
+    # find a entry by name or commit
+    #find-message = log --format='short' --all --grep
+
+    # show all commits by author and count
+    shortlog = shortlog -n
+
+    # displays the list of commits made before X days ago.
+    last-days = "!f() { \
+        git log --after=\"$(date -j -v-$1d +%Y-%m-%d)\" --oneline; \
+    }; f"
+
+    #--------------------------------------------------------------------------
+    # clone
+    #--------------------------------------------------------------------------
+    # clone a remote repo git clgp <repo-name>
+    cl = !sh -c 'git clone git@github.com:$(git config --get user.username)/$1 $1' -
+
+    #--------------------------------------------------------------------------
+    # branch
+    #--------------------------------------------------------------------------
+    # local branches
+    bl = for-each-ref --sort=-committerdate --format=\"%(color:blue)%(authordate:relative)\t%(color:white)%(authorname)\t%(color:green)%(color:bold)%(refname:short)\" refs/heads
+
+    # remote branch - list all branches with formatting time ago, author and branch
+    br = for-each-ref --sort=-committerdate --format=\"%(color:blue)%(authordate:relative)\t%(color:white)%(authorname)\t%(color:green)%(color:bold)%(refname:short)\" refs/remotes
+
+    # both remote and local branches
+    bb = "!git bl && git br"
+
+    # branch not merged
+    bnm = branch --no-merged
+
+    # delete local branch
+    delete-local-branch = branch -D
+
+    # delete remote branch
+    # git push origin --delete <remote branch>
+    delete-remote-branch = "!sh -c 'git push $1 --delete $2' -"
+
+    # clean
+    # git checkout <master-default> and find branches that have merged with
+    # master, grep inverse master to remove it from the results then pipe to
+    # exargs to remove each branch that has been already merged. 
+    bclean = "!f() { git checkout ${1-master} && git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -I{} git branch -d {}; }; f"
+
+    # *must keep* used in behind and ahead
+    bu = !git rev-parse --abbrev-ref --symbolic-full-name "@{u}"
+
+    # *warning* branch current - used in functions
+    bc = rev-parse --abbrev-ref HEAD
+
+    #--------------------------------------------------------------------------
+    # stash
+    #--------------------------------------------------------------------------
+    # when stashing files should be staged, 
+    # when accessing the stack <number>
+
+    # when stashing, the files being worked on will revert to the state of the
+    # last commit until the stash apply <number> is ran.
+
+    # lists the stashed stack
+    stashed = stash list
+
+    # reopens the first stash on the stack if no argument is given, if an
+    # argument is given it takes an index: example, git stash apply stash@{2}
+    stash-open = stash apply
+
+    # Creates and checks out a new branch named <branchname> starting from 
+    # the commit at which the <stash> was originally created, applies the 
+    # changes recorded in <stash> to the new working tree and index. If that 
+    # succeeds, and <stash> is a reference of the form stash@{<revision>},
+    # it then drops the <stash>. When no <stash> is given, applies the latest one. 
+    # example: git sb <branch name> stash@{<number>}
+    sb = stash branch
+
+    # Save your local modifications to a new stash entry and roll them back to
+    # HEAD (in the working tree and in the index). The <message> part is optional and    
+    # gives the description along with the stashed state. 
+    stash-push = stash push
+
+    # If the --include-untracked option is used, all untracked files are also
+    # stashed and then cleaned up with git clean, leaving the working directory
+    # in a very clean state. the --all option is used instead then the ignored 
+    # files are stashed and cleaned in addition to the untracked files.
+    stash-all = stash push --include-untracked
+
+    # run git stash pop to apply the stash and then immediately drop it from your stack.
+    spop = stash pop
+
+    # Remove all the stash entries
+    stash-clear = stash clear
+
+    # Remove a single stash entry from the list of stash entries.
+    # When no <stash> is given, it removes the latest one
+    sdrop = stash drop
+
+    # Show the changes recorded in the stash entry as a diff between the 
+    # stashed contents and the commit back when the stash entry was first created
+    # add -p to show the verbose changes.
+    ss = stash show
+    ssf = stash show -p
+
+    # count how many stashes there are.
+    stash-count = !git stash list | wc -l 2>/dev/null | grep -oEi '[0-9][0-9]*'
+
+    #--------------------------------------------------------------------------
+    # tag
+    #--------------------------------------------------------------------------
+    t = tag
+
+    #--------------------------------------------------------------------------
+    # 
+    #--------------------------------------------------------------------------
+    behind = !git rev-list --left-only --count $(git bu)...HEAD
+    ahead = !git rev-list --right-only --count $(git bu)...HEAD
+
+    #--------------------------------------------------------------------------
+    # submodules
+    #--------------------------------------------------------------------------
+    # add submodule from remote repo git subadd <user-name>/<repo-name>
+    # root-to-bundle from base dir.
+    # example: git subadd shadow-chasing/headfuck vim/bundle
+    subadd = !sh -c 'git submodule add git://github.com/$1 $2/$(basename $1)' -
+
+    # update the submodules
+    subup = submodule update --init --recursive
+
+    # re-clone each of the listed modules
+    subpull = !git submodule foreach git pull --tags origin master
+
+    #--------------------------------------------------------------------------
+    # help
+    #--------------------------------------------------------------------------
+    aliases = !git config -l | grep alias | cut -c 7-
+
+    # for retriveing wipes git reflog $1 && git sb $2 && git merge $1

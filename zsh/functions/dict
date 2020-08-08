@@ -1,0 +1,4 @@
+function dict {
+    curl dict.org/d:$@
+}
+

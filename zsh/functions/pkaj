@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+
+# kill all jobs in the jobs list
+function pkaj {
+    jobs -p | grep -o -E '\s\d+\s' | xargs kill -9
+}

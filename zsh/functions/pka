@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+
+# kill group processes
+function pka {
+    kill -9 $(pgrep $@)
+}

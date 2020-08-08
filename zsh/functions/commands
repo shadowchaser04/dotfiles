@@ -1,0 +1,4 @@
+# used by alias topten
+function commands() {
+  awk '{a[$4]++}END{for(i in a){print a[i] " " i}}'
+}

@@ -1,0 +1,268 @@
+#==============================================================================
+#				Ruby
+#==============================================================================
+# if
+# unless
+# case
+# loops
+# map
+# select
+# rescue
+# class
+# def
+# attr
+# rails
+# TODO hash loops key value
+
+#------------------------------------------------------------------------------
+# global
+#------------------------------------------------------------------------------
+# used for the defi to add the instance variables
+global !p
+
+def write_instance_vars(arglist, snip):
+	args = str(arglist).split(',')
+	for arg in args:
+		name = arg.strip().replace(':', ' ').split(' ', 1)[0]
+		if name:
+			snip += '  @{} = {}'.format(name, name)
+		else:
+			snip += ''
+
+endglobal
+#------------------------------------------------------------------------------
+# if
+#------------------------------------------------------------------------------
+snippet if "if <condition> ... end" b
+if ${1:condition}
+	${2}
+end
+endsnippet
+
+snippet elsif "elseif <condition> block"
+elseif ${1:condition}
+	${2}
+endsnippet
+
+snippet ife "if <condition> ... else ... end"
+if ${1:condition}
+	${2}
+else
+	${3}
+end
+endsnippet
+
+snippet ifei "if <condition> ... elseif <condition> ... else ... end"
+if ${1:condition}
+	${2}
+elsif ${3}
+	${4}
+else
+	${5}
+end
+endsnippet
+
+#------------------------------------------------------------------------------
+# unless
+#------------------------------------------------------------------------------
+
+snippet unless "unless <condition> ... end"
+unless ${1:condition}
+	${2}
+end
+endsnippet
+
+snippet unlesse "unless <condition> ... else ... end"
+unless ${1:condition}
+	${2}
+else
+	${2}
+end
+endsnippet
+
+#------------------------------------------------------------------------------
+# case
+#------------------------------------------------------------------------------
+
+snippet case "case <variable> when <expression> ... end"
+case ${1:variable}
+when ${2:expression}
+  $0
+end
+endsnippet
+
+#------------------------------------------------------------------------------
+# loops
+#------------------------------------------------------------------------------
+snippet ead "<object>.each do |item| end"
+${1:object}.each do |${2:item}|
+    ${3}
+end
+endsnippet
+
+snippet "(\S+)\.ead" "<elements>.each do |<element>| <block> end" r
+`!p snip.rv=match.group(1)`.each do |${1:item}|
+	$0
+end
+endsnippet
+
+snippet each "(<from>..<to>).each { |<i>| <block> }"
+${1:objeect}.each { |${2:item}| ${3} }
+endsnippet
+
+snippet "(\S+)\.ea" "<elements>.each do |<element>| <block> end" r
+`!p snip.rv=match.group(1)`.each { |${1:item}| $0 }
+endsnippet
+
+snippet while "while <expression> ... end"
+while ${1:expression}
+	${0}
+end
+endsnippet
+
+snippet for "for in loop"
+for ${1:item} in ${2:model}
+end
+endsnippet
+
+#------------------------------------------------------------------------------
+# hash
+#------------------------------------------------------------------------------
+snippet eap "each key and value"
+${1:hash_name}.each_pair do |${2:key}, ${3:value}|
+  puts "Key: #{$2} Value: #{$3}"
+end
+endsnippet
+
+snippet eak "each key"
+${1:hash_name}.each_key do |${2:key}|
+  puts "Key: #{$2}"
+end
+endsnippet
+
+snippet eav "each value"
+${1:hash_name}.each_value do |${2:value}|
+  puts "Key: #{$2}"
+end
+endsnippet
+
+#------------------------------------------------------------------------------
+# map
+#------------------------------------------------------------------------------
+snippet map "<object>.each do |item| end"
+${1:object}.map {|${2:item}| ${3} }
+endsnippet
+
+snippet "(\S+)\.map" "<elements>.map {|<element>| <block> }" r
+`!p snip.rv=match.group(1)`.map { |${1:item}| $0 }
+endsnippet
+
+#------------------------------------------------------------------------------
+# select
+#------------------------------------------------------------------------------
+
+snippet sel "select {}" w
+select { |${1:item}| ${0} }
+endsnippet
+
+#------------------------------------------------------------------------------
+# rescue
+#------------------------------------------------------------------------------
+
+snippet beg "begin ... rescue ... end"
+begin
+	$1
+rescue ${2:"Exception => e"}
+	$0
+end
+endsnippet
+
+#------------------------------------------------------------------------------
+# class
+#------------------------------------------------------------------------------
+
+snippet class "class <class_name> def initialize ... end end"
+class ${1:class_name}
+		$0
+end
+endsnippet
+
+snippet classi "class <class_name> def initialize ... end end"
+class ${1:class_name}
+	def initialize(${2:*args})`!p write_instance_vars(t[2],snip)`
+		$0
+	end
+end
+endsnippet
+
+#------------------------------------------------------------------------------
+# def
+#------------------------------------------------------------------------------
+
+snippet def "def <def_name> end"
+def ${1:def_name}${2:(${3:*args})}
+    $0
+end
+endsnippet
+
+snippet defi "def initialize ..."
+def initialize($1)`!p write_instance_vars(t[1],snip)`
+    $0
+end
+endsnippet
+
+#------------------------------------------------------------------------------
+# instance variables
+#------------------------------------------------------------------------------
+
+snippet iv "Plain instance variable assignment"
+@${1} = ${0}
+endsnippet
+
+snippet ivm "Instance variable assignment with mirroring"
+@${1:variable} = $1
+endsnippet
+
+snippet ivd "Instance variable default"
+@${1:variable_name} ||= ${0:chached_value}
+endsnippet
+#------------------------------------------------------------------------------
+# attr
+#------------------------------------------------------------------------------
+
+snippet "\b(r|attr)" "attr  attr_reader:<attr_names>" r
+attr_reader :${0:attr_names}
+endsnippet
+
+snippet "\b(w|attr)" "attr attr_writer:<attr_names>" r
+attr_writer :${0:attr_names}
+endsnippet
+
+snippet "\b(rw|attr)" "attr attr_accessor:<attr_names>" r
+attr_accessor :${0:attr_names}
+endsnippet
+
+#------------------------------------------------------------------------------
+# rails
+#------------------------------------------------------------------------------
+
+snippet hm "has_many :<items>"
+has_many :${1}
+endsnippet
+
+snippet bt "belong_to :<items>"
+belongs_to :${1}
+endsnippet
+
+snippet btp "belong_to :<items>, polymorphic: true"
+belongs_to :${1}, polymorphic: true
+endsnippet
+
+snippet hmt "has_many through"
+has_many :${1:assosiation_model_name}
+has_many :${2:model_name}, through: :$1
+endsnippet
+
+snippet p "binding.pry"
+binding.pry
+endsnippet

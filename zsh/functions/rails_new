@@ -1,0 +1,4 @@
+function rails_new {
+    rails new $@ && cd $@ 
+    rm "-Rf .git" && ginit $@
+}

@@ -1,0 +1,11 @@
+#!/usr/bin/env zsh
+
+# Make dir if it does not exist and cd in
+function mkd() {
+        if [[ $#  == 0 ]] ; then
+            return
+        fi
+
+        mkdir "$1"
+        cd "$1"
+    }

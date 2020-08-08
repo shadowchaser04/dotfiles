@@ -1,0 +1,14 @@
+#!/usr/bin/env zsh
+
+function update {
+
+    # source the zshrc file.
+    source ~/.zshrc
+
+    # set two local variables to the function.
+    local OUTPUT="\nsourced .zshrc:"
+    local D=$(date +"%A, %d %b %Y %l:%M %p");
+
+    # print output
+    print -P "%B%F{green}$OUTPUT%f%F{blue} $D %f%b"
+}
