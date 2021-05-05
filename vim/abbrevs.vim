@@ -1,4 +1,7 @@
 "-----------------------------------------------------------------------------
+" Temps
+"-----------------------------------------------------------------------------
+"-----------------------------------------------------------------------------
 " Common mistype's
 "-----------------------------------------------------------------------------
 iabbrev teh the
@@ -45,6 +48,7 @@ iabbrev business buisness
 "-----------------------------------------------------------------------------
 " C
 "-----------------------------------------------------------------------------
+iabbrev couldnt couldn't
 iabbrev calender calendar
 iabbrev camoflage camouflage
 iabbrev capital capitol
@@ -68,6 +72,7 @@ iabbrev coolly cooly
 "-----------------------------------------------------------------------------
 " D
 "-----------------------------------------------------------------------------
+iabbrev doesnt doesn't
 iabbrev decieve deceive
 iabbrev dacquiri daiquiri
 iabbrev decieve deceive
@@ -84,8 +89,9 @@ iabbrev dumbbell dumbell
 "-----------------------------------------------------------------------------
 " E
 "-----------------------------------------------------------------------------
+iabbrev esculaing escalating
 iabbrev embarass embarrass
-iabbrev equiptment equipment 
+iabbrev equiptment equipment
 iabbrev excede exceed
 iabbrev exilerate exhilarate
 iabbrev existance existence
@@ -108,7 +114,8 @@ iabbrev gratefull grateful
 "-----------------------------------------------------------------------------
 " H
 "-----------------------------------------------------------------------------
-iabbrev  heigth height
+iabbrev hasnt hasn't
+iabbrev heigth height
 iabbrev heirarchy hierarchy
 iabbrev humerous humorous
 "-----------------------------------------------------------------------------
@@ -213,7 +220,7 @@ iabbrev sieze seize
 iabbrev seperate separate
 iabbrev sargent sergeant
 iabbrev similer similar
-iabbrev skilfull skilful 
+iabbrev skilfull skilful
 iabbrev speach speech
 iabbrev succesful successful
 iabbrev supercede supersede

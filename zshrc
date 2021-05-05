@@ -25,13 +25,13 @@ setopt rm_star_wait
 # complex pattern globbing
 setopt extendedglob
 
-#If the argument to a cd command (or an implied cd with the AUTO_CD option set)
-#is not a directory, and does not begin with a slash, try to expand the expression 
-#as if it were preceded by a ‘~’
+# If the argument to a cd command (or an implied cd with the AUTO_CD option set)
+# is not a directory, and does not begin with a slash, try to expand the expression 
+# as if it were preceded by a ‘~’
 setopt cdable_vars
 
-#ny parameter that is set to the absolute name of a directory immediately 
-# becomes a name for that directory, that will be used by the ‘%~’ and related 
+# any parameter that is set to the absolute name of a directory immediately
+# becomes a name for that directory, that will be used by the ‘%~’ and related
 # prompt sequences, and will be available when completion is performed on a word starting with ‘~’.
 setopt auto_name_dirs
 
@@ -51,7 +51,9 @@ setopt COMPLETE_ALIASES
 # do not kill running jobs when shell exits
 unsetopt hup
 
+# history replay
 zle -N hist_replay
+
 #}}}
 #{{{1 Unsetopt
 # Zsh has a spelling corrector
@@ -179,20 +181,19 @@ HISTSIZE=50000
 SAVEHIST=50000
 HIST_STAMPS="dd/mm/yyyy"
 HISTFILE="$HOME/.zsh_history"
-HISTORY_IGNORE="(pwd|less *|l[alsh]#( *)#|[bf]g *|exit|reset|clear|cd|cdr# *|cdr)"
+HISTORY_IGNORE="(pwd|less *|l[alsh]#( *)#|[bf]g *|exit|reset|clear)"
 
 # Allow multiple terminal sessions to all append to one zsh command history
 setopt APPEND_HISTORY
 # Imports new commands and appends typed commands to history
 setopt SHARE_HISTORY
-# Add comamnds as they are typed, don't wait until shell exit
-setopt INC_APPEND_HISTORY
-
-# Perform textual history expansion, treating the character ‘!’ specially.
-setopt BANG_HIST
-
 # Save timestamp of command and duration
 setopt EXTENDED_HISTORY
+
+# Add comamnds as they are typed, don't wait until shell exit
+setopt INC_APPEND_HISTORY
+# Perform textual history expansion, treating the character ‘!’ specially.
+setopt BANG_HIST
 
 # Do not write events to history that are duplicates of previous events
 setopt HIST_IGNORE_ALL_DUPS
@@ -214,6 +215,7 @@ setopt HIST_REDUCE_BLANKS
 # {{{1 Named Dirs
 hash -d proj=$HOME/Code/Ruby/Projects/
 hash -d dot=$HOME/.dotfiles
+hash -d notes=$HOME/.notes
 # }}}
 #{{{1 Dir Stack
 autoload -Uz add-zsh-hook
@@ -248,79 +250,56 @@ fpath=($ZSH/functions/ $fpath)
 
 #setopt complete_aliases
 setopt COMPLETE_ALIASES
+
 # This is needed for the prefix completer
 #setopt COMPLETE_IN_WORD
-# don't move the cursor to the end AFTER a completion was inserted
+
+# move the cursor to the end AFTER a completion was inserted
 setopt ALWAYS_TO_END
+
 # make dir if it doenst exist.
 [[ -d $HOME/.cache/zsh ]] || mkdir -p $HOME/.cache/zsh
 
 autoload -Uz compinit && compinit -u
 
-
-#If an ambiguous completion produces at least <NUM> possibilities,
-#menu selection is started
+# If an ambiguous completion produces at least <NUM> possibilities, # menu
+# selection is started.
 zstyle ':completion:*' use-perl true
-zstyle ':completion:*' menu select=0 #interactive 
-zstyle ':completion:*' verbose yes
-zstyle ':completion:*' remove-all-dups true
+zstyle ':completion:*' menu yes select
+zstyle ':completion:*' force-list always
 zstyle ':completion:*' add-space true
-zstyle ':completion:*' completer _expand _complete _match _ignored _correct
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*' remove-all-dups true     # remove all dups
+zstyle ':completion:*' squeeze-slashes true     # remove trailing slash
+zstyle ':completion:*:commands' rehash true     # rehash on commands
 
-# group results by category
-zstyle ':completion:*' group-name ''
-# rehash on commands
-zstyle ':completion:*:commands' rehash true
+# When looking for matches, first try exact matches, then case-insensiive, then
+# partial word completion.
+zstyle ':completion:*' completer _expand _complete _match _ignored _correct
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|[._-]=* r:|=*'
+zstyle ':completion:*' list-colors '=(#b) #([0-9]#)*( *[a-z])*=34=31=33'
+zstyle ':completion:*' file-list all            # list
 
 zstyle ':completion:*' glob 0
 zstyle ':completion:*' substitute 0
-zstyle ':completion:*' max-errors 1 numeric
+zstyle ':completion:*' max-errors 2 numeric     # allow for 2 numeric errors
+zstyle ':completion:*' group-name ''            # group results by category
 
-# When looking for matches, first try exact matches, then case-insensiive, then partial word completion
-zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|[._-]=* r:|=*'
+#zstyle ':completion:*:cd:*' menu yes select
+zstyle ':completion:*:cd:*' ignore-parents parent pwd
+zstyle ':completion:*:*:cd:*' tag-order local-directories path-directories
+
+# Enable history menu selection
+zstyle ':completion:*:history-words' remove-all-dups yes
+zstyle ':completion:*:history-words' stop yes
 
 # Show nice warning when nothing matched
 zstyle ':completion:*:warnings' format '%F{red}%No matches:%F{white} %d%b'
 zstyle ':completion:*:descriptions' format "%U%B%F{yellow}» %d%u%b%f"
 zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
 
-# cd and pushd
-zstyle ':completion:*:cd:*' menu yes select
-zstyle ':completion:*:cd:*' ignore-parents parent pwd
-zstyle ':completion:*:*:cd:*' list-colors '=(#b) #([0-9]#)*( *[a-z])*=34=31=33'
-zstyle ':completion:*:complete:(cd|pushd):*' tag-order local-directories
-
-# Enable completion of 'cd -<tab>' and 'cd -<ctrl-d>' with menu
-zstyle ':completion:*:*:cd:*' tag-order local-directories directory-stack path-directories
-zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
-
-# If you end up using a directory as argument, this will remove the
-# trailing slash (usefull in ln)
-zstyle ':completion:*' squeeze-slashes true
-
-# Completing process IDs with menu selection: kill -9
-zstyle ':completion:*:*:(kill|killall):*' menu yes select
-zstyle ':completion:*:(kill|killall):*'   force-list always
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*( *[a-z])*=34=31=33'
-zstyle ':completion:*:*:kill:*' insert-ids single
-
-# foregroup jobs
-zstyle ':completion:*:*:fg:*' menu yes select
-zstyle ':completion:*:*:fg:*' force-list always
-
-# Enable history menu selection
-zstyle ':completion:*:history-words'    menu yes
-
-# Enable expand completer for all expansions
-zstyle ':completion:*:expand:*' tag-order all-expansions
-zstyle ':completion:*:history-words'    list true
-
-# Prevent men completion for duplicate entries
-zstyle ':completion:*:history-words'    remove-all-dups yes
-zstyle ':completion:*:history-words'    stop yes
-
 # Enable processes completion for all user processes
-zstyle ':completion:*:processes'    command 'ps -au$USER'
+zstyle ':completion:*:processes' command 'ps -au$USER'
 #------------------------------------------------------------------------------
 # ignore
 #------------------------------------------------------------------------------
@@ -328,13 +307,10 @@ zstyle ':completion:*:processes'    command 'ps -au$USER'
 zstyle ':completion:*:complete:-command-::*' ignored-patterns '*\~'
 
 # Prevent completion of functions for commands you don't have
-zstyle ':completion:*:functions'    ignored-patterns '(_*|pre(cmd|exec))'
+zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec))'
 
 # Prevent commands like rm
 zstyle ':completion:*:rm:*' ignore-line yes
-
-# list
-zstyle ':completion:*' file-list all
 
 #}}}
 #{{{1 Switch Term
@@ -387,12 +363,6 @@ export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
 # Set up rbenv in your shell
 eval "$(rbenv init -)"
 #
-#}}}
-#{{{1 nvm
-export NVM_DIR="$HOME/.nvm"
-  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
 #}}}
 # Source {{{1
 #-------------------------------------------------------------------------------

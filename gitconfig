@@ -250,6 +250,7 @@
     # diff committed
     diff-commited = !git log origin/master..HEAD -p --oneline
 
+    diff-master = diff master --stat
     #--------------------------------------------------------------------------
     # show
     #--------------------------------------------------------------------------

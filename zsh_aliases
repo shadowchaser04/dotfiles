@@ -2,19 +2,32 @@
 # Editor
 #-------------------------------------------------------------------------------
 alias v="$EDITOR"                           # use the env var $EDITOR, vim
-alias l="ls -la"                            # list dirs and dotfiles
-alias ll="ls -l"                            # list just dirs
+#-------------------------------------------------------------------------------
+# List files/directories
+#-------------------------------------------------------------------------------
+# list dirs and dotfiles
+# l=list all information
+# A=loose the . / .. directories
+# s=sort by size but keep alphabetical order
+alias l="ls -lAs"
+alias ll="ls -l"
+#-------------------------------------------------------------------------------
+# History and grep
+#-------------------------------------------------------------------------------
 alias grep="grep --color=auto"              # color grep
-alias t="touch"                             # create a new file
 alias history="history -i 1 -1"             # history
 alias h="history"                           # history
+#-------------------------------------------------------------------------------
+#
+#-------------------------------------------------------------------------------
+alias t="touch"                             # create a new file
 alias j="jobs -l"                           # jobs
 alias get="curl -O -L"                      # curl aliased to get
 alias rc="rails c"                          # rails console
 alias td="v $(find ~/.notes/todo.md)"       # todo
 alias za="v $(find ~/.zsh_aliases)"         # zsh aliases
-alias d_sizes"df -H"                           # show disc space
-alias c_last="fc -l -1 | cut -d\  -f3- | pbcopy"
+alias c_last="fc -l -1 | cut -d\  -f3- | pbcopy"    # copy last command to clip
+alias d_sizes="df -H"                        # show disc space
 #-------------------------------------------------------------------------------
 # Show/hide hidden files in Finder
 #------------------------------------------------------------------------------
@@ -64,7 +77,6 @@ alias -s eac3="open"
 alias -s movi="open"
 alias -s caf="open"
 alias -s aiff="open"
-
 #-------------------------------------------------------------------------------
 # dir stack
 #-------------------------------------------------------------------------------
@@ -92,6 +104,7 @@ alias du='du -h -c'                         # Calculate total disk usage for a f
 alias topten="history | commands | sort -rn | head"
 alias dup="duplicates"                      # two file list dups
 alias ndup="nduplicate"                     # two file list none dups
+alias watchlist="ruby ~/Code/Ruby/Projects/watchlist/scripts/watchlist.rb"
 
 # it will give you a list of all TODO and FIXME comments in the current
 # directory and child directories, giving you a quick overview of what you
@@ -160,7 +173,10 @@ alias lyric="ruby $HOME/.bin/lyrics.rb"                 # find lyrics
 alias samp="ruby $HOME/.bin/samples.rb"                 # find samples
 alias subs="ruby $HOME/.bin/subtitles/subs.rb"          # search subtitles
 #------------------------------------------------------------------------------
-# re-source
+# resource
 #------------------------------------------------------------------------------
 alias vr="$EDITOR $HOME/.vimrc"
 alias zr="$EDITOR $HOME/.zshrc"
+
+# update has been made into a function for formatting reasons
+# ~/.zsh/function/update

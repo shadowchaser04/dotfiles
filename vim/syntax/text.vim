@@ -29,6 +29,3 @@ hi def timestamp_st         ctermfg=24
 hi def titleHeader_st       ctermfg=1
 hi def listNumber_st        ctermfg=24
 hi def listSymbol_st        ctermfg=24
-
-"ctermfg=1
-" Valid options: Comment Constant Function Keyword Operator PreProc Repeat Special Statement Type Typedef

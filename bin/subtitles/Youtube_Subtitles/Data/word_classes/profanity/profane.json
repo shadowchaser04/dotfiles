@@ -1,17 +1,3 @@
 {
-    "word-classes":{
-        "profanity-profane":[
-            "bloody-hell",
-            "christ",
-            "god",
-            "hell",
-            "hells-bells",
-            "jesus",
-            "jesus-christ",
-            "witch",
-            "gods-sake",
-            "holly-shit",
-            "holly-fuck"
-        ]
-    }
+    "profanity_profane":["bloody-hell", "christ", "god", "hell", "hells-bells", "jesus", "jesus-christ", "witch", "gods-sake", "holly-shit", "holly-fuck"]
 }

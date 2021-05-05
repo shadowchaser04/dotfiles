@@ -3,7 +3,8 @@
 #------------------------------------------------------------------------------
 
 begin
-  require 'awesome_print'
+  require 'amazing_print'
+  AmazingPrint.pry!
   Pry.config.print = proc { |output, value| output.puts value.ai }
 rescue LoadError => err
   puts "no awesome_print :("
@@ -28,7 +29,11 @@ def app_name
 end
 
 if defined?(Rails)
-  Pry.config.prompt = proc { |obj, nest_level, _| "[#{app_name}][#{formatted_env}] #{obj}:#{nest_level}> " }
+    Pry.config.prompt = Pry::Prompt.new(
+    "custom",
+    "my custom prompt",
+    [proc { |obj, nest_level, _| "[#{app_name}][#{formatted_env}] #{obj}:#{nest_level}> " }]
+    )
 end
 
 #------------------------------------------------------------------------------
@@ -164,6 +169,11 @@ def l
   puts %x{ls -l}
 end
 
+# pbcopy to the clipboard
+Pry.config.commands.command 'pbcopy', 'Copy input to clipboard' do |input|
+  input = input ? target.eval(input) : _pry_.last_result
+  IO.popen('pbcopy', 'w') { |io| io << input }
+end
 #------------------------------------------------------------------------------
 # History
 #------------------------------------------------------------------------------
@@ -171,16 +181,20 @@ end
 Pry.history.load
 
 # Default history file.
-Pry.config.history.file = "~/.pry_history"
+Pry.config.history_file = "~/.pry_history"
 
 # The Pry.config.history.should_save option determines whether history will
 # be saved to the history file when a Pry session ends
-Pry.config.history.should_save = true
+Pry.config.history_save = true
 
 # The Pry.config.history.should_load option determines whether history will
 #be loaded from the history file when a Pry session starts.
-Pry.config.history.should_load = true
+Pry.config.history_load = true
 
 # Change the history file to ~/.irb_history
 #Pry.config.history.file = "~/.irb_history"
+
+def search_history(filter)
+    puts `cat ~/.pry_history | grep "#{filter}"`
+end
 

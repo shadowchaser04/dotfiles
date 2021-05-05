@@ -21,7 +21,7 @@ export PATH="${PATH:+${PATH}:}$HOME/.bin:/usr/local/mysql/bin:/usr/local/bin"
 export PATH="${PATH:+${PATH}:}/Users/shadow_chaser/.gem/ruby/2.6.0/bin"
 
 #------------------------------------------------------------------------------
-# lang 
+# lang
 #------------------------------------------------------------------------------
 export LANG='en_US.UTF-8'
 

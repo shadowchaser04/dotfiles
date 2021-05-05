@@ -1,4 +1,4 @@
-                " Version:	        1.0
+" Version::1.0
 "
 "    .o oOOOOOOOo                                       .....0OOOo
 "    Ob.OOOOOOOo  OOOo.      oOOo.              ....oooooOOOOOOOOO
@@ -16,7 +16,7 @@
 "                 '%o  OOOO"%OOOO%"%OOOOO"OOOOOO"OOO':
 "                      `$"  `OOOO' `O"Y ' `OOOO'  o             .
 "    .                  .      O"          : o     .
-"{{{ setup --------------------------------------------------------------------
+" Setup -------------------------------------------------------------------{{{1
 " This will keep the flags for "plugin" and "indent", but since no file types
 " are being detected, they won't work until the next ":filetype on".
 filetype off
@@ -38,12 +38,13 @@ syntax enable
 " set terminal colors
 set t_Co=256
 
+" add colors directory to the runtimepath
 set runtimepath+=~/.vim/colors
 
 set background=dark
-"let g:colors_name = ""
 
 colorscheme solarized
+
 " highlight
 hi Folded term=bold cterm=NONE ctermfg=White
 
@@ -62,7 +63,7 @@ let maplocalleader = ','
 
 let $MYVIMRC=$HOME.'/.vimrc'
 "}}}
-"{{{1 basic------------------------------------------------------------------------------
+" Basic -------------------------------------------------------------------{{{1
 set nocompatible
 " temp
 set clipboard=unnamed
@@ -85,7 +86,7 @@ set showcmd
 " extended capacities of %
 runtime macros/matchit.vim
 "}}}
-"{{{1  formatting--------------------------------------------------------------
+" Formatting --------------------------------------------------------------{{{1
 set fileformat=unix
 set textwidth=79
 set cc=80
@@ -115,8 +116,7 @@ set splitright
 " Always use vertical diffs
 "set diffopt+=vertical
 "}}}
-"{{{1 spell--------------------------------------------------------------------
-" I also remap zG to add to the local dict (vanilla zG is useless anyway).
+" Spell -------------------------------------------------------------------{{{1
 "set dictionary=/usr/share/dict/words
 set spellfile=~/.vim/custom-dictionary.utf-8.add
 "------------------------------------------------------------------------------
@@ -142,10 +142,10 @@ if !isdirectory(expand(&directory))
     call mkdir(expand(&directory), "p")
 endif
 "}}}
-"{{{1 search-------------------------------------------------------------------
+" Search ------------------------------------------------------------------{{{1
 set matchtime=3
 
-"set ignorecase
+set ignorecase
 set smartcase
 set incsearch
 set showmatch
@@ -154,18 +154,18 @@ set gdefault
 
 set scrolloff=5
 set sidescroll=1
-set sidescrolloff=10
+set sidescrolloff=100
 set shortmess+=I
 set autowrite
 set autoread
 set shiftround
 "}}}
-"{{{1 folding------------------------------------------------------------------
-set foldenable 
+" Folding -----------------------------------------------------------------{{{1
+set foldenable
 set foldmethod=marker
 set foldnestmax=5
 "}}}
-"{{{1 ignore---------------------------------------------------------------------------
+" Ignore ------------------------------------------------------------------{{{1
 set wildignore+=.hg,.git,.svn                    " Version control
 set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
@@ -175,14 +175,14 @@ set wildignore+=*.spl                            " compiled spelling word lists
 set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.DS_Store                       " OSX bullshit
 "}}}
-"{{{1 abbrevs -----------------------------------------------------------------
+" Abbrevs -----------------------------------------------------------------{{{1
 
 if filereadable(expand("~/.vim/abbrevs.vim"))
     source ~/.vim/abbrevs.vim
 endif
 
 "}}}
-"{{{1 remaps-------------------------------------------------------------------
+" Remaps-------------------------------------------------------------------{{{1
 
 "------------------------------------------------------------------------------
 " movment
@@ -193,6 +193,11 @@ inoremap jj <Esc>
 " make j and k work well on wrapped lines
 noremap j gj
 noremap k gk
+
+" To the beginning and end of the line
+nnoremap H ^
+nnoremap L g_
+
 "------------------------------------------------------------------------------
 " paste
 "------------------------------------------------------------------------------
@@ -201,9 +206,6 @@ vmap '' :w !pbcopy<CR><CR>
 
 " set paste
 nnoremap <leader>sp :set paste<cr>
-
-vmap ;; :'<,'>w >> ~/.bin/git_init/gist.txt | normal gvd<cr>
-
 "------------------------------------------------------------------------------
 " substitution
 "------------------------------------------------------------------------------
@@ -214,6 +216,7 @@ nnoremap <leader>ss :%s///
 " one key substitution within a paragraph, word under cursor
 nnoremap & :'{,'}s/<c-r>=expand('<cword>')<cr>/
 
+" replace line with comments
 nnoremap <leader>rl :%s/^.*$/"\0",/<CR>
 "------------------------------------------------------------------------------
 " capitalisation
@@ -226,13 +229,6 @@ nnoremap <leader>ul gUU
 nnoremap <leader>lw guaw
 " lower line
 nnoremap <leader>ll guu
-
-"------------------------------------------------------------------------------
-" source resource files
-"------------------------------------------------------------------------------
-nnoremap <leader>vr :vsplit $MYVIMRC<cr>
-nnoremap <leader>zr :vsplit $HOME/.zshrc<cr>
-
 "------------------------------------------------------------------------------
 " search and center
 "------------------------------------------------------------------------------
@@ -240,11 +236,22 @@ nnoremap <leader>zr :vsplit $HOME/.zshrc<cr>
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
-" center line
+" when using star to search for a word. Do not jump on match
+nnoremap * *<c-o>
+
+" center the line
 nnoremap <c-o> <c-o>zz
+
+" Reopen the last search in a QuickFix window
+nnoremap <silent> <leader>/ : execute 'vimgrep / '.@/.'/g %'<CR>:copen<CR>
 
 "nnoremap g; g;zz
 "nnoremap g, g,zz
+"------------------------------------------------------------------------------
+" source resource files
+"------------------------------------------------------------------------------
+nnoremap <leader>vr :vsplit $MYVIMRC<cr>
+nnoremap <leader>zr :vsplit $HOME/.zshrc<cr>
 
 "------------------------------------------------------------------------------
 " no highlight
@@ -256,34 +263,34 @@ nnoremap <leader><space> :noh<CR>
 "------------------------------------------------------------------------------
 nnoremap <leader>fp gq}<CR>
 
+"------------------------------------------------------------------------------
+" session make
+"------------------------------------------------------------------------------
 nnoremap <leader>se :mks %:h/session.vim<cr>
 
 "}}}
-"{{{1 bangs--------------------------------------------------------------------
+" Bangs -------------------------------------------------------------------{{{1
 
 command! -bang Q q<bang>
 command! -bang W w<bang>
 command! -bang Wq wq<bang>
 
 "}}}
-"{{{1 aug commands-------------------------------------------------------------
-"
-"
+" Aug commands-------------------------------------------------------------{{{1
+" {{{2 markdown
 augroup markdown
   autocmd!
   autocmd FileType md,markdown,txt, set spell
 augroup END
-
+" }}}
+" {{{2 help no spell file
 " set no spell when opening help files.
 augroup HelpNoSpell
     au!
     au BufRead,BufEnter help set nospell
 augroup END
 
-"-------------------------------------------------------------------------------
-" return to last line and center the line
-"-------------------------------------------------------------------------------
-
+" {{{2 return line
 " Make sure Vim returns to the same line when you reopen a file.
 augroup line_return
     au!
@@ -292,19 +299,8 @@ augroup line_return
         \     execute 'normal! g`"zvzz' |
         \ endif
 augroup END
-
-" center the text pulse function
-command! -nargs=0 Pulse call s:Pulse()
-
-" Resize splits when the window is resized
-au VimResized * :wincmd =
-
-" automatically source ~/.vimrc after saving.
-autocmd! BufWritePost $MYVIMRC source $MYVIMRC
-
-"-------------------------------------------------------------------------------
-" strip white space
-"-------------------------------------------------------------------------------
+" }}}
+" {{{2 strip white space
 " clear white space and return cursor to position.
 function! <SID>StripTrailingWhitespaces()
     let l = line(".")
@@ -313,18 +309,16 @@ function! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 
-autocmd BufWritePre *.json,*.zsh,*.rb,*.h,*.c,*.java :call <SID>StripTrailingWhitespaces()
+autocmd BufWritePre *.md,*.rake,*.json,*.zsh,*.rb,*.h,*.c,*.java :call <SID>StripTrailingWhitespaces()
 
-"-------------------------------------------------------------------------------
-" simplpe auto completion
-"-------------------------------------------------------------------------------
+" }}}
+" {{{2 simplpe auto completion 
 
 " Minimalist-AutoCompletePop-Plugin
 set completeopt=menu,menuone,noinsert
-set complete=.,w,b,u,t              "auto completion
+set complete+=w
 set complete+=kspell
 set dictionary+=/usr/share/dict/words
-set dictionary+=/Users/shadowchaser/.vim/ultisnips/ruby.snippets
 
 inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
 autocmd InsertCharPre * call AutoComplete()
@@ -338,12 +332,20 @@ fun! AutoComplete()
         call feedkeys("\<C-P>", 'n')
     end
 endfun
-
-au FileType * execute 'setlocal dict+=~/.vim/words/'.&filetype.'.txt'
-
 "}}}
-"{{{1 plugins -----------------------------------------------------------------
-"{{{2 nerdtree
+" {{{2 misc
+" Save when split and jump to the other window
+au FocusLost * :w
+
+" If the terminal frame is reduce or expanded keep the windows equal.
+au VimResized * :wincmd =
+
+" automatically source ~/.vimrc after saving.
+autocmd! BufWritePost $MYVIMRC source $MYVIMRC
+" }}}
+"}}}
+" Plugins -----------------------------------------------------------------{{{1
+" Nerdtree ----------------------------------------------------------------{{{2
 nnoremap <leader>n :NERDTreeToggle<CR>
 
 " set env var in .zshrc
@@ -406,25 +408,26 @@ autocmd VimEnter * hi CursorLine cterm=NONE ctermfg=231 ctermbg=24
 " nerdtree on save.
 autocmd BufWritePost,FileWritePost * highlight clear CursorLine
 
-let g:UltiSnipsSnippetDirectories=["snips", "ultisnips"]
+" UltiSnippets ------------------------------------------------------------{{{2
+
+" let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 "let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsEditSplit="vertical"
+
 "}}}
-"{{{2 ctlp------------------------------------------------------------------------------
-nnoremap <leader>aa :CtrlPMixed<cr>
+" Ctlp --------------------------------------------------------------------{{{2
 nnoremap <leader>m :CtrlPMRUFiles<cr>
 nnoremap <leader>bd :CtrlPBookmarkDir<cr>
+nnoremap <Leader>f :CtrlPFunky<Cr>
 nnoremap <leader>b :CtrlPBuffer<cr>
-nnoremap <leader>f :CtrlPCurWD<cr>
-
-nnoremap <Leader>me :CtrlPFunky<Cr>
 " narrow the list down with a word under cursor
 nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 
 "}}}
 "}}}
-"{{{1 redraw
+" Redraw ------------------------------------------------------------------{{{1
 autocmd VimEnter * redraw!
 "}}}

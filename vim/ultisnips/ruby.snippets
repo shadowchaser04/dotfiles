@@ -87,7 +87,7 @@ endsnippet
 snippet case "case <variable> when <expression> ... end"
 case ${1:variable}
 when ${2:expression}
-  $0
+	$0
 end
 endsnippet
 
@@ -96,7 +96,7 @@ endsnippet
 #------------------------------------------------------------------------------
 snippet ead "<object>.each do |item| end"
 ${1:object}.each do |${2:item}|
-    ${3}
+	${3}
 end
 endsnippet
 
@@ -130,19 +130,19 @@ endsnippet
 #------------------------------------------------------------------------------
 snippet eap "each key and value"
 ${1:hash_name}.each_pair do |${2:key}, ${3:value}|
-  puts "Key: #{$2} Value: #{$3}"
+	puts "Key: #{$2} Value: #{$3}"
 end
 endsnippet
 
 snippet eak "each key"
 ${1:hash_name}.each_key do |${2:key}|
-  puts "Key: #{$2}"
+	puts "Key: #{$2}"
 end
 endsnippet
 
 snippet eav "each value"
 ${1:hash_name}.each_value do |${2:value}|
-  puts "Key: #{$2}"
+	puts "Key: #{$2}"
 end
 endsnippet
 
@@ -201,13 +201,13 @@ endsnippet
 
 snippet def "def <def_name> end"
 def ${1:def_name}${2:(${3:*args})}
-    $0
+	$0
 end
 endsnippet
 
 snippet defi "def initialize ..."
 def initialize($1)`!p write_instance_vars(t[1],snip)`
-    $0
+	$0
 end
 endsnippet
 

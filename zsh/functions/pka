@@ -2,5 +2,10 @@
 
 # kill group processes
 function pka {
-    kill -9 $(pgrep $@)
+    kill -9 $(pgrep $@) 2>/dev/null
+    if [[ $? == 0 ]]; then
+        print "$@ process killed"
+    else
+        print "There are no $@ processes running"
+    fi
 }
