@@ -1,4 +1,6 @@
 " Version::1.0
+" For plugin docs. pwd in the pluging docs directory.
+" Then in vim type :helptags /Users/{username}/.vim/bundle/{plugin}/doc
 "
 "    .o oOOOOOOOo                                       .....0OOOo
 "    Ob.OOOOOOOo  OOOo.      oOOo.              ....oooooOOOOOOOOO
@@ -17,20 +19,20 @@
 "                      `$"  `OOOO' `O"Y ' `OOOO'  o             .
 "    .                  .      O"          : o     .
 " Setup -------------------------------------------------------------------{{{1
-" This will keep the flags for "plugin" and "indent", but since no file types
-" are being detected, they won't work until the next ":filetype on".
+" This will keep the flags for plugin and indent, but since no file types
+" are being detected, they won't work until the next filetype on.
 filetype off
 filetype plugin indent off
 
-" pathogen runntime injection and help indexing
+" pathogen runntime injection and help indexing.
 execute pathogen#infect()
 
-" The ":filetype on" command on unix will load:
+" The filetype on command on unix will load.
 " $VIMRUNTIME/filetype.vim
 filetype plugin indent on
 
-" The ":syntax enable" command will keep your current color settings.  This
-" allows using ":highlight" commands to set your preferred colors before or
+" The syntax enable command will keep your current color settings.  This
+" allows using highlight commands to set your preferred colors before or
 " after using this command.  If you want Vim to overrule your settings with the
 " defaults, use: :syntax on
 syntax enable
@@ -40,9 +42,7 @@ set t_Co=256
 
 " add colors directory to the runtimepath
 set runtimepath+=~/.vim/colors
-
 set background=dark
-
 colorscheme solarized
 
 " highlight
@@ -65,56 +65,72 @@ let $MYVIMRC=$HOME.'/.vimrc'
 "}}}
 " Basic -------------------------------------------------------------------{{{1
 set nocompatible
-" temp
+set fileformat=unix
 set clipboard=unnamed
-
-set title
-set hidden
-set number
-set relativenumber
-set ruler
 set ttyfast
 set ttimeoutlen=0
 set novisualbell
+" noeb - no error bell, no visual bell
 set noeb vb t_vb=
+" The screen will not be redrawn while executing macros, registers and other commands
+set lazyredraw
+set hidden
 
-set laststatus=2
-set modelines=0
-set noshowmode
-set showcmd
-
-" extended capacities of %
-runtime macros/matchit.vim
 "}}}
-" Formatting --------------------------------------------------------------{{{1
-set fileformat=unix
+" Layout ------------------------------------------------------------------{{{1
+" The title of the window will be set to the value of 'titlestring' (if it is not empty)
+set title
+" show a number column
+set number
+set relativenumber
+set cursorline
 set textwidth=79
 set cc=80
 set colorcolumn=+1
+" }}}
+" Status and CMD ----------------------------------------------------------{{{1
+" Show the line and column number of the cursor position.
+set ruler
+set showcmd
+set noshowmode
+" 2: always show a statusline
+set laststatus=2
+
+" show output from last command (default 5)
+set modelines=5
+
+"}}}
+" Formatting --------------------------------------------------------------{{{1
+
 set linebreak
 set breakindent
-set lazyredraw
+" This sets whether tab is converted to space. if your using listchars its
+" better to explicitly set to noexpand. so the tabs show up.
+set expandtab
 set list
-set listchars=tab:▸\ ,trail:•,extends:❯,precedes:❮
+set listchars=tab:▸\.,trail:•,extends:❯,precedes:❮
+" when the terminal is more compact this indicates breaks
+set showbreak=↪
 set backspace=indent,eol,start
 set fillchars=fold:-
+
 set autoindent
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
-" this sets whether tab is converted to space. if your using listchars its
-" better to explicitly set to noexpand. so the tabs show up.
-set expandtab
 
 " J join two lines at .
 set nojoinspaces
-"set showbreak=↪
-"set formatoptions=qrn1j
+
+" set formatoptions=qrn1j
+
+" }}}
+" Splits ------------------------------------------------------------------{{{1
 set splitbelow
 set splitright
 
 " Always use vertical diffs
-"set diffopt+=vertical
+set diffopt=vertical
 "}}}
 " Spell -------------------------------------------------------------------{{{1
 "set dictionary=/usr/share/dict/words
@@ -143,20 +159,39 @@ if !isdirectory(expand(&directory))
 endif
 "}}}
 " Search ------------------------------------------------------------------{{{1
-set matchtime=3
 
+set matchtime=3
+" When a bracket is inserted, briefly jump to the matching one.
+set showmatch
+
+" extended capacities of %
+runtime macros/matchit.vim
+
+" If the 'ignorecase' option is on, the case of normal letters is ignored.
+" 'smartcase' can be set to ignore case when the pattern contains lowercase
+" letters only
 set ignorecase
 set smartcase
+
+" While typing a search command, show where the pattern is matched.
 set incsearch
-set showmatch
 set hlsearch
 set gdefault
 
-set scrolloff=5
+" Minimal number of screen lines to keep above and below the cursor.
+" if set to 999 it will keep the cursor in the middle of the screen. Except at
+" the start or end of the file.
+set scrolloff=999
 set sidescroll=1
 set sidescrolloff=100
 set shortmess+=I
+
+" Like 'autowrite', but also used for commands edit, enew, quit, qall, exit,
+" xit, recover and closing the Vim window.
 set autowrite
+set autowriteall
+" When a file has been detected to have been changed outside of Vim and
+" it has not been changed inside of Vim, automatically read it again.
 set autoread
 set shiftround
 "}}}
@@ -176,6 +211,9 @@ set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.DS_Store                       " OSX bullshit
 "}}}
 " Abbrevs -----------------------------------------------------------------{{{1
+
+" :ab lists all abbrevs and where they where last used.
+" :ab mispelling correction to add to the abrevs
 
 if filereadable(expand("~/.vim/abbrevs.vim"))
     source ~/.vim/abbrevs.vim
@@ -334,8 +372,6 @@ fun! AutoComplete()
 endfun
 "}}}
 " {{{2 misc
-" Save when split and jump to the other window
-au FocusLost * :w
 
 " If the terminal frame is reduce or expanded keep the windows equal.
 au VimResized * :wincmd =
@@ -347,7 +383,7 @@ autocmd! BufWritePost $MYVIMRC source $MYVIMRC
 " Plugins -----------------------------------------------------------------{{{1
 " Nerdtree ----------------------------------------------------------------{{{2
 nnoremap <leader>n :NERDTreeToggle<CR>
-
+" Bookmarks ---------------------------------------------------------------{{{3
 " set env var in .zshrc
 " set the location of the NerdTreeBookmarks file
 if !empty($NERDTREE_BOOKMARKS)
@@ -356,9 +392,8 @@ if !empty($NERDTREE_BOOKMARKS)
     endif
 endif
 
-" open nerdtree on enter 
-" autocmd VimEnter * NERDTree
-
+" }}}
+" Close last --------------------------------------------------------------{{{3
 " Close all open buffers on entering a window if the only
 " buffer that's left is the NERDTree buffer
 function! s:CloseIfOnlyNerdTreeLeft()
@@ -372,7 +407,8 @@ function! s:CloseIfOnlyNerdTreeLeft()
 endfunction
 
 autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
-
+" }}}
+" Settings ----------------------------------------------------------------{{{3
 " remove the ? for help
 let NERDTreeMinimalUI = 1
 " include the arrows
@@ -391,31 +427,37 @@ let NERDTreeIgnore = ['\~$', '.*\.pyc$', 'pip-log\.txt$', 'whoosh_index',
                     \ 'xapian_index', '.*.pid', 'monitor.py', '.*-fixtures-.*.json',
                     \ '.*\.o$', 'db.db', 'tags.bak']
 
+
+" }}}
+" Cursor not used ---------------------------------------------------------{{{3
+" open nerdtree on enter
+" autocmd VimEnter * NERDTree
 " set the cursor in nerdtree window only
-augroup NerdCursor
-  autocmd!
-  autocmd BufEnter NERD_tree_* hi CursorLine cterm=NONE ctermfg=231 ctermbg=24
-  autocmd BufLeave NERD_tree_* highlight clear CursorLine
-  autocmd BufAdd * highlight clear CursorLine
-augroup END
+"augroup NerdCursor
+  "autocmd!
+  "autocmd BufEnter NERD_tree_* hi CursorLine cterm=NONE ctermfg=231 ctermbg=24
+  "autocmd BufLeave NERD_tree_* highlight clear CursorLine
+  "autocmd BufAdd * highlight clear CursorLine
+"augroup END
 
 " set cursor line inside nerdtree - remember this works becasue it is unset
 " when the buffer is exited from nerdcursor. this needs to be removed when not
 " starting in nerdtree.
-autocmd VimEnter * hi CursorLine cterm=NONE ctermfg=231 ctermbg=24
+"autocmd VimEnter * hi CursorLine cterm=NONE ctermfg=231 ctermbg=24
 
 " clear the cursorline when writing to stop the cursorline returning in
 " nerdtree on save.
-autocmd BufWritePost,FileWritePost * highlight clear CursorLine
-
+"autocmd BufWritePost,FileWritePost * highlight clear CursorLine
+"}}}
 " UltiSnippets ------------------------------------------------------------{{{2
 
-" let g:UltiSnipsSnippetDirectories=["UltiSnips"]
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/ultisnips']
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
-"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsEditSplit="vertical"
+
+"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+"let g:UltiSnipsSnippetDirectories=["snips", "ultisnips"]
 
 "}}}
 " Ctlp --------------------------------------------------------------------{{{2
@@ -423,11 +465,40 @@ nnoremap <leader>m :CtrlPMRUFiles<cr>
 nnoremap <leader>bd :CtrlPBookmarkDir<cr>
 nnoremap <Leader>f :CtrlPFunky<Cr>
 nnoremap <leader>b :CtrlPBuffer<cr>
-" narrow the list down with a word under cursor
-nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+"nnoremap <Leader>u :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+
+let g:ctrlp_match_window = 'top,order:btt,min:1,max:10,results:10'
+" Set this to 1 if you want CtrlP to scan for dotfiles and dotdirs: >
+" ttb           - from top to the bottom
+" btt           - from bottom to the top
+" min:{n}       - show minimum {n} lines
+" max:{n}       - show maximum {n} lines
+" results:{n}   - list maximum {n} results
+"               - (default: sync with max height).
+" Note: you can quickly purge the cache by pressing <F5> while inside CtrlP
+
+let g:ctrlp_show_hidden = 0
+" The maximum depth of a directory tree to recurse into: >
+let g:ctrlp_max_depth = 10
+" Specify the number of recently opened files you want CtrlP to remember: >
+let g:ctrlp_mruf_max = 250
+" Exclude mru files
+let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*' " MacOSX/Linux
+
+" CtrlPFunky
+" The results will include class and module definitions.
+let g:ctrlp_funky_ruby_classes = 1
+let g:ctrlp_funky_ruby_modules = 1
+let g:ctrlp_funky_ruby_rake_words = 1
+
+" Set this to 1 (enabled) and the result will include access modifiers such as
+" 'private', 'protected' and 'public'.
+let g:ctrlp_funky_ruby_access = 1
+
 
 "}}}
 "}}}
 " Redraw ------------------------------------------------------------------{{{1
 autocmd VimEnter * redraw!
 "}}}
+"
