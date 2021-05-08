@@ -5,6 +5,7 @@
 " NOTE: I need to make completion work for different launguages. Omni for
 " markdown and txt files.
 " NOTE: Tags for docs
+" TODO: NOTE taking, set variable. use vimegrep
 "
 "    .o oOOOOOOOo                                       .....0OOOo
 "    Ob.OOOOOOOo  OOOo.      oOOo.              ....oooooOOOOOOOOO
@@ -65,10 +66,23 @@ let g:airline_theme='dark'
 let mapleader = ","
 let maplocalleader = ','
 
-" set vimrc
+" resource files
 let $MYVIMRC=$HOME.'/.vimrc'
+let $DOTVIMRC=$HOME.'/.dotfiles/vimrc'
+" notes
+let $NOTE=$HOME.'/.notes'
+
 "}}}
 "}}}
+" Cursor ------------------------------------------------------------------{{{1
+" start insert mode (razor cursor shape)
+let &t_SI="\<Esc>]50;CursorShape=1\x7"
+" start replace mode (underline cursor shape)
+let &t_SR="\<Esc>]50;CursorShape=2\x7"
+" end insert or replace mode (block cursor shape)
+let &t_EI="\<Esc>]50;CursorShape=0\x7"
+
+" }}}
 " Compatiblity ------------------------------------------------------------{{{1
 set nocompatible
 set fileformat=unix
@@ -111,22 +125,23 @@ set colorcolumn=+1
     " let &l:colorcolumn='+'  .  join(range(0, 254), ',+')
 " endif
 " }}}
-" Status, Mode and CMD Window ---------------------------------------------{{{1
-" Show the line and column number of the cursor position.
-set ruler
+" CMD Window and Statusbar ------------------------------------------------{{{1
 
+" height of the command bar.
+set cmdheight=1
+" Number of screen lines to use for the command-line window. Default is 7
+set cmdwinheight=7
 " Show (partial) command in the last line of the screen.
 set showcmd
-" If in Insert, Replace or Visual mode put a message on the last line.
+" If in Insert, Replace or Visual mode do not put a message on the last line.
 set noshowmode
+" show output from last command (default 5)
+set modelines=5
 
 " always show a statusline 0,1,2
 set laststatus=2
-
-" show output from last command (default 5)
-set modelines=5
-" Number of screen lines to use for the command-line window. Default is 7
-set cmdwinheight=7
+" Show the line and column number of the cursor position.
+set ruler
 
 " Like 'autowrite', but also used for commands edit, enew, quit, qall, exit,
 " xit, recover and closing the Vim window.
@@ -136,6 +151,11 @@ set autowriteall
 " When a file has been detected to have been changed outside of Vim and
 " it has not been changed inside of Vim, automatically read it again.
 set autoread
+" Check if any buffers were changed outside of Vim.
+" Each loaded buffer is checked for its associated file being changed.  If the
+" file was changed Vim will take action.  If there are no changes in the buffer
+" and 'autoread' is set, the buffer is reloaded.
+au FocusGained,BufEnter * checktime
 
 " The screen will not be redrawn while executing macros, registers and other commands
 set lazyredraw
@@ -210,6 +230,9 @@ set incsearch
 set hlsearch
 set gdefault
 
+" for regular expression
+set magic
+
 "}}}
 " ListChars ---------------------------------------------------------------{{{1
 
@@ -283,7 +306,6 @@ endif
 
 "}}}
 " Remaps-------------------------------------------------------------------{{{1
-
 "------------------------------------------------------------------------------
 " movment
 "------------------------------------------------------------------------------
@@ -298,6 +320,12 @@ noremap k gk
 nnoremap H ^
 nnoremap L g_
 
+" Remap control instead of control w to jump between splits
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+
+nnoremap <C-l> <C-w>l
+nnoremap <C-j> <C-w>j
 "------------------------------------------------------------------------------
 " paste
 "------------------------------------------------------------------------------
@@ -319,9 +347,19 @@ nnoremap <leader>ss :%s///
 " One key substitution within a paragraph, word under cursor.
 nnoremap & :'{,'}s/<c-r>=expand('<cword>')<cr>/
 
+"------------------------------------------------------------------------------
+" Grep
+"------------------------------------------------------------------------------
+" NOTE: Not for use in $HOME directory. Long recursive search. Prj Dir only.
 " Vimgrep for the word under the cursor recursively in sub directory files.
 " Then opens the results in the QuickFix window.
-nnoremap <leader>gr :vimgrep /<c-r>=expand('<cword>')<cr>/ **/* \| :copen<CR>
+nnoremap <leader>gr :vimgrep /\<<c-r>=expand('<cword>')<cr>\>/ **/* \| :copen<CR>
+
+"------------------------------------------------------------------------------
+" split
+"------------------------------------------------------------------------------
+" Shift s to split the line at cursor. Same as shift j for join.
+nnoremap S i<CR><esc>^mwgk:silent! s/\v+$//<cr>:noh<CR>`w
 
 "------------------------------------------------------------------------------
 " capitalisation
@@ -353,15 +391,22 @@ nnoremap <silent><leader>/ : execute 'vimgrep / '.@/.'/g %'<CR>:copen<CR>
 "nnoremap g; g;zz
 "nnoremap g, g,zz
 "------------------------------------------------------------------------------
+" no highlight
+"------------------------------------------------------------------------------
+nnoremap <leader><space> :noh<CR>
+
+"------------------------------------------------------------------------------
 " source resource files
 "------------------------------------------------------------------------------
 nnoremap <leader>vr :vsplit $MYVIMRC<cr>
 nnoremap <leader>zr :vsplit $HOME/.zshrc<cr>
 
 "------------------------------------------------------------------------------
-" no highlight
+" quick edits
 "------------------------------------------------------------------------------
-nnoremap <leader><space> :noh<CR>
+let $MYVIM = $HOME.'/.vim'
+nnoremap <leader>ed :vsplit $MYVIM/custom-dictionary.utf-8.add<CR>
+nnoremap <leader>ea :vsplit $MYVIM/abbrevs.vim<CR>
 
 "------------------------------------------------------------------------------
 " format options
@@ -373,6 +418,12 @@ nnoremap <leader>fp gq}<CR>
 "------------------------------------------------------------------------------
 nnoremap <leader>se :mks %:h/session.vim<cr>
 
+"------------------------------------------------------------------------------
+" explore
+"------------------------------------------------------------------------------
+" Uses the in built directory search.
+nnoremap <leader>x :Lexplore<CR>
+
 "}}}
 " Bangs -------------------------------------------------------------------{{{1
 
@@ -380,50 +431,16 @@ command! -bang Q q<bang>
 command! -bang W w<bang>
 command! -bang Wq wq<bang>
 
+" Provide one arg with nargs <args>. Ngrep is the name of the function. Vimgrep
+" is vims built in grep. $NOTE is defined in my variables. /** is all
+" directories recursivly under the CWD and /* is the files. In this case a type
+" is specified .md, so all markdown files will be looked in.
+command! -nargs=1 Ngrep vimgrep "<args>" $NOTE/**/*.md
+nnoremap <leader>n :Ngrep<space>
+
 "}}}
 " Aug commands-------------------------------------------------------------{{{1
 if has('autocmd')
-" {{{2 Markdown
-augroup markdown
-    autocmd!
-    autocmd FileType md,markdown,txt, set spell
-    " sets formatting options specific to markdown
-    autocmd FileType md,markdown,txt, set formatoptions+=a
-
-augroup END
-
-" }}}
-" {{{2 Help no spell file
-" set no spell when opening help files.
-    augroup HelpNoSpell
-        au!
-        au BufRead,BufEnter help set nospell
-    augroup END
-
-" {{{2 Return line
-
-" Make sure Vim returns to the same line when you reopen a file.
-augroup line_return
-    au!
-    au BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \     execute 'normal! g`"zvzz' |
-        \ endif
-augroup END
-
-" }}}
-" {{{2 Strip white space
-" clear white space and return cursor to position.
-function! <SID>StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
-endfun
-
-autocmd BufWritePre *.md,*.rake,*.json,*.zsh,*.rb,*.h,*.c,*.java :call <SID>StripTrailingWhitespaces()
-
-" }}}
 " {{{2 Auto completion
 " . - current buffer
 " w - buffer in other windows
@@ -456,91 +473,79 @@ fun! AutoComplete()
 endfun
 
 "}}}
+" {{{2 Return line
+
+" Make sure Vim returns to the same line when you reopen a file.
+augroup line_return
+    au!
+    au BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \     execute 'normal! g`"zvzz' |
+        \ endif
+augroup END
+
+" }}}
+" Cursor and Cursorline ---------------------------------------------------{{{2
+" Only show the statusline in the window that has current focus.
+augroup CursorLineFocus
+    au!
+    au WinLeave * set nocursorline nocursorcolumn
+    au WinEnter * set cursorline
+augroup END
+
+" When in insert mode set no cursorline.
+augroup RazorCursorLine
+    au!
+    au InsertEnter * set nocursorline nocursorcolumn
+    au InsertLeave * set cursorline
+augroup END
+
+" }}}
+" {{{2 Help no spell file
+" set no spell when opening help files.
+    augroup HelpNoSpell
+        au!
+        au BufRead,BufEnter help set nospell
+    augroup END
+
+" {{{2 Markdown
+augroup markdown
+    autocmd!
+    autocmd FileType md,markdown,txt, set spell
+    " sets formatting options specific to markdown
+    autocmd FileType md,markdown,txt, set formatoptions+=a
+
+augroup END
+
+" }}}
+" {{{2 Strip white space
+" clear white space and return cursor to position.
+function! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+
+autocmd BufWritePre *.md,*.rake,*.json,*.zsh,*.rb,*.h,*.c,*.java :call <SID>StripTrailingWhitespaces()
+
+" }}}
 " {{{2 misc
 
 " If the terminal frame is reduce or expanded keep the windows equal.
 au VimResized * :wincmd =
 
-if has ('autocmd')
-  augroup vimrc
-    autocmd!
-    " automatically source ~/.vimrc after saving.
-    autocmd! BufWritePost $MYVIMRC source $MYVIMRC | echom "Reloaded $MYVIMRC"
-  augroup END
-endif
+" Source my vimrc file when the full buffer is writen.
+augroup vimrc
+autocmd!
+" automatically source $MYVIMRC or $DOTVIMRC when writing to a .vimrc file.
+autocmd! BufWritePost $MYVIMRC,$DOTVIMRC source $MYVIMRC | echom "Reloaded $MYVIMRC"
+augroup END
 
 endif
 " }}}
 "}}}
 " Plugins -----------------------------------------------------------------{{{1
-" Nerdtree ----------------------------------------------------------------{{{2
-nnoremap <leader>n :NERDTreeToggle<CR>
-" Bookmarks ---------------------------------------------------------------{{{3
-" set env var in .zshrc
-" set the location of the NerdTreeBookmarks file
-if !empty($NERDTREE_BOOKMARKS)
-    if filereadable($NERDTREE_BOOKMARKS)
-        let g:NERDTreeBookmarksFile = $NERDTREE_BOOKMARKS
-    endif
-endif
-
-" }}}
-" Close last --------------------------------------------------------------{{{3
-" Close all open buffers on entering a window if the only
-" buffer that's left is the NERDTree buffer
-function! s:CloseIfOnlyNerdTreeLeft()
-  if exists("t:NERDTreeBufName")
-    if bufwinnr(t:NERDTreeBufName) != -1
-      if winnr("$") == 1
-        q
-      endif
-    endif
-  endif
-endfunction
-
-autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
-" }}}
-" Settings ----------------------------------------------------------------{{{3
-" remove the ? for help
-let NERDTreeMinimalUI = 1
-" include the arrows
-let NERDTreeDirArrows = 1
-let NERDTreeShowBookmarks=1
-" change cwd when a new node is opened with :C
-let g:NERDTreeChDirMode = 2
-" when a file is deleted remove the empty buffer
-let NERDTreeAutoDeleteBuffer=1
-" do not sort the bookmarks, this leaves them in the order created
-let NERDTreeBookmarksSort=0
-" show hidden files default 0 shift i to toggle
-let NERDTreeShowHidden=0
-
-let NERDTreeIgnore = ['\~$', '.*\.pyc$', 'pip-log\.txt$', 'whoosh_index',
-                    \ 'xapian_index', '.*.pid', 'monitor.py', '.*-fixtures-.*.json',
-                    \ '.*\.o$', 'db.db', 'tags.bak']
-
-
-" }}}
-" Cursor not used ---------------------------------------------------------{{{3
-" open nerdtree on enter
-" autocmd VimEnter * NERDTree
-" set the cursor in nerdtree window only
-"augroup NerdCursor
-  "autocmd!
-  "autocmd BufEnter NERD_tree_* hi CursorLine cterm=NONE ctermfg=231 ctermbg=24
-  "autocmd BufLeave NERD_tree_* highlight clear CursorLine
-  "autocmd BufAdd * highlight clear CursorLine
-"augroup END
-
-" set cursor line inside nerdtree - remember this works becasue it is unset
-" when the buffer is exited from nerdcursor. this needs to be removed when not
-" starting in nerdtree.
-"autocmd VimEnter * hi CursorLine cterm=NONE ctermfg=231 ctermbg=24
-
-" clear the cursorline when writing to stop the cursorline returning in
-" nerdtree on save.
-"autocmd BufWritePost,FileWritePost * highlight clear CursorLine
-"}}}
 " UltiSnippets ------------------------------------------------------------{{{2
 
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/ultisnips']
@@ -555,9 +560,10 @@ let g:UltiSnipsEditSplit="vertical"
 " Ctlp --------------------------------------------------------------------{{{2
 nnoremap <leader>m :CtrlPMRUFiles<cr>
 nnoremap <leader>bd :CtrlPBookmarkDir<cr>
-nnoremap <Leader>f :CtrlPFunky<Cr>
 nnoremap <leader>b :CtrlPBuffer<cr>
-"nnoremap <Leader>u :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+
+" Set the directory to store the cache files
+let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
 
 let g:ctrlp_match_window = 'top,order:btt,min:1,max:10,results:10'
 " Set this to 1 if you want CtrlP to scan for dotfiles and dotdirs: >
@@ -593,9 +599,6 @@ let g:ctrlp_funky_ruby_access = 1
 " Redraw ------------------------------------------------------------------{{{1
 autocmd VimEnter * redraw!
 "}}}
-
-
-
 
 
 
