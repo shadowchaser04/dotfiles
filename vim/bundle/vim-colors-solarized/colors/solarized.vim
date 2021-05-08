@@ -1090,6 +1090,13 @@ endfunction
 autocmd ColorScheme * if g:colors_name != "solarized" | silent! aunmenu Solarized | else | call SolarizedMenu() | endif
 
 "}}}
+" User Added {{{
+" for some unknown reason underline will not be reset or taken off
+hi CursorLineNr term=bold ctermfg=11 gui=bold guifg=Yellow
+hi VertSplit ctermfg=10 ctermbg=10
+" highlight
+hi Folded term=bold cterm=NONE ctermfg=White
+" }}}
 " License "{{{
 " ---------------------------------------------------------------------
 "

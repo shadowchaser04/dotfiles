@@ -1,6 +1,10 @@
 " Version::1.0
-" For plugin docs. pwd in the pluging docs directory.
+
+" NOTE: For plugin docs. pwd in the pluging docs directory.
 " Then in vim type :helptags /Users/{username}/.vim/bundle/{plugin}/doc
+" NOTE: I need to make completion work for different launguages. Omni for
+" markdown and txt files.
+" NOTE: Tags for docs
 "
 "    .o oOOOOOOOo                                       .....0OOOo
 "    Ob.OOOOOOOo  OOOo.      oOOo.              ....oooooOOOOOOOOO
@@ -11,118 +15,213 @@
 "    OOOOO                 '"OOOOOOOOOOOOOOOO"`                oOO
 "   oOOOOOOo.                .adOOOOOOOOOOba               .adOOOOo.
 "  oOOOOOOOOOOOOOba.    .adOOOOOOOOOO@^OOOOOOOba.     .adOOOOOOOOOOOO
-"  OOOOOOOOOOOOOOOOO.OOOOOOOOOOOOOO"`  '"OOOOOOOOOOOOO.OOOOOOOOOOOOOO 
+"  OOOOOOOOOOOOOOOOO.OOOOOOOOOOOOOO"`  '"OOOOOOOOOOOOO.OOOOOOOOOOOOOO
 "    :           'OOOOOOOOOOOOOO: .oOOo. :OOOOOOOOOOO?'         :`
 "    .            .oO%OOOOOOOOOOo.OOOOOO.oOOOOOOOOOOOO?         .
 "                 OOOO"%OOOOOOOOoOOOOOOO?oOOOOO?OOOO"OOO
 "                 '%o  OOOO"%OOOO%"%OOOOO"OOOOOO"OOO':
 "                      `$"  `OOOO' `O"Y ' `OOOO'  o             .
 "    .                  .      O"          : o     .
-" Setup -------------------------------------------------------------------{{{1
+" FileType and Syntax -----------------------------------------------------{{{1
 " This will keep the flags for plugin and indent, but since no file types
 " are being detected, they won't work until the next filetype on.
 filetype off
 filetype plugin indent off
 
-" pathogen runntime injection and help indexing.
+" Pathogen runtime injection and help indexing.
 execute pathogen#infect()
 
-" The filetype on command on unix will load.
 " $VIMRUNTIME/filetype.vim
 filetype plugin indent on
 
-" The syntax enable command will keep your current color settings.  This
+" The syntax enable command will keep your current color settings. This
 " allows using highlight commands to set your preferred colors before or
 " after using this command.  If you want Vim to overrule your settings with the
 " defaults, use: :syntax on
 syntax enable
-
-" set terminal colors
-set t_Co=256
-
-" add colors directory to the runtimepath
-set runtimepath+=~/.vim/colors
-set background=dark
-colorscheme solarized
-
-" highlight
-hi Folded term=bold cterm=NONE ctermfg=White
-
-" airline theme
-let g:airline_powerline_fonts = 1
-let g:airline_theme='dark'
 
 " use 256 colors in :terminal
 if has('gui_running')
     let $TERM = 'xterm-256color'
 endif
 
+" Set terminal colors
+set t_Co=256
+
+" Add colors directory to the runtimepath
+set runtimepath+=~/.vim/colors
+
+" Theme -------------------------------------------------------------------{{{2
+set background=dark
+colorscheme solarized
+
+" Make sure airline theme is loaded.
+let g:airline_powerline_fonts = 1
+let g:airline_theme='dark'
+
+"}}}
+" Variables ---------------------------------------------------------------{{{2
 " set leader
 let mapleader = ","
 let maplocalleader = ','
 
+" set vimrc
 let $MYVIMRC=$HOME.'/.vimrc'
 "}}}
-" Basic -------------------------------------------------------------------{{{1
+"}}}
+" Compatiblity ------------------------------------------------------------{{{1
 set nocompatible
 set fileformat=unix
 set clipboard=unnamed
+
+" Indicates a fast terminal connection.
 set ttyfast
 set ttimeoutlen=0
-set novisualbell
+
 " noeb - no error bell, no visual bell
 set noeb vb t_vb=
-" The screen will not be redrawn while executing macros, registers and other commands
-set lazyredraw
+set backspace=indent,eol,start
+
+" no splash screen at the start
+set shortmess+=I
+
+" Allows you to hide buffers with unsaved changes without being prompted.
 set hidden
 
+" set novisualbell
+
 "}}}
-" Layout ------------------------------------------------------------------{{{1
+" Screen Layout ------------------------------------------------------------------{{{1
 " The title of the window will be set to the value of 'titlestring' (if it is not empty)
 set title
 " show a number column
 set number
+" display the literal line number of the line you are currently on.
 set relativenumber
 set cursorline
+
+" text width 79 if colorcolumn is set to 1 and there is no colorcolumn join.
+" text width 80 if there is no colorcolumn set to 1
 set textwidth=79
-set cc=80
+" set the column at the 80 +1 after textwidth
 set colorcolumn=+1
+
+" fills the color to the end of the line
+" if exists('+colorcolumn')
+    " let &l:colorcolumn='+'  .  join(range(0, 254), ',+')
+" endif
 " }}}
-" Status and CMD ----------------------------------------------------------{{{1
+" Status, Mode and CMD Window ---------------------------------------------{{{1
 " Show the line and column number of the cursor position.
 set ruler
+
+" Show (partial) command in the last line of the screen.
 set showcmd
+" If in Insert, Replace or Visual mode put a message on the last line.
 set noshowmode
-" 2: always show a statusline
+
+" always show a statusline 0,1,2
 set laststatus=2
 
 " show output from last command (default 5)
 set modelines=5
+" Number of screen lines to use for the command-line window. Default is 7
+set cmdwinheight=7
+
+" Like 'autowrite', but also used for commands edit, enew, quit, qall, exit,
+" xit, recover and closing the Vim window.
+set autowrite
+set autowriteall
+
+" When a file has been detected to have been changed outside of Vim and
+" it has not been changed inside of Vim, automatically read it again.
+set autoread
+
+" The screen will not be redrawn while executing macros, registers and other commands
+set lazyredraw
 
 "}}}
+" Scroll ------------------------------------------------------------------{{{1
+
+" set to 999 the cursor will stay in the middle.
+" set <number> for <number> lines from the top of bottom
+set scrolloff=999
+set sidescroll=1
+set sidescrolloff=100
+
+" }}}
 " Formatting --------------------------------------------------------------{{{1
 
-set linebreak
-set breakindent
-" This sets whether tab is converted to space. if your using listchars its
-" better to explicitly set to noexpand. so the tabs show up.
-set expandtab
-set list
-set listchars=tab:▸\.,trail:•,extends:❯,precedes:❮
-" when the terminal is more compact this indicates breaks
-set showbreak=↪
-set backspace=indent,eol,start
-set fillchars=fold:-
-
-set autoindent
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+" Remove comment leader when joining comments.
+set formatoptions+=j
+" Smart auto indenting inside numberd lists
+set formatoptions+=n
 
 " J join two lines at .
 set nojoinspaces
 
-" set formatoptions=qrn1j
+" Vim will wrap long lines at a character in 'breakat' rather than at the last
+" character that fits on the screen.
+set linebreak
+
+" Every wrapped line will continue visually indented (same amount of space as
+" the beginning of that line), thus preserving horizontal blocks of text.
+set breakindent
+
+" Copy indent from current line when starting a new line.
+set autoindent
+
+" }}}
+" Tab Shift --------------------------------------------------------------{{{1
+
+" Converts tab to space. If your using listchars its better to explicitly set
+" to noexpand. so the tabs show up.
+set expandtab
+" Number of spaces that a <Tab> in the file counts for
+" Number of spaces that a <Tab> in the file counts for
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+" always indent by multiples of shiftwidth
+set shiftround
+
+"}}}
+" Match -------------------------------------------------------------------{{{1
+
+" Tenths of a second to show the matching paren, when 'showmatch' is set.
+set matchtime=3
+" When a bracket is inserted, briefly jump to the matching one.
+set showmatch
+
+" extended capacities of %
+runtime macros/matchit.vim
+
+" }}}
+" Search ------------------------------------------------------------------{{{1
+
+" If the 'ignorecase' option is on, the case of normal letters is ignored.
+" 'smartcase' can be set to ignore case when the pattern contains lowercase
+" letters only
+set ignorecase
+set smartcase
+
+" While typing a search command, show where the pattern is matched.
+set incsearch
+set hlsearch
+set gdefault
+
+"}}}
+" ListChars ---------------------------------------------------------------{{{1
+
+set list
+set listchars=tab:▸\.,trail:•,extends:❯,precedes:❮
+" folding character used when folded.
+set fillchars=fold:-
+
+" when the terminal is more compact this indicates breaks
+set showbreak=↪
+" ~/@ at end of window, 'showbreak'
+set highlight+=@:ColorColumn
 
 " }}}
 " Splits ------------------------------------------------------------------{{{1
@@ -157,43 +256,6 @@ endif
 if !isdirectory(expand(&directory))
     call mkdir(expand(&directory), "p")
 endif
-"}}}
-" Search ------------------------------------------------------------------{{{1
-
-set matchtime=3
-" When a bracket is inserted, briefly jump to the matching one.
-set showmatch
-
-" extended capacities of %
-runtime macros/matchit.vim
-
-" If the 'ignorecase' option is on, the case of normal letters is ignored.
-" 'smartcase' can be set to ignore case when the pattern contains lowercase
-" letters only
-set ignorecase
-set smartcase
-
-" While typing a search command, show where the pattern is matched.
-set incsearch
-set hlsearch
-set gdefault
-
-" Minimal number of screen lines to keep above and below the cursor.
-" if set to 999 it will keep the cursor in the middle of the screen. Except at
-" the start or end of the file.
-set scrolloff=999
-set sidescroll=1
-set sidescrolloff=100
-set shortmess+=I
-
-" Like 'autowrite', but also used for commands edit, enew, quit, qall, exit,
-" xit, recover and closing the Vim window.
-set autowrite
-set autowriteall
-" When a file has been detected to have been changed outside of Vim and
-" it has not been changed inside of Vim, automatically read it again.
-set autoread
-set shiftround
 "}}}
 " Folding -----------------------------------------------------------------{{{1
 set foldenable
@@ -247,15 +309,20 @@ nnoremap <leader>sp :set paste<cr>
 "------------------------------------------------------------------------------
 " substitution
 "------------------------------------------------------------------------------
-" subs
+" The word boundary is set by adding /\<word\>/ " This will replace <in> but
+" not <inside>.
+" s     - specifies just the line.
+" %s    - specifies all lines.
 nnoremap <leader>s :s///
 nnoremap <leader>ss :%s///
 
-" one key substitution within a paragraph, word under cursor
+" One key substitution within a paragraph, word under cursor.
 nnoremap & :'{,'}s/<c-r>=expand('<cword>')<cr>/
 
-" replace line with comments
-nnoremap <leader>rl :%s/^.*$/"\0",/<CR>
+" Vimgrep for the word under the cursor recursively in sub directory files.
+" Then opens the results in the QuickFix window.
+nnoremap <leader>gr :vimgrep /<c-r>=expand('<cword>')<cr>/ **/* \| :copen<CR>
+
 "------------------------------------------------------------------------------
 " capitalisation
 "------------------------------------------------------------------------------
@@ -281,7 +348,7 @@ nnoremap * *<c-o>
 nnoremap <c-o> <c-o>zz
 
 " Reopen the last search in a QuickFix window
-nnoremap <silent> <leader>/ : execute 'vimgrep / '.@/.'/g %'<CR>:copen<CR>
+nnoremap <silent><leader>/ : execute 'vimgrep / '.@/.'/g %'<CR>:copen<CR>
 
 "nnoremap g; g;zz
 "nnoremap g, g,zz
@@ -315,20 +382,26 @@ command! -bang Wq wq<bang>
 
 "}}}
 " Aug commands-------------------------------------------------------------{{{1
-" {{{2 markdown
+if has('autocmd')
+" {{{2 Markdown
 augroup markdown
-  autocmd!
-  autocmd FileType md,markdown,txt, set spell
-augroup END
-" }}}
-" {{{2 help no spell file
-" set no spell when opening help files.
-augroup HelpNoSpell
-    au!
-    au BufRead,BufEnter help set nospell
+    autocmd!
+    autocmd FileType md,markdown,txt, set spell
+    " sets formatting options specific to markdown
+    autocmd FileType md,markdown,txt, set formatoptions+=a
+
 augroup END
 
-" {{{2 return line
+" }}}
+" {{{2 Help no spell file
+" set no spell when opening help files.
+    augroup HelpNoSpell
+        au!
+        au BufRead,BufEnter help set nospell
+    augroup END
+
+" {{{2 Return line
+
 " Make sure Vim returns to the same line when you reopen a file.
 augroup line_return
     au!
@@ -337,8 +410,9 @@ augroup line_return
         \     execute 'normal! g`"zvzz' |
         \ endif
 augroup END
+
 " }}}
-" {{{2 strip white space
+" {{{2 Strip white space
 " clear white space and return cursor to position.
 function! <SID>StripTrailingWhitespaces()
     let l = line(".")
@@ -350,15 +424,25 @@ endfun
 autocmd BufWritePre *.md,*.rake,*.json,*.zsh,*.rb,*.h,*.c,*.java :call <SID>StripTrailingWhitespaces()
 
 " }}}
-" {{{2 simplpe auto completion 
-
-" Minimalist-AutoCompletePop-Plugin
+" {{{2 Auto completion
+" . - current buffer
+" w - buffer in other windows
+" b - other loaded buffers
+" u - unloaded buffer
+" t - tags
+" i - included files
 set completeopt=menu,menuone,noinsert
-set complete+=w
+set complete+=.,w,b,u,t
+
+" The active spell checking dictionary, when spell checking is enabled.
 set complete+=kspell
 set dictionary+=/usr/share/dict/words
 
+" Dimensions of the popup window.
+set completepopup=height:10,width:60,highlight:InfoPopup
+
 inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
+
 autocmd InsertCharPre * call AutoComplete()
 fun! AutoComplete()
     if v:char =~ '\K'
@@ -370,14 +454,22 @@ fun! AutoComplete()
         call feedkeys("\<C-P>", 'n')
     end
 endfun
+
 "}}}
 " {{{2 misc
 
 " If the terminal frame is reduce or expanded keep the windows equal.
 au VimResized * :wincmd =
 
-" automatically source ~/.vimrc after saving.
-autocmd! BufWritePost $MYVIMRC source $MYVIMRC
+if has ('autocmd')
+  augroup vimrc
+    autocmd!
+    " automatically source ~/.vimrc after saving.
+    autocmd! BufWritePost $MYVIMRC source $MYVIMRC | echom "Reloaded $MYVIMRC"
+  augroup END
+endif
+
+endif
 " }}}
 "}}}
 " Plugins -----------------------------------------------------------------{{{1
@@ -501,4 +593,20 @@ let g:ctrlp_funky_ruby_access = 1
 " Redraw ------------------------------------------------------------------{{{1
 autocmd VimEnter * redraw!
 "}}}
-"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -82,7 +82,7 @@ end
 # Last command
 #------------------------------------------------------------------------------
 Pry::Commands.command /^$/, "repeat last command" do
-  _pry_.run_command Pry.history.to_a.last  
+  _pry_.run_command Pry.history.to_a.last
 end
 
 #------------------------------------------------------------------------------
@@ -181,7 +181,7 @@ end
 Pry.history.load
 
 # Default history file.
-Pry.config.history_file = "~/.pry_history"
+Pry.config.history_file = "~/.cache/cache.txt"
 
 # The Pry.config.history.should_save option determines whether history will
 # be saved to the history file when a Pry session ends

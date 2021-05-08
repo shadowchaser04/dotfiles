@@ -180,7 +180,7 @@ chpwd() {
 HISTSIZE=50000
 SAVEHIST=50000
 HIST_STAMPS="dd/mm/yyyy"
-HISTFILE="$HOME/.zsh_history"
+HISTFILE="$HOME/.cache/zsh/zsh_history.txt"
 HISTORY_IGNORE="(pwd|less *|l[alsh]#( *)#|[bf]g *|exit|reset|clear)"
 
 # Allow multiple terminal sessions to all append to one zsh command history
@@ -220,7 +220,7 @@ hash -d notes=$HOME/.notes
 #{{{1 Dir Stack
 autoload -Uz add-zsh-hook
 
-DIRSTACKFILE="$HOME/.recent_dirs"
+DIRSTACKFILE="$HOME/.cache/zsh/recent_dirs.txt"
 if [[ -f "$DIRSTACKFILE" ]] && (( ${#dirstack} == 0 )); then
 	dirstack=("${(@f)"$(< "$DIRSTACKFILE")"}")
 	[[ -d "${dirstack[1]}" ]] && cd -- "${dirstack[1]}"
