@@ -2,11 +2,14 @@
 
 " NOTE: For plugin docs. pwd in the pluging docs directory.
 " Then in vim type :helptags /Users/{username}/.vim/bundle/{plugin}/doc
-" NOTE: I need to make completion work for different launguages. Omni for
-" markdown and txt files.
 
+" TODO: Make completion work for different launguages.
 " TODO: Add ctags
 " TODO: Make sure pry can find its documentation
+" TODO: Toggle all folds
+" TODO: Add statusline popup list
+" zM - Close all folds
+" zR - Open all folds
 "
 "    .o oOOOOOOOo                                       .....0OOOo
 "    Ob.OOOOOOOo  OOOo.      oOOo.              ....oooooOOOOOOOOO
@@ -129,7 +132,7 @@ set colorcolumn=+1
     " let &l:colorcolumn='+'  .  join(range(0, 254), ',+')
 " endif
 " }}}
-" CMD Window and Status bar ------------------------------------------------{{{1
+" CMD Window and Status bar -----------------------------------------------{{{1
 
 " Height of the command bar.
 set cmdheight=1
@@ -142,12 +145,14 @@ set noshowmode
 " Show output from last command (default 5)
 set modelines=5
 
-" TODO: find how to set the color of the wildmenu.
 " When 'wildmenu' is on, command-line completion operates in an enhanced mode.
 " On pressing 'wildchar' (usually <Tab>) to invoke completion, the possible
 " matches are shown just above the command line, with the first match
 " highlighted
 set wildmenu
+hi StatusLine term=reverse cterm=reverse ctermfg=0 ctermbg=10 gui=bold,reverse
+hi WildMenu term=reverse cterm=reverse ctermfg=0 ctermbg=4 guifg=Black guibg=Yellow
+
 " Longest full - gives auto complete options. It essentially is like cycling
 " through the options without a list.
 " Longest list full - first pops up a list of all the options. Then cycles
@@ -371,10 +376,11 @@ nnoremap <C-j> <C-w>j
 " Copy to system clipboard with ''
 vmap '' :w !pbcopy<CR><CR>
 
-" set pastetoggle=<F2>
+" set paste unsets some of vims indent and format options.
+set pastetoggle=<F2>
 
 " Set paste
-nnoremap <leader>sp :set paste<cr>
+" nnoremap <leader>sp :set paste<cr>
 "------------------------------------------------------------------------------
 " substitution
 "------------------------------------------------------------------------------
@@ -681,8 +687,6 @@ let g:netrw_hide=0
 " Redraw ------------------------------------------------------------------{{{1
 autocmd VimEnter * redraw!
 "}}}
-
-
 
 
 

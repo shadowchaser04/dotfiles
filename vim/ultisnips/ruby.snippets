@@ -12,7 +12,6 @@
 # def
 # attr
 # rails
-# TODO hash loops key value
 
 #------------------------------------------------------------------------------
 # global
@@ -66,13 +65,13 @@ endsnippet
 # unless
 #------------------------------------------------------------------------------
 
-snippet unless "unless <condition> ... end"
+snippet un "unless <condition> ... end"
 unless ${1:condition}
 	${2}
 end
 endsnippet
 
-snippet unlesse "unless <condition> ... else ... end"
+snippet une "unless <condition> ... else ... end"
 unless ${1:condition}
 	${2}
 else
@@ -94,23 +93,23 @@ endsnippet
 #------------------------------------------------------------------------------
 # loops
 #------------------------------------------------------------------------------
-snippet ead "<object>.each do |item| end"
+snippet ed "<object>.each do |item| end"
 ${1:object}.each do |${2:item}|
 	${3}
 end
 endsnippet
 
-snippet "(\S+)\.ead" "<elements>.each do |<element>| <block> end" r
+snippet "(\S+)\.ed" "<elements>.each do |<element>| <block> end" r
 `!p snip.rv=match.group(1)`.each do |${1:item}|
 	$0
 end
 endsnippet
 
-snippet each "(<from>..<to>).each { |<i>| <block> }"
+snippet e "(<from>..<to>).each { |<i>| <block> }"
 ${1:objeect}.each { |${2:item}| ${3} }
 endsnippet
 
-snippet "(\S+)\.ea" "<elements>.each do |<element>| <block> end" r
+snippet "(\S+)\.e" "<elements>.each do |<element>| <block> end" r
 `!p snip.rv=match.group(1)`.each { |${1:item}| $0 }
 endsnippet
 
@@ -128,20 +127,20 @@ endsnippet
 #------------------------------------------------------------------------------
 # hash
 #------------------------------------------------------------------------------
-snippet eap "each key and value"
-${1:hash_name}.each_pair do |${2:key}, ${3:value}|
+snippet ep "each key and value pair"
+${1:hash_name}.each do |${2:key}, ${3:value}|
 	puts "Key: #{$2} Value: #{$3}"
 end
 endsnippet
 
-snippet eak "each key"
-${1:hash_name}.each_key do |${2:key}|
+snippet ek "each key"
+${1:hash_name}.each do |${2:key}|
 	puts "Key: #{$2}"
 end
 endsnippet
 
-snippet eav "each value"
-${1:hash_name}.each_value do |${2:value}|
+snippet ev "each value"
+${1:hash_name}.each do |${2:value}|
 	puts "Key: #{$2}"
 end
 endsnippet
@@ -200,7 +199,7 @@ endsnippet
 #------------------------------------------------------------------------------
 
 snippet def "def <def_name> end"
-def ${1:def_name}${2:(${3:*args})}
+def ${1:method_name}${2:(${3:*args})}
 	$0
 end
 endsnippet
