@@ -4,8 +4,9 @@
 " Then in vim type :helptags /Users/{username}/.vim/bundle/{plugin}/doc
 " NOTE: I need to make completion work for different launguages. Omni for
 " markdown and txt files.
-" NOTE: Tags for docs
-" TODO: NOTE taking, set variable. use vimegrep
+
+" TODO: Add ctags
+" TODO: Make sure pry can find its documentation
 "
 "    .o oOOOOOOOo                                       .....0OOOo
 "    Ob.OOOOOOOo  OOOo.      oOOo.              ....oooooOOOOOOOOO
@@ -23,21 +24,20 @@
 "                 '%o  OOOO"%OOOO%"%OOOOO"OOOOOO"OOO':
 "                      `$"  `OOOO' `O"Y ' `OOOO'  o             .
 "    .                  .      O"          : o     .
+
 " FileType and Syntax -----------------------------------------------------{{{1
-" This will keep the flags for plugin and indent, but since no file types
-" are being detected, they won't work until the next filetype on.
-filetype off
-filetype plugin indent off
 
-" Pathogen runtime injection and help indexing.
-execute pathogen#infect()
-
-" $VIMRUNTIME/filetype.vim
+" Filetype detection. Vim will identify the file type.
+"
+" Using indent files When editing programs, the indent of a line can often be
+" computed automatically. Vim comes with these indent rules for a number of
+" filetypes.
+"
 filetype plugin indent on
 
 " The syntax enable command will keep your current color settings. This
 " allows using highlight commands to set your preferred colors before or
-" after using this command.  If you want Vim to overrule your settings with the
+" after using this command. If you want Vim to overrule your settings with the
 " defaults, use: :syntax on
 syntax enable
 
@@ -46,78 +46,82 @@ if has('gui_running')
     let $TERM = 'xterm-256color'
 endif
 
-" Set terminal colors
-set t_Co=256
 
-" Add colors directory to the runtimepath
-set runtimepath+=~/.vim/colors
-
-" Theme -------------------------------------------------------------------{{{2
+"}}}
+" Colorscheme -------------------------------------------------------------{{{1
 set background=dark
 colorscheme solarized
 
-" Make sure airline theme is loaded.
-let g:airline_powerline_fonts = 1
-let g:airline_theme='dark'
-
 "}}}
-" Variables ---------------------------------------------------------------{{{2
+" Locatinal Variables and Leader ------------------------------------------{{{1
+
+" A leader key is used like a prefix. It precedes a map/remap. So as to avoid
+" clashing with vim's builtin key settings.
+"
 " set leader
 let mapleader = ","
 let maplocalleader = ','
 
-" resource files
+" Some variables are set to avoid misspellings. In a Vim script variables
+" starting with s: can be used. They cannot be accessed from outside of the
+" scripts, thus are local to the script.
+
+" Resource files
 let $MYVIMRC=$HOME.'/.vimrc'
 let $DOTVIMRC=$HOME.'/.dotfiles/vimrc'
-" notes
+
+" Notes
 let $NOTE=$HOME.'/.notes'
+let $CACHE=$HOME.'/.cache'
 
 "}}}
-"}}}
-" Cursor ------------------------------------------------------------------{{{1
-" start insert mode (razor cursor shape)
-let &t_SI="\<Esc>]50;CursorShape=1\x7"
-" start replace mode (underline cursor shape)
-let &t_SR="\<Esc>]50;CursorShape=2\x7"
-" end insert or replace mode (block cursor shape)
-let &t_EI="\<Esc>]50;CursorShape=0\x7"
+" Compatibility ------------------------------------------------------------{{{1
 
-" }}}
-" Compatiblity ------------------------------------------------------------{{{1
+" This option has the effect of making Vim either more Vi-compatible, or make
+" Vim behave in a more useful way.
 set nocompatible
+" This gives the <EOL> of the current buffer, which is used for reading/writing
+" the buffer from/to a file:
+"   dos	    <CR> <NL>
+"   unix    <NL>
+"   mac	    <CR>
 set fileformat=unix
 set clipboard=unnamed
+" Set terminal colors
+set t_Co=256
 
 " Indicates a fast terminal connection.
 set ttyfast
 set ttimeoutlen=0
 
-" noeb - no error bell, no visual bell
+" Noeb - no error bell, no visual bell
 set noeb vb t_vb=
+" make delete work sanely
 set backspace=indent,eol,start
 
-" no splash screen at the start
+" No splash screen at the start
 set shortmess+=I
 
 " Allows you to hide buffers with unsaved changes without being prompted.
 set hidden
 
-" set novisualbell
-
 "}}}
 " Screen Layout ------------------------------------------------------------------{{{1
+
 " The title of the window will be set to the value of 'titlestring' (if it is not empty)
 set title
-" show a number column
+" Show a number column
 set number
-" display the literal line number of the line you are currently on.
+" Display the literal line number of the line you are currently on.
 set relativenumber
 set cursorline
+" Remove the underline default from the line number
+hi CursorLineNr term=bold cterm=bold ctermfg=12 gui=bold
 
-" text width 79 if colorcolumn is set to 1 and there is no colorcolumn join.
-" text width 80 if there is no colorcolumn set to 1
+" Text width 79 if colorcolumn is set to 1 and there is no colorcolumn join.
+" Text width 80 if there is no colorcolumn set to 1
 set textwidth=79
-" set the column at the 80 +1 after textwidth
+" Set the column at the 80 +1 after textwidth
 set colorcolumn=+1
 
 " fills the color to the end of the line
@@ -125,9 +129,9 @@ set colorcolumn=+1
     " let &l:colorcolumn='+'  .  join(range(0, 254), ',+')
 " endif
 " }}}
-" CMD Window and Statusbar ------------------------------------------------{{{1
+" CMD Window and Status bar ------------------------------------------------{{{1
 
-" height of the command bar.
+" Height of the command bar.
 set cmdheight=1
 " Number of screen lines to use for the command-line window. Default is 7
 set cmdwinheight=7
@@ -135,10 +139,23 @@ set cmdwinheight=7
 set showcmd
 " If in Insert, Replace or Visual mode do not put a message on the last line.
 set noshowmode
-" show output from last command (default 5)
+" Show output from last command (default 5)
 set modelines=5
 
-" always show a statusline 0,1,2
+" TODO: find how to set the color of the wildmenu.
+" When 'wildmenu' is on, command-line completion operates in an enhanced mode.
+" On pressing 'wildchar' (usually <Tab>) to invoke completion, the possible
+" matches are shown just above the command line, with the first match
+" highlighted
+set wildmenu
+" Longest full - gives auto complete options. It essentially is like cycling
+" through the options without a list.
+" Longest list full - first pops up a list of all the options. Then cycles
+" through the list.
+"set wildmode=longest,list,full
+set wildmode=longest:full,full
+
+" Always show a statusline 0,1,2
 set laststatus=2
 " Show the line and column number of the cursor position.
 set ruler
@@ -161,20 +178,35 @@ au FocusGained,BufEnter * checktime
 set lazyredraw
 
 "}}}
+" Cursor ------------------------------------------------------------------{{{1
+
+" start insert mode (razor cursor shape)
+let &t_SI="\<Esc>]50;CursorShape=1\x7"
+" start replace mode (underline cursor shape)
+let &t_SR="\<Esc>]50;CursorShape=2\x7"
+" end insert or replace mode (block cursor shape)
+let &t_EI="\<Esc>]50;CursorShape=0\x7"
+
+" }}}
 " Scroll ------------------------------------------------------------------{{{1
 
-" set to 999 the cursor will stay in the middle.
-" set <number> for <number> lines from the top of bottom
+" Set to 999 the cursor will stay in the middle.
+" Set <number> for <number> lines from the top of bottom
 set scrolloff=999
 set sidescroll=1
 set sidescrolloff=100
 
 " }}}
 " Formatting --------------------------------------------------------------{{{1
+" NOTE: Paste inserts tabs not spaces
+
+" Automatically insert the current comment leader after hitting o or O in
+" Normal mode.
+set formatoptions+=o
 
 " Remove comment leader when joining comments.
 set formatoptions+=j
-" Smart auto indenting inside numberd lists
+" Smart auto indenting inside numbed lists
 set formatoptions+=n
 
 " J join two lines at .
@@ -195,28 +227,30 @@ set autoindent
 " Tab Shift --------------------------------------------------------------{{{1
 
 " Converts tab to space. If your using listchars its better to explicitly set
-" to noexpand. so the tabs show up.
+" to noexpand. So the tabs show up.
 set expandtab
 " Number of spaces that a <Tab> in the file counts for
 " Number of spaces that a <Tab> in the file counts for
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
-" always indent by multiples of shiftwidth
+" Always indent by multiples of shiftwidth
 set shiftround
 
 "}}}
 " Match -------------------------------------------------------------------{{{1
 
-" Tenths of a second to show the matching paren, when 'showmatch' is set.
+" Tenths of a second to show the matching parenth, when 'showmatch' is set.
 set matchtime=3
 " When a bracket is inserted, briefly jump to the matching one.
 set showmatch
 
-" extended capacities of %
-runtime macros/matchit.vim
+" new package managment system. If packages are in vim/pack/opt they are
+" not autoloaded. I think this means i have to explicitly call it?
+"
+packadd matchit
 
-" }}}
+" }}} Search
 " Search ------------------------------------------------------------------{{{1
 
 " If the 'ignorecase' option is on, the case of normal letters is ignored.
@@ -228,9 +262,11 @@ set smartcase
 " While typing a search command, show where the pattern is matched.
 set incsearch
 set hlsearch
+
+" When on, the :substitute flag 'g' is default on.
 set gdefault
 
-" for regular expression
+" For regular expression
 set magic
 
 "}}}
@@ -238,10 +274,10 @@ set magic
 
 set list
 set listchars=tab:▸\.,trail:•,extends:❯,precedes:❮
-" folding character used when folded.
+" Folding character used when folded.
 set fillchars=fold:-
 
-" when the terminal is more compact this indicates breaks
+" When the terminal is more compact this indicates breaks
 set showbreak=↪
 " ~/@ at end of window, 'showbreak'
 set highlight+=@:ColorColumn
@@ -254,7 +290,8 @@ set splitright
 " Always use vertical diffs
 set diffopt=vertical
 "}}}
-" Spell -------------------------------------------------------------------{{{1
+" History, Spell and Undo -------------------------------------------------{{{1
+
 "set dictionary=/usr/share/dict/words
 set spellfile=~/.vim/custom-dictionary.utf-8.add
 "------------------------------------------------------------------------------
@@ -281,6 +318,7 @@ if !isdirectory(expand(&directory))
 endif
 "}}}
 " Folding -----------------------------------------------------------------{{{1
+
 set foldenable
 set foldmethod=marker
 set foldnestmax=5
@@ -290,7 +328,7 @@ set wildignore+=.hg,.git,.svn                    " Version control
 set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
 set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip         " MacOSX/Linu
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip         " MacOSX/Linux
 set wildignore+=*.spl                            " compiled spelling word lists
 set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.DS_Store                       " OSX bullshit
@@ -298,7 +336,7 @@ set wildignore+=*.DS_Store                       " OSX bullshit
 " Abbrevs -----------------------------------------------------------------{{{1
 
 " :ab lists all abbrevs and where they where last used.
-" :ab mispelling correction to add to the abrevs
+" :ab misspelling correction to add to the abbrevs
 
 if filereadable(expand("~/.vim/abbrevs.vim"))
     source ~/.vim/abbrevs.vim
@@ -306,13 +344,14 @@ endif
 
 "}}}
 " Remaps-------------------------------------------------------------------{{{1
+
 "------------------------------------------------------------------------------
-" movment
+" Movement
 "------------------------------------------------------------------------------
-" easier escaping
+" Easier escaping
 inoremap jj <Esc>
 
-" make j and k work well on wrapped lines
+" Make j and k work well on wrapped lines
 noremap j gj
 noremap k gk
 
@@ -329,10 +368,12 @@ nnoremap <C-j> <C-w>j
 "------------------------------------------------------------------------------
 " paste
 "------------------------------------------------------------------------------
-" copy to system clipboard with ''
+" Copy to system clipboard with ''
 vmap '' :w !pbcopy<CR><CR>
 
-" set paste
+" set pastetoggle=<F2>
+
+" Set paste
 nnoremap <leader>sp :set paste<cr>
 "------------------------------------------------------------------------------
 " substitution
@@ -354,7 +395,6 @@ nnoremap & :'{,'}s/<c-r>=expand('<cword>')<cr>/
 " Vimgrep for the word under the cursor recursively in sub directory files.
 " Then opens the results in the QuickFix window.
 nnoremap <leader>gr :vimgrep /\<<c-r>=expand('<cword>')<cr>\>/ **/* \| :copen<CR>
-
 "------------------------------------------------------------------------------
 " split
 "------------------------------------------------------------------------------
@@ -364,13 +404,13 @@ nnoremap S i<CR><esc>^mwgk:silent! s/\v+$//<cr>:noh<CR>`w
 "------------------------------------------------------------------------------
 " capitalisation
 "------------------------------------------------------------------------------
-" upper word
+" Upper word
 nnoremap <leader>uw gUiw
-" upper line
+" Upper line
 nnoremap <leader>ul gUU
-" lower word
+" Lower word
 nnoremap <leader>lw guaw
-" lower line
+" Lower line
 nnoremap <leader>ll guu
 "------------------------------------------------------------------------------
 " search and center
@@ -379,10 +419,10 @@ nnoremap <leader>ll guu
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
-" when using star to search for a word. Do not jump on match
+" When using star to search for a word. Do not jump on match
 nnoremap * *<c-o>
 
-" center the line
+" Center the line
 nnoremap <c-o> <c-o>zz
 
 " Reopen the last search in a QuickFix window
@@ -421,7 +461,7 @@ nnoremap <leader>se :mks %:h/session.vim<cr>
 "------------------------------------------------------------------------------
 " explore
 "------------------------------------------------------------------------------
-" Uses the in built directory search.
+" Uses the builtin directory search.
 nnoremap <leader>x :Lexplore<CR>
 
 "}}}
@@ -438,17 +478,25 @@ command! -bang Wq wq<bang>
 command! -nargs=1 Ngrep vimgrep "<args>" $NOTE/**/*.md
 nnoremap <leader>n :Ngrep<space>
 
+
+
 "}}}
 " Aug commands-------------------------------------------------------------{{{1
 if has('autocmd')
 " {{{2 Auto completion
+
+" menuone   - Display a menu even if there is only one menu.
+" longest   - Inserts the longest string.
+" noinsert  - Does not insert the first word. No effect if longest is present.
+" popup     - Show extra information about the currently selected completion in
+"             a popup window.  Only works in combination with "menu" or "menuone".
+set completeopt=menuone,noinsert
 " . - current buffer
 " w - buffer in other windows
 " b - other loaded buffers
 " u - unloaded buffer
 " t - tags
 " i - included files
-set completeopt=menu,menuone,noinsert
 set complete+=.,w,b,u,t
 
 " The active spell checking dictionary, when spell checking is enabled.
@@ -471,6 +519,13 @@ fun! AutoComplete()
         call feedkeys("\<C-P>", 'n')
     end
 endfun
+
+" Filetype
+autocmd FileType ruby,eruby setl omnifunc=rubycomplete#Complete
+autocmd FileType css setl omnifunc=csscomplete#CompleteCSS
+autocmd FileType html setl omnifunc=htmlcomplete#Complete
+autocmd FileType python setl omnifunc=pythoncomplete#Complete
+
 
 "}}}
 " {{{2 Return line
@@ -546,6 +601,13 @@ endif
 " }}}
 "}}}
 " Plugins -----------------------------------------------------------------{{{1
+" Airline -----------------------------------------------------------------{{{2
+
+" Make sure airline theme is loaded.
+let g:airline_powerline_fonts = 1
+let g:airline_theme='dark'
+
+" }}}
 " UltiSnippets ------------------------------------------------------------{{{2
 
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/ultisnips']
@@ -595,19 +657,30 @@ let g:ctrlp_funky_ruby_access = 1
 
 
 "}}}
+" Extplorer --------------------------------------------------------------{{{2
+let g:netrw_home=$CACHE.'/netrw/'
+" remove the top banner
+let g:netrw_banner=0
+" set the window size to a fixed size
+let g:netrw_winsize=24
+" set the minimum window size.
+let g:netrw_wiw=22
+" tree style listing
+let g:netrw_liststyle = 3
+
+" controls maximum quantity of past history. May be zero to supppress history.
+let g:netrw_dirhistmax=10
+
+" when browsing, <cr> will open the file, vertically splitting the window first
+let g:netrw_browse_split=2
+" 0: show all, 1: show not-hidden files. 2: show hidden file only. Default 1
+" hide dotfiles or not.
+let g:netrw_hide=0
+
 "}}}
 " Redraw ------------------------------------------------------------------{{{1
 autocmd VimEnter * redraw!
 "}}}
-
-
-
-
-
-
-
-
-
 
 
 
