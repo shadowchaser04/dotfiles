@@ -6,3 +6,36 @@ require 'pry'
 require 'json'
 endsnippet
 
+#------------------------------------------------------------------------------
+# curly braces
+#------------------------------------------------------------------------------
+snippet { "{} curly braces"
+{${1}} ${2}
+endsnippet
+
+snippet "(\S+)\{" "curly braces after the word" r
+`!p snip.rv=match.group(1)`{${1}} ${2}
+endsnippet
+
+#------------------------------------------------------------------------------
+# braces
+#------------------------------------------------------------------------------
+snippet ( "() braces"
+(${1}) ${2}
+endsnippet
+
+snippet "(\S+)\(" "braces after word" r
+`!p snip.rv=match.group(1)`(${1}) ${2}
+endsnippet
+
+#------------------------------------------------------------------------------
+# brackets
+#------------------------------------------------------------------------------
+snippet [ "[ brackets"
+[${1}] ${2}
+endsnippet
+
+snippet "(\S+)\[" "brackets after the word" r
+`!p snip.rv=match.group(1)`[${1}] ${2}
+endsnippet
+

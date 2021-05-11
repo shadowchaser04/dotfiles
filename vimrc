@@ -151,14 +151,12 @@ set modelines=5
 " highlighted
 set wildmenu
 hi StatusLine term=reverse cterm=reverse ctermfg=0 ctermbg=10 gui=bold,reverse
-hi WildMenu term=reverse cterm=reverse ctermfg=0 ctermbg=4 guifg=Black guibg=Yellow
+hi WildMenu term=reverse cterm=reverse ctermfg=0 ctermbg=4
 
-" Longest full - gives auto complete options. It essentially is like cycling
-" through the options without a list.
-" Longest list full - first pops up a list of all the options. Then cycles
-" through the list.
-"set wildmode=longest,list,full
-set wildmode=longest:full,full
+" Longest full,full - Cycles through the options without a list.
+" Longest list full - Pops up a list of all the options and let you cycle them.
+set wildmode=longest,list,full
+"set wildmode=longest:full,full
 
 " Always show a statusline 0,1,2
 set laststatus=2
@@ -616,13 +614,13 @@ let g:airline_theme='dark'
 " }}}
 " UltiSnippets ------------------------------------------------------------{{{2
 
+" Open the snippets editor for specific filetype
+nnoremap <LEADER>se :UltiSnipsEdit<CR>
+
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/ultisnips']
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsEditSplit="vertical"
-
-"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-"let g:UltiSnipsSnippetDirectories=["snips", "ultisnips"]
 
 "}}}
 " Ctlp --------------------------------------------------------------------{{{2
@@ -684,9 +682,20 @@ let g:netrw_browse_split=2
 let g:netrw_hide=0
 
 "}}}
+" Column depth gutter -----------------------------------------------------{{{2
+"let g:last_fold_column_width = 2
+
+"function! FoldColumnToggle()
+    "if&foldcolumn
+        "let g:last_fold_column_width = &foldcolumn
+        "setlocal foldcolumn=0
+    "else
+        "let &l:foldcolumn = g:last_fold_column_width
+    "endif
+"endfunction
+
+"nnoremap <LEADER>f :call FoldColumnToggle()<cr>
+" }}}
 " Redraw ------------------------------------------------------------------{{{1
 autocmd VimEnter * redraw!
 "}}}
-
-
-

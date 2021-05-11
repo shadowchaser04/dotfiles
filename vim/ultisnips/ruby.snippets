@@ -29,6 +29,34 @@ def write_instance_vars(arglist, snip):
 			snip += ''
 
 endglobal
+
+#------------------------------------------------------------------------------
+# rails bangline
+#------------------------------------------------------------------------------
+snippet bang
+#!/usr/bin/env ruby
+require File.expand_path('../../config/environment', __FILE__)
+require 'pry'
+require 'json'
+endsnippet
+
+#------------------------------------------------------------------------------
+# bang and require
+#------------------------------------------------------------------------------
+
+snippet #! "bang line - #!/usr/bin/env ruby"
+#!/usr/bin/env ruby
+endsnippet
+
+
+snippet req "require"
+require "${1}"
+endsnippet
+
+snippet reqr "require relative"
+require_relative "${1}"
+endsnippet
+
 #------------------------------------------------------------------------------
 # if
 #------------------------------------------------------------------------------

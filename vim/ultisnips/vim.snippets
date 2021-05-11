@@ -1,0 +1,32 @@
+# vim snippets
+
+snippet func "function <condition> ... endfunction" b
+function! ${1:condition}
+	${2}
+endfunction
+endsnippet
+
+
+snippet aug "augroup <condition> ... augroup END" b
+augroup! ${1:condition}
+	au!
+	${2}
+augroup END
+endsnippet
+
+snippet if "if end"
+if ${1:condition}
+	${2}
+endif
+endsnippet
+
+snippet ife "if else end"
+if ${1:condition}
+	${2}
+else
+	${3}
+endif
+endsnippet
+
+
+
