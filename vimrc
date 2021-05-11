@@ -7,9 +7,6 @@
 " TODO: Add ctags
 " TODO: Make sure pry can find its documentation
 " TODO: Toggle all folds
-" TODO: Add statusline popup list
-" zM - Close all folds
-" zR - Open all folds
 "
 "    .o oOOOOOOOo                                       .....0OOOo
 "    Ob.OOOOOOOo  OOOo.      oOOo.              ....oooooOOOOOOOOO
@@ -228,15 +225,26 @@ set autoindent
 
 " }}}
 " Tab Shift --------------------------------------------------------------{{{1
+" **FTPLUGIN** - can set the tablevel for programing launguages itself. Paste
+" will preserve the user defined levels set and the choice of tabs or spaces.
 
 " Converts tab to space. If your using listchars its better to explicitly set
 " to noexpand. So the tabs show up.
-set expandtab
-" Number of spaces that a <Tab> in the file counts for
+set noexpandtab
+
 " Number of spaces that a <Tab> in the file counts for
 set tabstop=4
+
+" Number of spaces to use for each step of (auto)indent.
 set shiftwidth=4
+" Number of spaces to reduce each step of (auto)indent.
 set softtabstop=4
+
+" When changing the indent of the current line, preserve as much of the
+" indent structure as possible.
+set preserveindent
+
+
 " Always indent by multiples of shiftwidth
 set shiftround
 
@@ -274,7 +282,6 @@ set magic
 
 "}}}
 " ListChars ---------------------------------------------------------------{{{1
-
 set list
 set listchars=tab:▸\.,trail:•,extends:❯,precedes:❮
 " Folding character used when folded.
@@ -322,9 +329,13 @@ endif
 "}}}
 " Folding -----------------------------------------------------------------{{{1
 
+" zM - Close all folds
+" zR - Open all folds
+
 set foldenable
 set foldmethod=marker
 set foldnestmax=5
+
 "}}}
 " Ignore ------------------------------------------------------------------{{{1
 set wildignore+=.hg,.git,.svn                    " Version control

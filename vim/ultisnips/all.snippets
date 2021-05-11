@@ -1,41 +1,35 @@
-# ruby snippet put the whole bang line
-snippet bang
-#!/usr/bin/env ruby
-require File.expand_path('../../config/environment', __FILE__)
-require 'pry'
-require 'json'
-endsnippet
-
 #------------------------------------------------------------------------------
 # curly braces
 #------------------------------------------------------------------------------
-snippet { "{} curly braces"
+
+snippet { "{<cursor>} - curly brace expansion"
 {${1}} ${2}
 endsnippet
 
-snippet "(\S+)\{" "curly braces after the word" r
+snippet "(\S+)\{" "<word>{<cursor>} - curly brace expansion" r
 `!p snip.rv=match.group(1)`{${1}} ${2}
 endsnippet
 
 #------------------------------------------------------------------------------
 # braces
 #------------------------------------------------------------------------------
-snippet ( "() braces"
+snippet ( "(<cursor>) - brace expansion"
 (${1}) ${2}
 endsnippet
 
-snippet "(\S+)\(" "braces after word" r
+snippet "(\S+)\(" "<word>[<cursor>] - brace expansion" r
 `!p snip.rv=match.group(1)`(${1}) ${2}
 endsnippet
 
 #------------------------------------------------------------------------------
 # brackets
 #------------------------------------------------------------------------------
-snippet [ "[ brackets"
+snippet [ "[<cursor>] - brackets"
 [${1}] ${2}
 endsnippet
 
-snippet "(\S+)\[" "brackets after the word" r
+snippet "(\S+)\[" "<word>[<cursor>] - bracket expansion" r
 `!p snip.rv=match.group(1)`[${1}] ${2}
 endsnippet
+
 

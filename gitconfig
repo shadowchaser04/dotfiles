@@ -126,6 +126,10 @@
 #------------------------------------------------------------------------------
 [alias]
 
+    # TODO: look at all the saved aliases that use !git
+    # This is because they should not then require the git command on the
+    # status.
+
     # root of the directory
     root = rev-parse --show-toplevel
 
@@ -157,6 +161,7 @@
     # on the remote.
     up = pull --rebase --prune
 
+    # makes sure the loacal and remote are synced.
     update = remote update
     #--------------------------------------------------------------------------
     # commits
@@ -208,6 +213,7 @@
     #--------------------------------------------------------------------------
     # reset
     #--------------------------------------------------------------------------
+    # NOTE: Since creating i have not used any of these.
     re = reset
     rh = reset HEAD
     reh = reset --hard
@@ -226,14 +232,14 @@
     # show commit for branch you are currently on
     commited = !git log origin/$(git bc)..HEAD
 
+    # roll back a commit pre pushing
+    uncommit = reset HEAD~
+
     # show staged changes for branch
     staged = !git diff --stat --cached origin/$(git bc)
 
     # unstage pre commit
     unstage = reset HEAD --
-
-    # roll back a commit pre pushing
-    uncommit = reset HEAD~
 
     # undo
     undo = reset --soft HEAD^
@@ -254,6 +260,8 @@
     #--------------------------------------------------------------------------
     # show
     #--------------------------------------------------------------------------
+    # This shows a comparison form the last state and the new states changes.
+
     # show head only
     sh = show HEAD
 
@@ -263,36 +271,30 @@
     #--------------------------------------------------------------------------
     # log
     #--------------------------------------------------------------------------
-    # log all in history
-    # la = log --format='medium' --decorate --graph
+    # Display a log of all pushed changes on each branch.
 
-    # log one line overview
+    # Displays a log of each push on a per line output.
     l = log --graph --decorate --all --date-order --format=log-short
 
+    # Displays a log of each push in a formatted output.
     la = log --graph --abbrev-commit --decorate --all
 
-    # log all in history
-    #la = log --format='medium' --decorate --graph
-
-    # first entry
-    first = "!git log --no-walk `git rev-list HEAD | tail -n 1`"
+    # When this is used inconjunction with log it will look up and open any
+    # comit-id or message(s) matching the arg.
+    look = "!f() { git l | grep \"$1\" | cut -d ' ' -f 1 | xargs git show; }; f"
 
     # list to screen all new commits have been created with the previous pull.
     new = !sh -c 'git log $1@{1}..$1@{0} "$@"'
+
+    # first entry
+    first = "!git log --no-walk `git rev-list HEAD | tail -n 1`"
 
     # last entry
     last = log --format='medium' -1
     last = log -1
 
-    # used inconjunction with log
-    # it will look up and open any comit-id or message(s) matching the arg.
-    look = "!f() { git l | grep \"$1\" | cut -d ' ' -f 1 | xargs git show; }; f"
-
     # detailed log summary
     sumary = log --summary
-
-    # find a entry by name or commit
-    #find-message = log --format='short' --all --grep
 
     # show all commits by author and count
     shortlog = shortlog -n
@@ -336,6 +338,9 @@
     # exargs to remove each branch that has been already merged. 
     bclean = "!f() { git checkout ${1-master} && git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -I{} git branch -d {}; }; f"
 
+    #--------------------------------------------------------------------------
+    # Used in function
+    #--------------------------------------------------------------------------
     # *must keep* used in behind and ahead
     bu = !git rev-parse --abbrev-ref --symbolic-full-name "@{u}"
 
@@ -345,8 +350,8 @@
     #--------------------------------------------------------------------------
     # stash
     #--------------------------------------------------------------------------
-    # when stashing files should be staged, 
-    # when accessing the stack <number>
+    # When using stash. Files should be staged.
+    # When accessing the stack <number>
 
     # when stashing, the files being worked on will revert to the state of the
     # last commit until the stash apply <number> is ran.

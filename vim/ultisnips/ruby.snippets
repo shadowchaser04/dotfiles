@@ -33,7 +33,7 @@ endglobal
 #------------------------------------------------------------------------------
 # rails bangline
 #------------------------------------------------------------------------------
-snippet bang
+snippet bang "Inserts the shebang line, pry and Expand path"
 #!/usr/bin/env ruby
 require File.expand_path('../../config/environment', __FILE__)
 require 'pry'
@@ -48,12 +48,11 @@ snippet #! "bang line - #!/usr/bin/env ruby"
 #!/usr/bin/env ruby
 endsnippet
 
-
-snippet req "require"
+snippet req "require <cursor>"
 require "${1}"
 endsnippet
 
-snippet reqr "require relative"
+snippet reqr "require_relative <curosr>"
 require_relative "${1}"
 endsnippet
 
@@ -134,7 +133,7 @@ end
 endsnippet
 
 snippet e "(<from>..<to>).each { |<i>| <block> }"
-${1:objeect}.each { |${2:item}| ${3} }
+${1:object}.each { |${2:item}| ${3} }
 endsnippet
 
 snippet "(\S+)\.e" "<elements>.each do |<element>| <block> end" r

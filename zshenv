@@ -81,7 +81,7 @@ export MANPAGER="/bin/sh -c \"sed -e 's/.$(echo -e '\010')//g' | vim -R -c 'set 
 # nerdtree
 #------------------------------------------------------------------------------
 # Nerdtree bookmarks
-export NERDTREE_BOOKMARKS=$HOME/.cache/nerdtree/NerdTreeBookmarks
+#export NERDTREE_BOOKMARKS=$HOME/.cache/nerdtree/NerdTreeBookmarks
 
 #------------------------------------------------------------------------------
 # misc
