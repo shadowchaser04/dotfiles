@@ -3,10 +3,9 @@
 " NOTE: For plugin docs. pwd in the pluging docs directory.
 " Then in vim type :helptags /Users/{username}/.vim/bundle/{plugin}/doc
 
-" TODO: Make completion work for different launguages.
-" TODO: Add ctags
-" TODO: Make sure pry can find its documentation
-" TODO: Toggle all folds
+" TODO: Autochdir is it better to cd file dependent? or manually if needed?
+" TODO: Autocomplete consistancy, input best match.
+" TODO: When in netrw use the same command h,l as splits uses.
 "
 "    .o oOOOOOOOo                                       .....0OOOo
 "    Ob.OOOOOOOo  OOOo.      oOOo.              ....oooooOOOOOOOOO
@@ -22,7 +21,7 @@
 "    .            .oO%OOOOOOOOOOo.OOOOOO.oOOOOOOOOOOOO?         .
 "                 OOOO"%OOOOOOOOoOOOOOOO?oOOOOO?OOOO"OOO
 "                 '%o  OOOO"%OOOO%"%OOOOO"OOOOOO"OOO':
-"                      `$"  `OOOO' `O"Y ' `OOOO'  o             .
+"                      `$"  `OOOO' `O"! ' `OOOO'  o             .
 "    .                  .      O"          : o     .
 
 " FileType and Syntax -----------------------------------------------------{{{1
@@ -49,6 +48,8 @@ endif
 
 "}}}
 " Colorscheme -------------------------------------------------------------{{{1
+
+" Colorscheme should always be set to dark if there is a dark/light option.
 set background=dark
 colorscheme solarized
 
@@ -58,9 +59,9 @@ colorscheme solarized
 " A leader key is used like a prefix. It precedes a map/remap. So as to avoid
 " clashing with vim's builtin key settings.
 "
-" set leader
-let mapleader = ","
-let maplocalleader = ','
+" Big deal new space leader key.
+let mapleader = ' '
+let maplocalleader = ' '
 
 " Some variables are set to avoid misspellings. In a Vim script variables
 " starting with s: can be used. They cannot be accessed from outside of the
@@ -160,14 +161,18 @@ set laststatus=2
 " Show the line and column number of the cursor position.
 set ruler
 
+" Execute {command}, and use a dialog when an operation has to be confirmed.
+set confirm
+
 " Like 'autowrite', but also used for commands edit, enew, quit, qall, exit,
 " xit, recover and closing the Vim window.
-set autowrite
-set autowriteall
+" set autowrite
+" set autowriteall
 
 " When a file has been detected to have been changed outside of Vim and
 " it has not been changed inside of Vim, automatically read it again.
 set autoread
+
 " Check if any buffers were changed outside of Vim.
 " Each loaded buffer is checked for its associated file being changed.  If the
 " file was changed Vim will take action.  If there are no changes in the buffer
@@ -283,7 +288,7 @@ set magic
 "}}}
 " ListChars ---------------------------------------------------------------{{{1
 set list
-set listchars=tab:▸\.,trail:•,extends:❯,precedes:❮
+set listchars=tab:▸\ ,trail:•,extends:❯,precedes:❮
 " Folding character used when folded.
 set fillchars=fold:-
 
@@ -390,6 +395,7 @@ set pastetoggle=<F2>
 
 " Set paste
 " nnoremap <leader>sp :set paste<cr>
+
 "------------------------------------------------------------------------------
 " substitution
 "------------------------------------------------------------------------------
@@ -407,9 +413,14 @@ nnoremap & :'{,'}s/<c-r>=expand('<cword>')<cr>/
 " Grep
 "------------------------------------------------------------------------------
 " NOTE: Not for use in $HOME directory. Long recursive search. Prj Dir only.
+" TODO: make into a small function. Grab the word under the cursor. Get the
+" directory you are currently in.
 " Vimgrep for the word under the cursor recursively in sub directory files.
 " Then opens the results in the QuickFix window.
 nnoremap <leader>gr :vimgrep /\<<c-r>=expand('<cword>')<cr>\>/ **/* \| :copen<CR>
+
+" nnoremap <leader>n :cnext<CR>zz
+" nnoremap <leader>N :cprev<CR>zz
 "------------------------------------------------------------------------------
 " split
 "------------------------------------------------------------------------------
@@ -486,14 +497,15 @@ command! -bang Q q<bang>
 command! -bang W w<bang>
 command! -bang Wq wq<bang>
 
-" Provide one arg with nargs <args>. Ngrep is the name of the function. Vimgrep
-" is vims built in grep. $NOTE is defined in my variables. /** is all
-" directories recursivly under the CWD and /* is the files. In this case a type
+" -----------------------------------------------------------------------------
+"  notes
+" -----------------------------------------------------------------------------
+" Provide one Arg with nargs <args>. Ngrep is the name of the function. Vimgrep
+" is vim's built in grep. $NOTE is defined in my variables. /** is all
+" directories recursively under the CWD and /* is the files. In this case a type
 " is specified .md, so all markdown files will be looked in.
 command! -nargs=1 Ngrep vimgrep "<args>" $NOTE/**/*.md
 nnoremap <leader>n :Ngrep<space>
-
-
 
 "}}}
 " Aug commands-------------------------------------------------------------{{{1
@@ -564,7 +576,7 @@ augroup CursorLineFocus
 augroup END
 
 " When in insert mode set no cursorline.
-augroup RazorCursorLine
+augroup InsertNoCursorLine
     au!
     au InsertEnter * set nocursorline nocursorcolumn
     au InsertLeave * set cursorline
@@ -578,13 +590,13 @@ augroup END
         au BufRead,BufEnter help set nospell
     augroup END
 
-" {{{2 Markdown
-augroup markdown
-    autocmd!
+" {{{2 SpellGroup
+" sets spell on all text based as opposed to programing type language.
+" sets formatting options specific to markdown
+augroup SpellGroups
+    au!
     autocmd FileType md,markdown,txt, set spell
-    " sets formatting options specific to markdown
     autocmd FileType md,markdown,txt, set formatoptions+=a
-
 augroup END
 
 " }}}
@@ -597,7 +609,7 @@ function! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 
-autocmd BufWritePre *.md,*.rake,*.json,*.zsh,*.rb,*.h,*.c,*.java :call <SID>StripTrailingWhitespaces()
+autocmd BufWritePre *.vim,*.md,*.rake,*.json,*.zsh,*.rb,*.h,*.c,*.java :call <SID>StripTrailingWhitespaces()
 
 " }}}
 " {{{2 misc
@@ -636,8 +648,7 @@ let g:UltiSnipsEditSplit="vertical"
 "}}}
 " Ctlp --------------------------------------------------------------------{{{2
 nnoremap <leader>m :CtrlPMRUFiles<cr>
-nnoremap <leader>bd :CtrlPBookmarkDir<cr>
-nnoremap <leader>b :CtrlPBuffer<cr>
+nnoremap <leader>b :CtrlPBookmarkDir<cr>
 
 " Set the directory to store the cache files
 let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
@@ -691,6 +702,8 @@ let g:netrw_browse_split=2
 " 0: show all, 1: show not-hidden files. 2: show hidden file only. Default 1
 " hide dotfiles or not.
 let g:netrw_hide=0
+" ignore
+let g:netrw_list_hide='.*\.png$,.*\.pdf,.*\.mp4,.*\.mp3,.*\.svg,.*\.jpg'
 
 "}}}
 " Column depth gutter -----------------------------------------------------{{{2
@@ -710,3 +723,19 @@ let g:netrw_hide=0
 " Redraw ------------------------------------------------------------------{{{1
 autocmd VimEnter * redraw!
 "}}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -140,15 +140,41 @@ snippet "(\S+)\.e" "<elements>.each do |<element>| <block> end" r
 `!p snip.rv=match.group(1)`.each { |${1:item}| $0 }
 endsnippet
 
+#------------------------------------------------------------------------------
+# Each with index
+#------------------------------------------------------------------------------
+snippet eid "<Array>.each_with_index do |item, index| end"
+${1:array}.each_with_index do |${2}, index|
+	$0
+end
+endsnippet
+
+snippet "(\S+)\.ei" "each with index" r
+`!p snip.rv=match.group(1)`.each_with_index { |${1:item}, ${2:index}| $0 }
+endsnippet
+
+#------------------------------------------------------------------------------
+# while
+#------------------------------------------------------------------------------
 snippet while "while <expression> ... end"
 while ${1:expression}
 	${0}
 end
 endsnippet
 
+#------------------------------------------------------------------------------
+# for
+#------------------------------------------------------------------------------
 snippet for "for in loop"
 for ${1:item} in ${2:model}
 end
+endsnippet
+
+#------------------------------------------------------------------------------
+# scan
+#------------------------------------------------------------------------------
+snippet scan "<String>.<expression>"
+${1:string}.scan(/${2:SearchTerm}/)
 endsnippet
 
 #------------------------------------------------------------------------------
