@@ -2,10 +2,11 @@
 
 " NOTE: For plugin docs. pwd in the pluging docs directory.
 " Then in vim type :helptags /Users/{username}/.vim/bundle/{plugin}/doc
-
+"
 " TODO: Autochdir is it better to cd file dependent? or manually if needed?
-" TODO: Autocomplete consistancy, input best match.
+" TODO: Autocomplete consistency, input best match.
 " TODO: When in netrw use the same command h,l as splits uses.
+" TODO: Undo to the F key.
 "
 "    .o oOOOOOOOo                                       .....0OOOo
 "    Ob.OOOOOOOo  OOOo.      oOOo.              ....oooooOOOOOOOOO
@@ -24,6 +25,28 @@
 "                      `$"  `OOOO' `O"! ' `OOOO'  o             .
 "    .                  .      O"          : o     .
 
+" {{{1 Note
+
+" ----up and down----
+" gg - top of the page
+" <shift>g bottom of the page
+" jk - up and down
+" ----left and right-----------
+" hl - left and right
+" i - Insert Before Charactor (left)
+" a - Insert After Charactor  (right)
+" <shift>hl - beginning and end of the line. (left and right no insert)
+" <shift>ai - Insert beginning and end of the line (left and right insert)
+" ----Reminders----
+" F1 - Toggle Paste
+" F2 - Toggle numbers (for paste to remove shit
+" F3 - Scratch buffer
+" ge - Always forget back end
+" -----------------
+" Around and inside.
+" helpgrep - grep helpfiles.
+
+" }}}
 " FileType and Syntax -----------------------------------------------------{{{1
 
 " Filetype detection. Vim will identify the file type.
@@ -54,12 +77,14 @@ set background=dark
 colorscheme solarized
 
 "}}}
-" Locatinal Variables and Leader ------------------------------------------{{{1
+" Locational Variables and Leader ------------------------------------------{{{1
 
 " A leader key is used like a prefix. It precedes a map/remap. So as to avoid
 " clashing with vim's builtin key settings.
 "
-" Big deal new space leader key.
+" Big deal new spacebar leader key. I understand the distinction between space
+" bar and the empty quotes. This is what i was told to follow and works.
+" the expected example: \<space> does not??????????????????????????????????????
 let mapleader = ' '
 let maplocalleader = ' '
 
@@ -72,7 +97,7 @@ let $MYVIMRC=$HOME.'/.vimrc'
 let $DOTVIMRC=$HOME.'/.dotfiles/vimrc'
 
 " Notes
-let $NOTE=$HOME.'/.notes'
+let $NOTES=$HOME.'/.notes'
 let $CACHE=$HOME.'/.cache'
 
 "}}}
@@ -283,10 +308,11 @@ set hlsearch
 set gdefault
 
 " For regular expression
-set magic
+" set magic
 
 "}}}
 " ListChars ---------------------------------------------------------------{{{1
+
 set list
 set listchars=tab:▸\ ,trail:•,extends:❯,precedes:❮
 " Folding character used when folded.
@@ -299,6 +325,7 @@ set highlight+=@:ColorColumn
 
 " }}}
 " Splits ------------------------------------------------------------------{{{1
+
 set splitbelow
 set splitright
 
@@ -341,6 +368,7 @@ set foldenable
 set foldmethod=marker
 set foldnestmax=5
 
+
 "}}}
 " Ignore ------------------------------------------------------------------{{{1
 set wildignore+=.hg,.git,.svn                    " Version control
@@ -363,10 +391,7 @@ endif
 
 "}}}
 " Remaps-------------------------------------------------------------------{{{1
-
-"------------------------------------------------------------------------------
-" Movement
-"------------------------------------------------------------------------------
+" Movement ----------------------------------------------------------------{{{2
 " Easier escaping
 inoremap jj <Esc>
 
@@ -384,52 +409,43 @@ nnoremap <C-h> <C-w>h
 
 nnoremap <C-l> <C-w>l
 nnoremap <C-j> <C-w>j
-"------------------------------------------------------------------------------
-" paste
-"------------------------------------------------------------------------------
+" }}}
+" paste -------------------------------------------------------------------{{{2
 " Copy to system clipboard with ''
 vmap '' :w !pbcopy<CR><CR>
 
 " set paste unsets some of vims indent and format options.
-set pastetoggle=<F2>
+set pastetoggle=<F1>
 
-" Set paste
-" nnoremap <leader>sp :set paste<cr>
-
-"------------------------------------------------------------------------------
-" substitution
-"------------------------------------------------------------------------------
+" this seems to be a way to toggle boolean values.
+"nnoremap <f2> :set nonumber! number?<CR>
+" }}}
+" substitution ------------------------------------------------------------{{{2
 " The word boundary is set by adding /\<word\>/ " This will replace <in> but
 " not <inside>.
-" s     - specifies just the line.
-" %s    - specifies all lines.
-nnoremap <leader>s :s///
-nnoremap <leader>ss :%s///
+" s     - Word under the cursor, specifies just the line.
+" NOTE: use &
+"nnoremap <leader>s :s/\<<C-r><C-w>\>//
+
+" %s    - Word under the cursor, specifies all lines.
+nnoremap <leader>s :%s/\<<C-r><C-w>\>//
 
 " One key substitution within a paragraph, word under cursor.
 nnoremap & :'{,'}s/<c-r>=expand('<cword>')<cr>/
-
-"------------------------------------------------------------------------------
-" Grep
-"------------------------------------------------------------------------------
+" }}}
+" Grep --------------------------------------------------------------------{{{2
 " NOTE: Not for use in $HOME directory. Long recursive search. Prj Dir only.
-" TODO: make into a small function. Grab the word under the cursor. Get the
-" directory you are currently in.
-" Vimgrep for the word under the cursor recursively in sub directory files.
-" Then opens the results in the QuickFix window.
 nnoremap <leader>gr :vimgrep /\<<c-r>=expand('<cword>')<cr>\>/ **/* \| :copen<CR>
 
-" nnoremap <leader>n :cnext<CR>zz
-" nnoremap <leader>N :cprev<CR>zz
-"------------------------------------------------------------------------------
-" split
-"------------------------------------------------------------------------------
+" the mapping is subing out the escapes from the atom.
+" funky - find def || classes in the file.
+nnoremap <leader>f :vimgrep /\<\(def\|^class\|^module\)\>/ % \| :copen
+" }}}
+" split -------------------------------------------------------------------{{{2
 " Shift s to split the line at cursor. Same as shift j for join.
 nnoremap S i<CR><esc>^mwgk:silent! s/\v+$//<cr>:noh<CR>`w
-
-"------------------------------------------------------------------------------
-" capitalisation
-"------------------------------------------------------------------------------
+" }}}
+" capitalisation ----------------------------------------------------------{{{2
 " Upper word
 nnoremap <leader>uw gUiw
 " Upper line
@@ -438,9 +454,8 @@ nnoremap <leader>ul gUU
 nnoremap <leader>lw guaw
 " Lower line
 nnoremap <leader>ll guu
-"------------------------------------------------------------------------------
-" search and center
-"------------------------------------------------------------------------------
+" }}}
+" search and center -------------------------------------------------------{{{2
 " Keep search matches in the middle of the window.
 nnoremap n nzzzv
 nnoremap N Nzzzv
@@ -456,39 +471,46 @@ nnoremap <silent><leader>/ : execute 'vimgrep / '.@/.'/g %'<CR>:copen<CR>
 
 "nnoremap g; g;zz
 "nnoremap g, g,zz
-"------------------------------------------------------------------------------
-" no highlight
-"------------------------------------------------------------------------------
+" }}}
+" no highlight ------------------------------------------------------------{{{2
 nnoremap <leader><space> :noh<CR>
-
-"------------------------------------------------------------------------------
-" source resource files
-"------------------------------------------------------------------------------
+" }}}
+" Edit resource files ---------------------------------------------------{{{2
 nnoremap <leader>vr :vsplit $MYVIMRC<cr>
-nnoremap <leader>zr :vsplit $HOME/.zshrc<cr>
+" }}}
+" quick edits -------------------------------------------------------------{{{2
 
-"------------------------------------------------------------------------------
-" quick edits
-"------------------------------------------------------------------------------
 let $MYVIM = $HOME.'/.vim'
 nnoremap <leader>ed :vsplit $MYVIM/custom-dictionary.utf-8.add<CR>
 nnoremap <leader>ea :vsplit $MYVIM/abbrevs.vim<CR>
 
-"------------------------------------------------------------------------------
-" format options
-"------------------------------------------------------------------------------
+" }}}
+" format options ----------------------------------------------------------{{{2
 nnoremap <leader>fp gq}<CR>
-
-"------------------------------------------------------------------------------
-" session make
-"------------------------------------------------------------------------------
+" }}}
+" session make ------------------------------------------------------------{{{2
 nnoremap <leader>se :mks %:h/session.vim<cr>
-
-"------------------------------------------------------------------------------
-" explore
-"------------------------------------------------------------------------------
+" }}}
+" explore -----------------------------------------------------------------{{{2
 " Uses the builtin directory search.
 nnoremap <leader>x :Lexplore<CR>
+" }}}
+" folding -----------------------------------------------------------------{{{2
+" remap za - if you mistype you end up in insertmode
+nnoremap za <nop>
+nnoremap <leader>zz za
+
+" close all folds except the current fold except
+nnoremap <leader>xx zMzvzz
+" }}}
+" unmap -------------------------------------------------------------------{{{2
+" clear k so i don't keep pressing it when i join lines.
+nnoremap K <nop>
+
+" Insert and delete the first character. Because it is so close to "a" which is
+" insert mode it seems like it would be easy to be in insert and not realized
+" you have deleted a character.
+nnoremap s <nop>
 
 "}}}
 " Bangs -------------------------------------------------------------------{{{1
@@ -504,8 +526,12 @@ command! -bang Wq wq<bang>
 " is vim's built in grep. $NOTE is defined in my variables. /** is all
 " directories recursively under the CWD and /* is the files. In this case a type
 " is specified .md, so all markdown files will be looked in.
-command! -nargs=1 Ngrep vimgrep "<args>" $NOTE/**/*.md
+command! -nargs=1 Ngrep vimgrep "<args>" $NOTES/**/*.md
 nnoremap <leader>n :Ngrep<space>
+
+" Create a disposable buffer that cannot be written to for jotting.
+command! -nargs=0 Scratch vnew | setlocal bt=nofile bh=wipe nobl noswapfile nu
+nnoremap <f3> :Scratch<cr>
 
 "}}}
 " Aug commands-------------------------------------------------------------{{{1
@@ -627,6 +653,25 @@ augroup END
 endif
 " }}}
 "}}}
+" Functions ---------------------------------------------------------------{{{1
+" Number Toggle	-----------------------------------------------------------{{{2
+" when setting paste this would be good to remove.
+function! NumberToggle()
+	if(&relativenumber == 1)
+		set norelativenumber
+		set nonumber
+		set nolist
+	else
+		set relativenumber
+		set number
+		set nolist
+	endif
+	
+endfunction
+
+nnoremap <f2> :call NumberToggle()<CR>
+" }}}
+" }}}
 " Plugins -----------------------------------------------------------------{{{1
 " Airline -----------------------------------------------------------------{{{2
 
@@ -638,7 +683,7 @@ let g:airline_theme='dark'
 " UltiSnippets ------------------------------------------------------------{{{2
 
 " Open the snippets editor for specific filetype
-nnoremap <LEADER>se :UltiSnipsEdit<CR>
+nnoremap <leader>se :UltiSnipsEdit<CR>
 
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/ultisnips']
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -723,13 +768,6 @@ let g:netrw_list_hide='.*\.png$,.*\.pdf,.*\.mp4,.*\.mp3,.*\.svg,.*\.jpg'
 " Redraw ------------------------------------------------------------------{{{1
 autocmd VimEnter * redraw!
 "}}}
-
-
-
-
-
-
-
 
 
 
