@@ -169,7 +169,7 @@ iabbrev occassion occasion
 iabbrev occasionaly occasionally
 iabbrev occurrance occurrence
 iabbrev occured occurred
-iabbrev ommisio omission 
+iabbrev ommisio omission
 iabbrev orignal original
 iabbrev outragous outrageous
 "-----------------------------------------------------------------------------
@@ -192,7 +192,7 @@ iabbrev professer professor
 iabbrev promiss promise
 iabbrev pronounciation pronunciation
 iabbrev prufe proof
-iabbrev  prophesy prophecy 
+iabbrev  prophesy prophecy
 iabbrev publically publicly
 "-----------------------------------------------------------------------------
 " Q

@@ -3,10 +3,10 @@
 " NOTE: For plugin docs. pwd in the pluging docs directory.
 " Then in vim type :helptags /Users/{username}/.vim/bundle/{plugin}/doc
 "
-" TODO: Autochdir is it better to cd file dependent? or manually if needed?
+" TODO: When in terminal or tree mode <control> hjkl are not working.
+" TODO: Repl using pry binding for ruby.
 " TODO: Autocomplete consistency, input best match.
 " TODO: When in netrw use the same command h,l as splits uses.
-" TODO: Undo to the F key.
 "
 "    .o oOOOOOOOo                                       .....0OOOo
 "    Ob.OOOOOOOo  OOOo.      oOOo.              ....oooooOOOOOOOOO
@@ -27,35 +27,62 @@
 
 " {{{1 Note
 
-" ----up and down----
-" gg - top of the page
-" <shift>g bottom of the page
-" jk - up and down
-" ----left and right-----------
-" hl - left and right
-" i - Insert Before Charactor (left)
-" a - Insert After Charactor  (right)
-" <shift>hl - beginning and end of the line. (left and right no insert)
-" <shift>ai - Insert beginning and end of the line (left and right insert)
 " ----Reminders----
 " F1 - Toggle Paste
 " F2 - Toggle numbers (for paste to remove shit
 " F3 - Scratch buffer
+" F4 - Toggle Relative Directory / CtrlP
 " ge - Always forget back end
 " -----------------
 " Around and inside.
 " helpgrep - grep helpfiles.
+" -----------------
+" history - q:
+" search  - q/
+" control a, control x - increment and decrement
 
 " }}}
-" FileType and Syntax -----------------------------------------------------{{{1
+" Basic Setup -------------------------------------------------------------{{{1
+" FileType ----------------------------------------------------------------{{{2
 
 " Filetype detection. Vim will identify the file type.
 "
 " Using indent files When editing programs, the indent of a line can often be
 " computed automatically. Vim comes with these indent rules for a number of
 " filetypes.
-"
 filetype plugin indent on
+
+"}}}
+" Compatibility -----------------------------------------------------------{{{2
+
+" Make Vim either more Vi-compatible, or make Vim behave in a more useful way.
+set nocompatible
+
+" This gives the <EOL> of the current buffer, which is used for reading/writing
+" the buffer from/to a file: dos<CR>,<NL>/ unix<NL>/ mac<CR>
+set fileformat=unix
+
+set clipboard=unnamed
+
+" make delete work sanely
+set backspace=indent,eol,start
+
+" Indicates a fast terminal connection.
+set ttyfast
+set ttimeoutlen=0
+
+" When on, Vim will change the current working directory whenever you
+" open a file, switch buffers, delete a buffer or open/close a window.
+" It will change to the directory containing the file which was opened
+" or selected.
+" note: When this option is on some plugins may not work.
+set autochdir
+
+" Allows you to hide buffers with unsaved changes without being prompted.
+set hidden
+
+"}}}
+" Colors ------------------------------------------------------------------{{{2
 
 " The syntax enable command will keep your current color settings. This
 " allows using highlight commands to set your preferred colors before or
@@ -68,16 +95,16 @@ if has('gui_running')
     let $TERM = 'xterm-256color'
 endif
 
-
-"}}}
-" Colorscheme -------------------------------------------------------------{{{1
+" Set terminal colors
+set t_Co=256
 
 " Colorscheme should always be set to dark if there is a dark/light option.
 set background=dark
 colorscheme solarized
 
+
 "}}}
-" Locational Variables and Leader ------------------------------------------{{{1
+" Leader ------------------------------------------------------------------{{{2
 
 " A leader key is used like a prefix. It precedes a map/remap. So as to avoid
 " clashing with vim's builtin key settings.
@@ -87,7 +114,8 @@ colorscheme solarized
 " the expected example: \<space> does not??????????????????????????????????????
 let mapleader = ' '
 let maplocalleader = ' '
-
+" }}}
+" Locational Variables ----------------------------------------------------{{{2
 " Some variables are set to avoid misspellings. In a Vim script variables
 " starting with s: can be used. They cannot be accessed from outside of the
 " scripts, thus are local to the script.
@@ -101,45 +129,17 @@ let $NOTES=$HOME.'/.notes'
 let $CACHE=$HOME.'/.cache'
 
 "}}}
-" Compatibility ------------------------------------------------------------{{{1
-
-" This option has the effect of making Vim either more Vi-compatible, or make
-" Vim behave in a more useful way.
-set nocompatible
-" This gives the <EOL> of the current buffer, which is used for reading/writing
-" the buffer from/to a file:
-"   dos	    <CR> <NL>
-"   unix    <NL>
-"   mac	    <CR>
-set fileformat=unix
-set clipboard=unnamed
-" Set terminal colors
-set t_Co=256
-
-" Indicates a fast terminal connection.
-set ttyfast
-set ttimeoutlen=0
-
-" Noeb - no error bell, no visual bell
-set noeb vb t_vb=
-" make delete work sanely
-set backspace=indent,eol,start
-
-" No splash screen at the start
-set shortmess+=I
-
-" Allows you to hide buffers with unsaved changes without being prompted.
-set hidden
-
-"}}}
-" Screen Layout ------------------------------------------------------------------{{{1
+" }}}
+" Layout ------------------------------------------------------------------{{{1
+" Screen Layout -----------------------------------------------------------{{{2
 
 " The title of the window will be set to the value of 'titlestring' (if it is not empty)
 set title
-" Show a number column
-set number
+
 " Display the literal line number of the line you are currently on.
+set number
 set relativenumber
+
 set cursorline
 " Remove the underline default from the line number
 hi CursorLineNr term=bold cterm=bold ctermfg=12 gui=bold
@@ -150,12 +150,18 @@ set textwidth=79
 " Set the column at the 80 +1 after textwidth
 set colorcolumn=+1
 
+" Noeb - no error bell, no visual bell
+set noeb vb t_vb=
+
+" No splash screen at the start
+set shortmess+=I
+
 " fills the color to the end of the line
 " if exists('+colorcolumn')
     " let &l:colorcolumn='+'  .  join(range(0, 254), ',+')
 " endif
 " }}}
-" CMD Window and Status bar -----------------------------------------------{{{1
+" CMD Window and Status bar -----------------------------------------------{{{2
 
 " Height of the command bar.
 set cmdheight=1
@@ -198,17 +204,11 @@ set confirm
 " it has not been changed inside of Vim, automatically read it again.
 set autoread
 
-" Check if any buffers were changed outside of Vim.
-" Each loaded buffer is checked for its associated file being changed.  If the
-" file was changed Vim will take action.  If there are no changes in the buffer
-" and 'autoread' is set, the buffer is reloaded.
-au FocusGained,BufEnter * checktime
-
 " The screen will not be redrawn while executing macros, registers and other commands
 set lazyredraw
 
 "}}}
-" Cursor ------------------------------------------------------------------{{{1
+" Cursor ------------------------------------------------------------------{{{2
 
 " start insert mode (razor cursor shape)
 let &t_SI="\<Esc>]50;CursorShape=1\x7"
@@ -218,7 +218,7 @@ let &t_SR="\<Esc>]50;CursorShape=2\x7"
 let &t_EI="\<Esc>]50;CursorShape=0\x7"
 
 " }}}
-" Scroll ------------------------------------------------------------------{{{1
+" Scroll ------------------------------------------------------------------{{{2
 
 " Set to 999 the cursor will stay in the middle.
 " Set <number> for <number> lines from the top of bottom
@@ -227,11 +227,47 @@ set sidescroll=1
 set sidescrolloff=100
 
 " }}}
+" ListChars ---------------------------------------------------------------{{{2
+
+set list
+set listchars=tab:▸\ ,trail:•,extends:❯,precedes:❮
+" Folding character used when folded.
+set fillchars=fold:-
+
+" When the terminal is more compact this indicates breaks
+set showbreak=↪
+" ~/@ at end of window, 'showbreak'
+set highlight+=@:ColorColumn
+
+" }}}
+" Folding -----------------------------------------------------------------{{{2
+
+" zM - Close all folds
+" zR - Open all folds
+
+set foldenable
+set foldmethod=marker
+set foldnestmax=5
+hi Folded term=bold ctermfg=12 ctermbg=0 guifg=Cyan guibg=DarkGrey
+
+"}}}
+" Splits ------------------------------------------------------------------{{{2
+" When on, splitting a window will put the new window below the current one.
+set splitbelow
+" When on, splitting a window will put the new window to the right of the
+" current one.
+set splitright
+
+" Always use vertical diffs
+set diffopt=vertical
+"}}}
+" }}}
 " Formatting --------------------------------------------------------------{{{1
+" Format Options ----------------------------------------------------------{{{2
 " NOTE: Paste inserts tabs not spaces
 
-" Automatically insert the current comment leader after hitting o or O in
-" Normal mode.
+" When on a comment, Automatically insert the current comment leader after
+" hitting o or O in Normal mode.
 set formatoptions+=o
 
 " Remove comment leader when joining comments.
@@ -242,19 +278,8 @@ set formatoptions+=n
 " J join two lines at .
 set nojoinspaces
 
-" Vim will wrap long lines at a character in 'breakat' rather than at the last
-" character that fits on the screen.
-set linebreak
-
-" Every wrapped line will continue visually indented (same amount of space as
-" the beginning of that line), thus preserving horizontal blocks of text.
-set breakindent
-
-" Copy indent from current line when starting a new line.
-set autoindent
-
 " }}}
-" Tab Shift --------------------------------------------------------------{{{1
+" Tab ---------------------------------------------------------------------{{{2
 " **FTPLUGIN** - can set the tablevel for programing launguages itself. Paste
 " will preserve the user defined levels set and the choice of tabs or spaces.
 
@@ -270,69 +295,37 @@ set shiftwidth=4
 " Number of spaces to reduce each step of (auto)indent.
 set softtabstop=4
 
+" Always indent by multiples of shiftwidth
+set shiftround
+
+" Indent ------------------------------------------------------------------{{{2
+
 " When changing the indent of the current line, preserve as much of the
 " indent structure as possible.
 set preserveindent
 
+" Vim will wrap long lines at a character in 'breakat' rather than at the last
+" character that fits on the screen.
+set linebreak
 
-" Always indent by multiples of shiftwidth
-set shiftround
+" Every wrapped line will continue visually indented (same amount of space as
+" the beginning of that line), thus preserving horizontal blocks of text.
+set breakindent
 
-"}}}
-" Match -------------------------------------------------------------------{{{1
+" Copy indent from current line when starting a new line.
+set autoindent
+
+" }}}
+" Match -------------------------------------------------------------------{{{2
 
 " Tenths of a second to show the matching parenth, when 'showmatch' is set.
 set matchtime=3
 " When a bracket is inserted, briefly jump to the matching one.
 set showmatch
 
-" new package managment system. If packages are in vim/pack/opt they are
-" not autoloaded. I think this means i have to explicitly call it?
-"
-packadd matchit
-
 " }}} Search
-" Search ------------------------------------------------------------------{{{1
-
-" If the 'ignorecase' option is on, the case of normal letters is ignored.
-" 'smartcase' can be set to ignore case when the pattern contains lowercase
-" letters only
-set ignorecase
-set smartcase
-
-" While typing a search command, show where the pattern is matched.
-set incsearch
-set hlsearch
-
-" When on, the :substitute flag 'g' is default on.
-set gdefault
-
-" For regular expression
-" set magic
-
 "}}}
-" ListChars ---------------------------------------------------------------{{{1
-
-set list
-set listchars=tab:▸\ ,trail:•,extends:❯,precedes:❮
-" Folding character used when folded.
-set fillchars=fold:-
-
-" When the terminal is more compact this indicates breaks
-set showbreak=↪
-" ~/@ at end of window, 'showbreak'
-set highlight+=@:ColorColumn
-
-" }}}
-" Splits ------------------------------------------------------------------{{{1
-
-set splitbelow
-set splitright
-
-" Always use vertical diffs
-set diffopt=vertical
-"}}}
-" History, Spell and Undo -------------------------------------------------{{{1
+" History, Spell, Undo and Abbrev -----------------------------------------{{{1
 
 "set dictionary=/usr/share/dict/words
 set spellfile=~/.vim/custom-dictionary.utf-8.add
@@ -358,16 +351,36 @@ endif
 if !isdirectory(expand(&directory))
     call mkdir(expand(&directory), "p")
 endif
+
+" :ab lists all abbrevs and where they where last used.
+" :ab misspelling correction to add to the abbrevs
+
+if filereadable(expand("~/.vim/abbrevs.vim"))
+    source ~/.vim/abbrevs.vim
+endif
+
 "}}}
-" Folding -----------------------------------------------------------------{{{1
+" Search ------------------------------------------------------------------{{{1
 
-" zM - Close all folds
-" zR - Open all folds
+" If the 'ignorecase' option is on, the case of normal letters is ignored.
+" 'smartcase' can be set to ignore case when the pattern contains lowercase
+" letters only
+set ignorecase
+" Override the 'ignorecase' option if the search pattern contains upper case
+" characters.
+set smartcase
 
-set foldenable
-set foldmethod=marker
-set foldnestmax=5
+" While typing a search command, show where the pattern is matched.
+set incsearch
 
+" last search pattern highlighting
+set hlsearch
+
+" When on, the :substitute flag 'g' is default on.
+set gdefault
+
+" For regular expression
+set magic
 
 "}}}
 " Ignore ------------------------------------------------------------------{{{1
@@ -380,18 +393,9 @@ set wildignore+=*.spl                            " compiled spelling word lists
 set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.DS_Store                       " OSX bullshit
 "}}}
-" Abbrevs -----------------------------------------------------------------{{{1
-
-" :ab lists all abbrevs and where they where last used.
-" :ab misspelling correction to add to the abbrevs
-
-if filereadable(expand("~/.vim/abbrevs.vim"))
-    source ~/.vim/abbrevs.vim
-endif
-
-"}}}
-" Remaps-------------------------------------------------------------------{{{1
-" Movement ----------------------------------------------------------------{{{2
+" Hackey Stuff ------------------------------------------------------------{{{1
+" Remaps-------------------------------------------------------------------{{{2
+" Movement ----------------------------------------------------------------{{{3
 " Easier escaping
 inoremap jj <Esc>
 
@@ -404,13 +408,14 @@ nnoremap H ^
 nnoremap L g_
 
 " Remap control instead of control w to jump between splits
+" TODO: Why doesn't this work in the terminal.
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 
 nnoremap <C-l> <C-w>l
 nnoremap <C-j> <C-w>j
 " }}}
-" paste -------------------------------------------------------------------{{{2
+" Paste -------------------------------------------------------------------{{{3
 " Copy to system clipboard with ''
 vmap '' :w !pbcopy<CR><CR>
 
@@ -418,14 +423,14 @@ vmap '' :w !pbcopy<CR><CR>
 set pastetoggle=<F1>
 
 " this seems to be a way to toggle boolean values.
-"nnoremap <f2> :set nonumber! number?<CR>
+"nnoremap <f3> :set nonumber! number?<CR>
+
 " }}}
-" substitution ------------------------------------------------------------{{{2
+" Substitution ------------------------------------------------------------{{{3
 " The word boundary is set by adding /\<word\>/ " This will replace <in> but
 " not <inside>.
-" s     - Word under the cursor, specifies just the line.
+" Word under the cursor, specifies just the line.
 " NOTE: use &
-"nnoremap <leader>s :s/\<<C-r><C-w>\>//
 
 " %s    - Word under the cursor, specifies all lines.
 nnoremap <leader>s :%s/\<<C-r><C-w>\>//
@@ -433,19 +438,18 @@ nnoremap <leader>s :%s/\<<C-r><C-w>\>//
 " One key substitution within a paragraph, word under cursor.
 nnoremap & :'{,'}s/<c-r>=expand('<cword>')<cr>/
 " }}}
-" Grep --------------------------------------------------------------------{{{2
+" Grep --------------------------------------------------------------------{{{3
 " NOTE: Not for use in $HOME directory. Long recursive search. Prj Dir only.
 nnoremap <leader>gr :vimgrep /\<<c-r>=expand('<cword>')<cr>\>/ **/* \| :copen<CR>
 
-" the mapping is subing out the escapes from the atom.
 " funky - find def || classes in the file.
-nnoremap <leader>f :vimgrep /\<\(def\|^class\|^module\)\>/ % \| :copen
+nnoremap <leader>f :vimgrep /\<\(def\\|^class\\|^module\)\>/ % \| :copen<CR>
 " }}}
-" split -------------------------------------------------------------------{{{2
+" Split -------------------------------------------------------------------{{{3
 " Shift s to split the line at cursor. Same as shift j for join.
 nnoremap S i<CR><esc>^mwgk:silent! s/\v+$//<cr>:noh<CR>`w
 " }}}
-" capitalisation ----------------------------------------------------------{{{2
+" Capitalisation ----------------------------------------------------------{{{3
 " Upper word
 nnoremap <leader>uw gUiw
 " Upper line
@@ -455,7 +459,7 @@ nnoremap <leader>lw guaw
 " Lower line
 nnoremap <leader>ll guu
 " }}}
-" search and center -------------------------------------------------------{{{2
+" Search and center -------------------------------------------------------{{{3
 " Keep search matches in the middle of the window.
 nnoremap n nzzzv
 nnoremap N Nzzzv
@@ -472,38 +476,41 @@ nnoremap <silent><leader>/ : execute 'vimgrep / '.@/.'/g %'<CR>:copen<CR>
 "nnoremap g; g;zz
 "nnoremap g, g,zz
 " }}}
-" no highlight ------------------------------------------------------------{{{2
+" No highlight ------------------------------------------------------------{{{3
 nnoremap <leader><space> :noh<CR>
 " }}}
-" Edit resource files ---------------------------------------------------{{{2
+" Edit resource files -----------------------------------------------------{{{3
 nnoremap <leader>vr :vsplit $MYVIMRC<cr>
 " }}}
-" quick edits -------------------------------------------------------------{{{2
+" Quick edits -------------------------------------------------------------{{{3
 
 let $MYVIM = $HOME.'/.vim'
 nnoremap <leader>ed :vsplit $MYVIM/custom-dictionary.utf-8.add<CR>
 nnoremap <leader>ea :vsplit $MYVIM/abbrevs.vim<CR>
 
 " }}}
-" format options ----------------------------------------------------------{{{2
+" Comand mode -------------------------------------------------------------{{{3
+" emacs bindings in command line mode. might be better a and i or h and l
+cnoremap <c-a> <home>
+cnoremap <c-e> <end>
+
+" }}}
+" Format options ----------------------------------------------------------{{{3
 nnoremap <leader>fp gq}<CR>
 " }}}
-" session make ------------------------------------------------------------{{{2
+" Session make ------------------------------------------------------------{{{3
 nnoremap <leader>se :mks %:h/session.vim<cr>
 " }}}
-" explore -----------------------------------------------------------------{{{2
+" Explore -----------------------------------------------------------------{{{3
 " Uses the builtin directory search.
 nnoremap <leader>x :Lexplore<CR>
 " }}}
-" folding -----------------------------------------------------------------{{{2
-" remap za - if you mistype you end up in insertmode
-nnoremap za <nop>
-nnoremap <leader>zz za
+" Folding -----------------------------------------------------------------{{{3
 
 " close all folds except the current fold except
-nnoremap <leader>xx zMzvzz
+ nnoremap <leader>z zMzvzz
 " }}}
-" unmap -------------------------------------------------------------------{{{2
+" Unmap -------------------------------------------------------------------{{{3
 " clear k so i don't keep pressing it when i join lines.
 nnoremap K <nop>
 
@@ -513,7 +520,8 @@ nnoremap K <nop>
 nnoremap s <nop>
 
 "}}}
-" Bangs -------------------------------------------------------------------{{{1
+" }}}
+" Bangs -------------------------------------------------------------------{{{2
 
 command! -bang Q q<bang>
 command! -bang W w<bang>
@@ -529,14 +537,14 @@ command! -bang Wq wq<bang>
 command! -nargs=1 Ngrep vimgrep "<args>" $NOTES/**/*.md
 nnoremap <leader>n :Ngrep<space>
 
+"                       ====SCRATCH BUFFER====
 " Create a disposable buffer that cannot be written to for jotting.
 command! -nargs=0 Scratch vnew | setlocal bt=nofile bh=wipe nobl noswapfile nu
 nnoremap <f3> :Scratch<cr>
-
 "}}}
-" Aug commands-------------------------------------------------------------{{{1
+" Aug commands-------------------------------------------------------------{{{2
 if has('autocmd')
-" {{{2 Auto completion
+" Auto completion ---------------------------------------------------------{{{3
 
 " menuone   - Display a menu even if there is only one menu.
 " longest   - Inserts the longest string.
@@ -581,7 +589,7 @@ autocmd FileType python setl omnifunc=pythoncomplete#Complete
 
 
 "}}}
-" {{{2 Return line
+" Return line -------------------------------------------------------------{{{3
 
 " Make sure Vim returns to the same line when you reopen a file.
 augroup line_return
@@ -593,7 +601,7 @@ augroup line_return
 augroup END
 
 " }}}
-" Cursor and Cursorline ---------------------------------------------------{{{2
+" Cursor and Cursorline ---------------------------------------------------{{{3
 " Only show the statusline in the window that has current focus.
 augroup CursorLineFocus
     au!
@@ -609,15 +617,14 @@ augroup InsertNoCursorLine
 augroup END
 
 " }}}
-" {{{2 Help no spell file
+" Help no spell file ------------------------------------------------------{{{3
 " set no spell when opening help files.
     augroup HelpNoSpell
         au!
         au BufRead,BufEnter help set nospell
     augroup END
 
-" {{{2 SpellGroup
-" sets spell on all text based as opposed to programing type language.
+" SpellGroup --------------------------------------------------------------{{{3
 " sets formatting options specific to markdown
 augroup SpellGroups
     au!
@@ -626,8 +633,8 @@ augroup SpellGroups
 augroup END
 
 " }}}
-" {{{2 Strip white space
-" clear white space and return cursor to position.
+" Strip white space -------------------------------------------------------{{{3
+" clear white space and return cursor to position. The * is all filetypes
 function! <SID>StripTrailingWhitespaces()
     let l = line(".")
     let c = col(".")
@@ -635,13 +642,23 @@ function! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 
-autocmd BufWritePre *.vim,*.md,*.rake,*.json,*.zsh,*.rb,*.h,*.c,*.java :call <SID>StripTrailingWhitespaces()
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 " }}}
-" {{{2 misc
+" Misc --------------------------------------------------------------------{{{3
+
+" Check if any buffers were changed outside of Vim.
+" Each loaded buffer is checked for its associated file being changed.  If the
+" file was changed Vim will take action.  If there are no changes in the buffer
+" and 'autoread' is set, the buffer is reloaded.
+" NOTE: needs somthing that excludes command windows.
+" au FocusGained,BufEnter * checktime
 
 " If the terminal frame is reduce or expanded keep the windows equal.
 au VimResized * :wincmd =
+
+" see if this is a good idea
+autocmd InsertLeave * set nopaste
 
 " Source my vimrc file when the full buffer is writen.
 augroup vimrc
@@ -653,8 +670,8 @@ augroup END
 endif
 " }}}
 "}}}
-" Functions ---------------------------------------------------------------{{{1
-" Number Toggle	-----------------------------------------------------------{{{2
+" Functions ---------------------------------------------------------------{{{2
+" Number Toggle	-----------------------------------------------------------{{{3
 " when setting paste this would be good to remove.
 function! NumberToggle()
 	if(&relativenumber == 1)
@@ -666,10 +683,11 @@ function! NumberToggle()
 		set number
 		set nolist
 	endif
-	
+
 endfunction
 
 nnoremap <f2> :call NumberToggle()<CR>
+" }}}
 " }}}
 " }}}
 " Plugins -----------------------------------------------------------------{{{1
@@ -716,15 +734,9 @@ let g:ctrlp_mruf_max = 250
 " Exclude mru files
 let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*' " MacOSX/Linux
 
-" CtrlPFunky
-" The results will include class and module definitions.
-let g:ctrlp_funky_ruby_classes = 1
-let g:ctrlp_funky_ruby_modules = 1
-let g:ctrlp_funky_ruby_rake_words = 1
-
-" Set this to 1 (enabled) and the result will include access modifiers such as
-" 'private', 'protected' and 'public'.
-let g:ctrlp_funky_ruby_access = 1
+" Relative results toggle. Return Mru results specific to the CWD
+let g:ctrlp_mruf_relative = 1
+let g:ctrlp_prompt_mappings = { 'ToggleMRURelative()': ['<F4>'] }
 
 
 "}}}
@@ -768,12 +780,5 @@ let g:netrw_list_hide='.*\.png$,.*\.pdf,.*\.mp4,.*\.mp3,.*\.svg,.*\.jpg'
 " Redraw ------------------------------------------------------------------{{{1
 autocmd VimEnter * redraw!
 "}}}
-
-
-
-
-
-
-
 
 

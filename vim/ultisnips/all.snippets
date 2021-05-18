@@ -3,38 +3,32 @@
 #------------------------------------------------------------------------------
 
 snippet { "{<cursor>} - curly brace expansion"
-{${1}} ${2}
+{${1}} $0
 endsnippet
 
 snippet "(\S+)\{" "<word>{<cursor>} - curly brace expansion" r
-`!p snip.rv=match.group(1)`{${1}} ${2}
+`!p snip.rv=match.group(1)`{${1}} $0
 endsnippet
 
 #------------------------------------------------------------------------------
 # braces
 #------------------------------------------------------------------------------
 snippet ( "(<cursor>) - brace expansion"
-(${1}) ${2}
+(${1}) $0
 endsnippet
 
 snippet "(\S+)\(" "<word>[<cursor>] - brace expansion" r
-`!p snip.rv=match.group(1)`(${1}) ${2}
+`!p snip.rv=match.group(1)`(${1}) $0
 endsnippet
 
 #------------------------------------------------------------------------------
 # brackets
 #------------------------------------------------------------------------------
 snippet [ "[<cursor>] - brackets"
-[${1}] ${2}
+[${1}] $0
 endsnippet
 
 snippet "(\S+)\[" "<word>[<cursor>] - bracket expansion" r
-`!p snip.rv=match.group(1)`[${1}] ${2}
-endsnippet
-
-snippet sni ""
-snippet ${1:snippet_name} "${2:description}"
-${3}
-'endsnippet'
+`!p snip.rv=match.group(1)`[${1}] $0
 endsnippet
 
