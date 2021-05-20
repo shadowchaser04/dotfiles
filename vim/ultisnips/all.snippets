@@ -32,3 +32,7 @@ snippet "(\S+)\[" "<word>[<cursor>] - bracket expansion" r
 `!p snip.rv=match.group(1)`[${1}] $0
 endsnippet
 
+snippet date "insert the date" w
+`!v strftime("%A, %d %b, %Y, %l:%m %p")` $0
+endsnippet
+

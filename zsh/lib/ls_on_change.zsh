@@ -1,5 +1,5 @@
 function ls_on_change {
-    ls -la
+    ls -lA
     }
 
-# add-zsh-hook -Uz chpwd ls_on_change
+add-zsh-hook -Uz chpwd ls_on_change

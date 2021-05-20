@@ -1,4 +1,8 @@
-" Version::1.0
+"==============================================================================
+" Version::2.0
+" Author: Shadow
+" Last Update: Wednesday, 19 May 2021  4:05 AM
+"==============================================================================
 
 " NOTE: For plugin docs. pwd in the pluging docs directory.
 " Then in vim type :helptags /Users/{username}/.vim/bundle/{plugin}/doc
@@ -6,7 +10,8 @@
 " TODO: When in terminal or tree mode <control> hjkl are not working.
 " TODO: Repl using pry binding for ruby.
 " TODO: Autocomplete consistency, input best match.
-" TODO: When in netrw use the same command h,l as splits uses.
+"
+"==============================================================================
 "
 "    .o oOOOOOOOo                                       .....0OOOo
 "    Ob.OOOOOOOo  OOOo.      oOOo.              ....oooooOOOOOOOOO
@@ -25,18 +30,21 @@
 "                      `$"  `OOOO' `O"! ' `OOOO'  o             .
 "    .                  .      O"          : o     .
 
-" {{{1 Note
+" Notes -------------------------------------------------------------------{{{1
+
+" ----Toggle----
+" F1 - Toggle Paste
+" F2 - Toggle Numbers (for paste to remove shit
+" F3 - Toggle Scratch buffer
+" F4 - Toggle Relative Directory / CtrlP
 
 " ----Reminders----
-" F1 - Toggle Paste
-" F2 - Toggle numbers (for paste to remove shit
-" F3 - Scratch buffer
-" F4 - Toggle Relative Directory / CtrlP
-" ge - Always forget back end
-" -----------------
 " Around and inside.
 " helpgrep - grep helpfiles.
-" -----------------
+" ge - Always forget back end
+" control f/b forwad by page and back
+
+" ----search----
 " history - q:
 " search  - q/
 " control a, control x - increment and decrement
@@ -156,10 +164,11 @@ set noeb vb t_vb=
 " No splash screen at the start
 set shortmess+=I
 
-" fills the color to the end of the line
+" Fills the color to the end of the line
 " if exists('+colorcolumn')
     " let &l:colorcolumn='+'  .  join(range(0, 254), ',+')
 " endif
+
 " }}}
 " CMD Window and Status bar -----------------------------------------------{{{2
 
@@ -439,8 +448,8 @@ nnoremap <leader>s :%s/\<<C-r><C-w>\>//
 nnoremap & :'{,'}s/<c-r>=expand('<cword>')<cr>/
 " }}}
 " Grep --------------------------------------------------------------------{{{3
-" NOTE: Not for use in $HOME directory. Long recursive search. Prj Dir only.
-nnoremap <leader>gr :vimgrep /\<<c-r>=expand('<cword>')<cr>\>/ **/* \| :copen<CR>
+" Greps through project for the word under the cursor.
+nnoremap <leader>gr :vimgrep /\<<c-r>=expand('<cword>')<cr>\>/ % \| :copen<CR>
 
 " funky - find def || classes in the file.
 nnoremap <leader>f :vimgrep /\<\(def\\|^class\\|^module\)\>/ % \| :copen<CR>
@@ -467,8 +476,9 @@ nnoremap N Nzzzv
 " When using star to search for a word. Do not jump on match
 nnoremap * *<c-o>
 
-" Center the line
+" When jumping center the line.
 nnoremap <c-o> <c-o>zz
+nnoremap <c-i> <c-i>zz
 
 " Reopen the last search in a QuickFix window
 nnoremap <silent><leader>/ : execute 'vimgrep / '.@/.'/g %'<CR>:copen<CR>
@@ -490,9 +500,12 @@ nnoremap <leader>ea :vsplit $MYVIM/abbrevs.vim<CR>
 
 " }}}
 " Comand mode -------------------------------------------------------------{{{3
-" emacs bindings in command line mode. might be better a and i or h and l
-cnoremap <c-a> <home>
-cnoremap <c-e> <end>
+" emacs bindings in command line mode.
+" H and L = left and right.
+" Shift H and L = beginning and end of a line in normal mode.
+" Command H and L = beginning and end of a line in command mode.
+cnoremap <c-h> <home>
+cnoremap <c-l> <end>
 
 " }}}
 " Format options ----------------------------------------------------------{{{3
@@ -509,6 +522,12 @@ nnoremap <leader>x :Lexplore<CR>
 
 " close all folds except the current fold except
  nnoremap <leader>z zMzvzz
+" }}}
+" Arrow Keys --------------------------------------------------------------{{{3
+nnoremap <UP> :resize -2<Cr>
+nnoremap <DOWN> :resize +2<Cr>
+nnoremap <LEFT> :vertical resize +2<Cr>
+nnoremap <RIGHT> :vertical resize -2<Cr>
 " }}}
 " Unmap -------------------------------------------------------------------{{{3
 " clear k so i don't keep pressing it when i join lines.
@@ -527,6 +546,10 @@ command! -bang Q q<bang>
 command! -bang W w<bang>
 command! -bang Wq wq<bang>
 
+"                       ====SCRATCH BUFFER====
+" Create a disposable buffer that cannot be written to for jotting.
+command! -nargs=0 Scratch vnew | setlocal bt=nofile bh=wipe nobl noswapfile nu
+nnoremap <f3> :Scratch<cr>
 " -----------------------------------------------------------------------------
 "  notes
 " -----------------------------------------------------------------------------
@@ -534,13 +557,9 @@ command! -bang Wq wq<bang>
 " is vim's built in grep. $NOTE is defined in my variables. /** is all
 " directories recursively under the CWD and /* is the files. In this case a type
 " is specified .md, so all markdown files will be looked in.
-command! -nargs=1 Ngrep vimgrep "<args>" $NOTES/**/*.md
-nnoremap <leader>n :Ngrep<space>
+"command! -nargs=1 Ngrep vimgrep "<args>" $NOTES/**/*.md
+"nnoremap <leader>n :Ngrep<space>
 
-"                       ====SCRATCH BUFFER====
-" Create a disposable buffer that cannot be written to for jotting.
-command! -nargs=0 Scratch vnew | setlocal bt=nofile bh=wipe nobl noswapfile nu
-nnoremap <f3> :Scratch<cr>
 "}}}
 " Aug commands-------------------------------------------------------------{{{2
 if has('autocmd')
@@ -617,19 +636,20 @@ augroup InsertNoCursorLine
 augroup END
 
 " }}}
-" Help no spell file ------------------------------------------------------{{{3
-" set no spell when opening help files.
-    augroup HelpNoSpell
-        au!
-        au BufRead,BufEnter help set nospell
-    augroup END
+" Help file ------------------------------------------------------{{{3
+" set no spell when opening help files. Change tx=78 standard to tx=83
+	augroup Help
+		au!
+		au BufRead,BufEnter help set nospell
+		au BufRead,BufEnter help set textwidth=83
+	augroup END
 
 " SpellGroup --------------------------------------------------------------{{{3
 " sets formatting options specific to markdown
 augroup SpellGroups
-    au!
-    autocmd FileType md,markdown,txt, set spell
-    autocmd FileType md,markdown,txt, set formatoptions+=a
+	au!
+	autocmd FileType md,markdown,txt, set spell
+	autocmd FileType md,markdown,txt, set formatoptions+=a
 augroup END
 
 " }}}
@@ -688,6 +708,67 @@ endfunction
 
 nnoremap <f2> :call NumberToggle()<CR>
 " }}}
+" Notes Grep --------------------------------------------------------------{{{3
+" Get the line and column. This is so the cursor can be returend to the line.
+" Search notes with vims built in grep. Use a word boundary to stop grep looking
+" for words inside words like todo - autodone. If the string is not empty and
+" the results of the search are not zero, open the quickfix and jump to first
+" match,
+function! NoteGreper()
+	let l = line(".")
+	let c = col(".")
+	call inputsave()
+	let name = input("Grep Notes:>")
+	call inputrestore()
+	if name != ''
+		silent! execute 'vimgrep /\<' .name. '\>' . '/' expand("$HOME")."/.notes/**/*"
+		if len(getqflist()) != 0
+			copen
+		else
+			echom "\n"
+			echom "Search returned" . " " . len(getqflist()) . " " . "results"
+			call cursor(l, c)
+		endif
+	else
+		call cursor(l, c)
+	endif
+endfunction
+
+nnoremap <leader>n :call NoteGreper()<cr>
+
+" Project Grep ------------------------------------------------------------{{{3
+" Get the line and the column. Take a user input. Expand the path, this is so
+" it can tested to make sure we are not in the home Directory. Grep for the
+" search term. If there are results in the QuickFix open it.
+" Grep CWD that are not in the $HOME. Safty for long recursive search.
+function! ProjectGrep()
+	let l = line(".")
+	let c = col(".")
+	call inputsave()
+	let name = input("Grep Project:>")
+	call inputrestore()
+	let s:path = expand('<sfile>:p:h')
+	if name != ''
+		if s:path != expand("$HOME")
+			silent! execute 'vimgrep /\<' .name. '\>/' '**/*'
+			if len(getqflist()) != 0
+				copen
+			else
+				echom "Search returned" . " " . len(getqflist()) . " " . "results"
+				call cursor(l, c)
+			endif
+		else
+			echom "\n"
+			echom "Dir to large to search"
+			call cursor(l, c)
+		endif
+	else
+		call cursor(l, c)
+	endif
+endfunction
+
+nnoremap <leader>g :call ProjectGrep()<cr>
+
 " }}}
 " }}}
 " Plugins -----------------------------------------------------------------{{{1
@@ -711,7 +792,8 @@ let g:UltiSnipsEditSplit="vertical"
 "}}}
 " Ctlp --------------------------------------------------------------------{{{2
 nnoremap <leader>m :CtrlPMRUFiles<cr>
-nnoremap <leader>b :CtrlPBookmarkDir<cr>
+nnoremap <leader>bd :CtrlPBookmarkDir<cr>
+nnoremap <leader>b :CtrlPBuffer<cr>
 
 " Set the directory to store the cache files
 let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'

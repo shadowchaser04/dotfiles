@@ -1,5 +1,5 @@
 #------------------------------------------------------------------------------
-# User Config 
+# User Config
 #------------------------------------------------------------------------------
 [user]
     name = shadowchaser04
@@ -137,7 +137,7 @@
     a = !git add . && git status
     aa = !git add -A && git status
 
-    # show current status 
+    # show current status
     st = status
 
     # commit with message flag
@@ -150,12 +150,12 @@
     amend = commit --amend --reuse-message=HEAD
 
     # wipe adds all and commits with a default message. then resets the head
-    # removing the commit and reverting to last state. the commit is removed from 
+    # removing the commit and reverting to last state. the commit is removed from
     # the log though it can still be found by,
     # git reflog under the default message "WIPE SAVEPOINT"
     wipe = !git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
 
-    # The first command pulls changes from the remote. If I have any local 
+    # The first command pulls changes from the remote. If I have any local
     # commits, it’ll rebase them to come after the commits I pulled down.
     # The --prune option removes remote-tracking branches that no longer exist
     # on the remote.
@@ -186,10 +186,10 @@
     #checkout
     co = checkout
 
-    # checkout a branch 
+    # checkout a branch
     cob = checkout -b
 
-    # checks out the last branch 
+    # checks out the last branch
     col = checkout -
 
     #--------------------------------------------------------------------------
@@ -204,7 +204,7 @@
     #--------------------------------------------------------------------------
     # pull
     #--------------------------------------------------------------------------
-    # pull from origin master 
+    # pull from origin master
     plom = pull origin master
 
     # pull from origin branch
@@ -247,20 +247,22 @@
     #--------------------------------------------------------------------------
     # diff
     #--------------------------------------------------------------------------
-    # diff of what is changed but not staged
-    diff-unstaged = diff
+    # diff unstaged - diff of what is changed but not staged
+    d-u = diff
 
-    # diff of what is staged but not yet committed
-    diff-staged =  diff --staged
+    # diff staged - diff of what is staged but not yet committed
+    d-s =  diff --staged
 
-    # diff committed
-    diff-commited = !git log origin/master..HEAD -p --oneline
+    # diff committed - diff committed
+    d-c = !git log origin/master..HEAD -p --oneline
 
-    diff-master = diff master --stat
+    # diff master -
+    d-m = diff master --stat
+
     #--------------------------------------------------------------------------
     # show
     #--------------------------------------------------------------------------
-    # This shows a comparison form the last state and the new states changes.
+    # This shows a comparison from the last state and the new states changes.
 
     # show head only
     sh = show HEAD
@@ -335,7 +337,7 @@
     # clean
     # git checkout <master-default> and find branches that have merged with
     # master, grep inverse master to remove it from the results then pipe to
-    # exargs to remove each branch that has been already merged. 
+    # exargs to remove each branch that has been already merged.
     bclean = "!f() { git checkout ${1-master} && git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -I{} git branch -d {}; }; f"
 
     #--------------------------------------------------------------------------
@@ -363,22 +365,22 @@
     # argument is given it takes an index: example, git stash apply stash@{2}
     stash-open = stash apply
 
-    # Creates and checks out a new branch named <branchname> starting from 
-    # the commit at which the <stash> was originally created, applies the 
-    # changes recorded in <stash> to the new working tree and index. If that 
+    # Creates and checks out a new branch named <branchname> starting from
+    # the commit at which the <stash> was originally created, applies the
+    # changes recorded in <stash> to the new working tree and index. If that
     # succeeds, and <stash> is a reference of the form stash@{<revision>},
-    # it then drops the <stash>. When no <stash> is given, applies the latest one. 
+    # it then drops the <stash>. When no <stash> is given, applies the latest one.
     # example: git sb <branch name> stash@{<number>}
     sb = stash branch
 
     # Save your local modifications to a new stash entry and roll them back to
-    # HEAD (in the working tree and in the index). The <message> part is optional and    
-    # gives the description along with the stashed state. 
+    # HEAD (in the working tree and in the index). The <message> part is optional and
+    # gives the description along with the stashed state.
     stash-push = stash push
 
     # If the --include-untracked option is used, all untracked files are also
     # stashed and then cleaned up with git clean, leaving the working directory
-    # in a very clean state. the --all option is used instead then the ignored 
+    # in a very clean state. the --all option is used instead then the ignored
     # files are stashed and cleaned in addition to the untracked files.
     stash-all = stash push --include-untracked
 
@@ -392,7 +394,7 @@
     # When no <stash> is given, it removes the latest one
     sdrop = stash drop
 
-    # Show the changes recorded in the stash entry as a diff between the 
+    # Show the changes recorded in the stash entry as a diff between the
     # stashed contents and the commit back when the stash entry was first created
     # add -p to show the verbose changes.
     ss = stash show
@@ -407,7 +409,7 @@
     t = tag
 
     #--------------------------------------------------------------------------
-    # 
+    #
     #--------------------------------------------------------------------------
     behind = !git rev-list --left-only --count $(git bu)...HEAD
     ahead = !git rev-list --right-only --count $(git bu)...HEAD

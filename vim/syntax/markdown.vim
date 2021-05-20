@@ -38,37 +38,3 @@ hi markdownUrlTitleDelimiter    ctermfg=5
 hi markdownLinkTextDelimiter    ctermfg=5
 
 
-"------------------------------------------------------------------------------
-" User unset colors
-"------------------------------------------------------------------------------
-" hi markdownListMarker 
-" hi markdownOrderedListMarker 
-
-" hi markdownLineBreak 
-" hi markdownLineStart 
-" hi markdownCodeBlock 
-" hi markdownBlockquote 
-
-" hi markdownRule   
-" hi markdownError  
-" hi markdownValid  
-" hi markdownEscape 
-
-" hi markdownLinkText 
-" hi markdownHeadingRule 
-" hi markdownAutomaticLink 
-" hi markdownIdDeclaration 
-
-" hi markdownId     
-" hi markdownCode   
-" hi markdownUrl    
-" hi markdownUrlTitle 
-" hi markdownLink   
-
-" hi markdownIdDelimiter 
-" hi markdownCodeDelimiter 
-" hi markdownUrlDelimiter 
-" hi markdownLinkDelimiter 
-
-" hi markdownFootnote 
-" hi markdownFootnoteDefinition 

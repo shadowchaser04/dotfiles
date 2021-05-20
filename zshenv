@@ -86,19 +86,26 @@ export MANPAGER="/bin/sh -c \"sed -e 's/.$(echo -e '\010')//g' | vim -R -c 'set 
 #------------------------------------------------------------------------------
 # misc
 #------------------------------------------------------------------------------
-# Esc key reduced lag time 
+# Esc key reduced lag time
 export KEYTIMEOUT=1
 
 # Say how long a command took, if it took more than 30 seconds
 export REPORTTIME=30
 
-
 #------------------------------------------------------------------------------
 # colors
 #------------------------------------------------------------------------------
+# e - Directory
+# f - Symbolic Link
+
+# b - red
+# c - lime green
+# f - pink
+
 # turn on colors
 export CLICOLOR=1
 
 # lscolors
-export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
+export LSCOLORS='exfxhxDefxhxhxhxhxcxcx'
+
 
