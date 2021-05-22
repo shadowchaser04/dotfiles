@@ -30,11 +30,11 @@
 "                      `$"  `OOOO' `O"! ' `OOOO'  o             .
 "    .                  .      O"          : o     .
 
-" Notes -------------------------------------------------------------------{{{1
+" Notes {{{1
 
 " ----Toggle----
 " F1 - Toggle Paste
-" F2 - Toggle Numbers (for paste to remove shit
+" F2 - Toggle Numbers
 " F3 - Toggle Scratch buffer
 " F4 - Toggle Relative Directory / CtrlP
 
@@ -50,8 +50,8 @@
 " control a, control x - increment and decrement
 
 " }}}
-" Basic Setup -------------------------------------------------------------{{{1
-" FileType ----------------------------------------------------------------{{{2
+" Basic Setup {{{1
+" FileType {{{2
 
 " Filetype detection. Vim will identify the file type.
 "
@@ -61,7 +61,7 @@
 filetype plugin indent on
 
 "}}}
-" Compatibility -----------------------------------------------------------{{{2
+" Compatibility {{{2
 
 " Make Vim either more Vi-compatible, or make Vim behave in a more useful way.
 set nocompatible
@@ -90,7 +90,7 @@ set autochdir
 set hidden
 
 "}}}
-" Colors ------------------------------------------------------------------{{{2
+" Colors {{{2
 
 " The syntax enable command will keep your current color settings. This
 " allows using highlight commands to set your preferred colors before or
@@ -112,7 +112,7 @@ colorscheme solarized
 
 
 "}}}
-" Leader ------------------------------------------------------------------{{{2
+" Leader {{{2
 
 " A leader key is used like a prefix. It precedes a map/remap. So as to avoid
 " clashing with vim's builtin key settings.
@@ -123,7 +123,7 @@ colorscheme solarized
 let mapleader = ' '
 let maplocalleader = ' '
 " }}}
-" Locational Variables ----------------------------------------------------{{{2
+" Locational Variables {{{2
 " Some variables are set to avoid misspellings. In a Vim script variables
 " starting with s: can be used. They cannot be accessed from outside of the
 " scripts, thus are local to the script.
@@ -138,14 +138,17 @@ let $CACHE=$HOME.'/.cache'
 
 "}}}
 " }}}
-" Layout ------------------------------------------------------------------{{{1
-" Screen Layout -----------------------------------------------------------{{{2
+" Layout {{{1
+" Screen Layout {{{2
 
 " The title of the window will be set to the value of 'titlestring' (if it is not empty)
 set title
 
-" Display the literal line number of the line you are currently on.
+" Display the literal line number
 set number
+
+" Display the line you are currently on as its literal, and an array of
+" ascending and decending numbers starting from 1
 set relativenumber
 
 set cursorline
@@ -155,6 +158,7 @@ hi CursorLineNr term=bold cterm=bold ctermfg=12 gui=bold
 " Text width 79 if colorcolumn is set to 1 and there is no colorcolumn join.
 " Text width 80 if there is no colorcolumn set to 1
 set textwidth=79
+
 " Set the column at the 80 +1 after textwidth
 set colorcolumn=+1
 
@@ -170,7 +174,7 @@ set shortmess+=I
 " endif
 
 " }}}
-" CMD Window and Status bar -----------------------------------------------{{{2
+" CMD Window and Status bar {{{2
 
 " Height of the command bar.
 set cmdheight=1
@@ -217,7 +221,7 @@ set autoread
 set lazyredraw
 
 "}}}
-" Cursor ------------------------------------------------------------------{{{2
+" Cursor {{{2
 
 " start insert mode (razor cursor shape)
 let &t_SI="\<Esc>]50;CursorShape=1\x7"
@@ -227,7 +231,7 @@ let &t_SR="\<Esc>]50;CursorShape=2\x7"
 let &t_EI="\<Esc>]50;CursorShape=0\x7"
 
 " }}}
-" Scroll ------------------------------------------------------------------{{{2
+" Scroll {{{2
 
 " Set to 999 the cursor will stay in the middle.
 " Set <number> for <number> lines from the top of bottom
@@ -236,10 +240,11 @@ set sidescroll=1
 set sidescrolloff=100
 
 " }}}
-" ListChars ---------------------------------------------------------------{{{2
+" Chars {{{2
 
 set list
 set listchars=tab:▸\ ,trail:•,extends:❯,precedes:❮
+
 " Folding character used when folded.
 set fillchars=fold:-
 
@@ -249,18 +254,49 @@ set showbreak=↪
 set highlight+=@:ColorColumn
 
 " }}}
-" Folding -----------------------------------------------------------------{{{2
+" Folding {{{2
 
 " zM - Close all folds
 " zR - Open all folds
 
+set foldlevelstart=0
 set foldenable
 set foldmethod=marker
 set foldnestmax=5
-hi Folded term=bold ctermfg=12 ctermbg=0 guifg=Cyan guibg=DarkGrey
+
+hi Folded term=bold ctermfg=12 ctermbg=8 guifg=Cyan guibg=DarkGrey
+
+" textwidth = 80
+" Full width = 200
+
+function! MyFoldText()
+	let line = getline(v:foldstart)
+	let foldedlinecount = v:foldend - v:foldstart
+	let separator = 80 - len(line) - 4
+
+	let line_end = foldedlinecount . ' - lines |' . ' depth '
+	let line_separator = repeat('-', separator - len(line_end) + 3)
+	let line = substitute(line,' {{{',' ' . line_separator . line_end,'g')
+
+	" Create the space for after the 80 text width
+	let space = 200 - len(line)
+	return line.'...'.repeat(" ",space)
+
+endfunction
+
+	"let windowwidth = winwidth(0) - nucolwidth - 3
+	"let fillcharcount = winwidth(0) - len(line) - len(foldedlinecount)
+	" count the amount of fines from one marker to the next
+	"let onetab = strpart('    ',0,&tabstop)
+	" count the line then subtract from 80 chars. This gives us to the end.
+	"let line = strpart(line,0,windowwidth - 2 - len(foldedlinecount))
+	"return line.''.repeat(" ",fillcharcount)
+
+set foldtext=MyFoldText()
 
 "}}}
-" Splits ------------------------------------------------------------------{{{2
+"
+" Splits {{{2
 " When on, splitting a window will put the new window below the current one.
 set splitbelow
 " When on, splitting a window will put the new window to the right of the
@@ -271,8 +307,8 @@ set splitright
 set diffopt=vertical
 "}}}
 " }}}
-" Formatting --------------------------------------------------------------{{{1
-" Format Options ----------------------------------------------------------{{{2
+" Formatting {{{1
+" Format Options {{{2
 " NOTE: Paste inserts tabs not spaces
 
 " When on a comment, Automatically insert the current comment leader after
@@ -288,7 +324,7 @@ set formatoptions+=n
 set nojoinspaces
 
 " }}}
-" Tab ---------------------------------------------------------------------{{{2
+" Tab {{{2
 " **FTPLUGIN** - can set the tablevel for programing launguages itself. Paste
 " will preserve the user defined levels set and the choice of tabs or spaces.
 
@@ -307,7 +343,7 @@ set softtabstop=4
 " Always indent by multiples of shiftwidth
 set shiftround
 
-" Indent ------------------------------------------------------------------{{{2
+" Indent {{{2
 
 " When changing the indent of the current line, preserve as much of the
 " indent structure as possible.
@@ -325,7 +361,7 @@ set breakindent
 set autoindent
 
 " }}}
-" Match -------------------------------------------------------------------{{{2
+" Match {{{2
 
 " Tenths of a second to show the matching parenth, when 'showmatch' is set.
 set matchtime=3
@@ -334,7 +370,7 @@ set showmatch
 
 " }}} Search
 "}}}
-" History, Spell, Undo and Abbrev -----------------------------------------{{{1
+" History, Spell, Undo and Abbrev {{{1
 
 "set dictionary=/usr/share/dict/words
 set spellfile=~/.vim/custom-dictionary.utf-8.add
@@ -369,7 +405,7 @@ if filereadable(expand("~/.vim/abbrevs.vim"))
 endif
 
 "}}}
-" Search ------------------------------------------------------------------{{{1
+" Search {{{1
 
 " If the 'ignorecase' option is on, the case of normal letters is ignored.
 " 'smartcase' can be set to ignore case when the pattern contains lowercase
@@ -392,7 +428,7 @@ set gdefault
 set magic
 
 "}}}
-" Ignore ------------------------------------------------------------------{{{1
+" Ignore {{{1
 set wildignore+=.hg,.git,.svn                    " Version control
 set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
@@ -402,9 +438,9 @@ set wildignore+=*.spl                            " compiled spelling word lists
 set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.DS_Store                       " OSX bullshit
 "}}}
-" Hackey Stuff ------------------------------------------------------------{{{1
-" Remaps-------------------------------------------------------------------{{{2
-" Movement ----------------------------------------------------------------{{{3
+" Hackey Stuff {{{1
+" Remaps {{{2
+" Movement {{{3
 " Easier escaping
 inoremap jj <Esc>
 
@@ -424,7 +460,7 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 nnoremap <C-j> <C-w>j
 " }}}
-" Paste -------------------------------------------------------------------{{{3
+" Paste {{{3
 " Copy to system clipboard with ''
 vmap '' :w !pbcopy<CR><CR>
 
@@ -540,7 +576,7 @@ nnoremap s <nop>
 
 "}}}
 " }}}
-" Bangs -------------------------------------------------------------------{{{2
+" Bangs {{{2
 
 command! -bang Q q<bang>
 command! -bang W w<bang>
@@ -561,9 +597,9 @@ nnoremap <f3> :Scratch<cr>
 "nnoremap <leader>n :Ngrep<space>
 
 "}}}
-" Aug commands-------------------------------------------------------------{{{2
+" Aug commands {{{2
 if has('autocmd')
-" Auto completion ---------------------------------------------------------{{{3
+" Auto completion {{{3
 
 " menuone   - Display a menu even if there is only one menu.
 " longest   - Inserts the longest string.
@@ -608,7 +644,7 @@ autocmd FileType python setl omnifunc=pythoncomplete#Complete
 
 
 "}}}
-" Return line -------------------------------------------------------------{{{3
+" Return line {{{3
 
 " Make sure Vim returns to the same line when you reopen a file.
 augroup line_return
@@ -620,7 +656,7 @@ augroup line_return
 augroup END
 
 " }}}
-" Cursor and Cursorline ---------------------------------------------------{{{3
+" Cursor and Cursorline {{{3
 " Only show the statusline in the window that has current focus.
 augroup CursorLineFocus
     au!
@@ -636,24 +672,17 @@ augroup InsertNoCursorLine
 augroup END
 
 " }}}
-" Help file ------------------------------------------------------{{{3
-" set no spell when opening help files. Change tx=78 standard to tx=83
-	augroup Help
-		au!
-		au BufRead,BufEnter help set nospell
-		au BufRead,BufEnter help set textwidth=83
-	augroup END
-
-" SpellGroup --------------------------------------------------------------{{{3
-" sets formatting options specific to markdown
+" SpellGroup {{{3
+" Sets formatting options specific to markdown
 augroup SpellGroups
 	au!
 	autocmd FileType md,markdown,txt, set spell
 	autocmd FileType md,markdown,txt, set formatoptions+=a
 augroup END
 
+
 " }}}
-" Strip white space -------------------------------------------------------{{{3
+" Strip white space {{{3
 " clear white space and return cursor to position. The * is all filetypes
 function! <SID>StripTrailingWhitespaces()
     let l = line(".")
@@ -665,7 +694,7 @@ endfun
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 " }}}
-" Misc --------------------------------------------------------------------{{{3
+" Misc {{{3
 
 " Check if any buffers were changed outside of Vim.
 " Each loaded buffer is checked for its associated file being changed.  If the
@@ -690,8 +719,8 @@ augroup END
 endif
 " }}}
 "}}}
-" Functions ---------------------------------------------------------------{{{2
-" Number Toggle	-----------------------------------------------------------{{{3
+" Functions {{{2
+" Number Toggle {{{3
 " when setting paste this would be good to remove.
 function! NumberToggle()
 	if(&relativenumber == 1)
@@ -708,7 +737,7 @@ endfunction
 
 nnoremap <f2> :call NumberToggle()<CR>
 " }}}
-" Notes Grep --------------------------------------------------------------{{{3
+" Notes Grep {{{3
 " Get the line and column. This is so the cursor can be returend to the line.
 " Search notes with vims built in grep. Use a word boundary to stop grep looking
 " for words inside words like todo - autodone. If the string is not empty and
@@ -736,7 +765,7 @@ endfunction
 
 nnoremap <leader>n :call NoteGreper()<cr>
 
-" Project Grep ------------------------------------------------------------{{{3
+" Project Grep {{{3
 " Get the line and the column. Take a user input. Expand the path, this is so
 " it can tested to make sure we are not in the home Directory. Grep for the
 " search term. If there are results in the QuickFix open it.
@@ -771,18 +800,18 @@ nnoremap <leader>g :call ProjectGrep()<cr>
 
 " }}}
 " }}}
-" Plugins -----------------------------------------------------------------{{{1
-" Airline -----------------------------------------------------------------{{{2
+" Plugins {{{1
+" Airline {{{2
 
 " Make sure airline theme is loaded.
 let g:airline_powerline_fonts = 1
 let g:airline_theme='dark'
 
 " }}}
-" UltiSnippets ------------------------------------------------------------{{{2
+" UltiSnippets {{{2
 
 " Open the snippets editor for specific filetype
-nnoremap <leader>se :UltiSnipsEdit<CR>
+nnoremap <leader>es :UltiSnipsEdit<CR>
 
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/ultisnips']
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -790,7 +819,7 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsEditSplit="vertical"
 
 "}}}
-" Ctlp --------------------------------------------------------------------{{{2
+" Ctlp {{{2
 nnoremap <leader>m :CtrlPMRUFiles<cr>
 nnoremap <leader>bd :CtrlPBookmarkDir<cr>
 nnoremap <leader>b :CtrlPBuffer<cr>
@@ -822,7 +851,7 @@ let g:ctrlp_prompt_mappings = { 'ToggleMRURelative()': ['<F4>'] }
 
 
 "}}}
-" Extplorer --------------------------------------------------------------{{{2
+" Extplorer {{{2
 let g:netrw_home=$CACHE.'/netrw/'
 " remove the top banner
 let g:netrw_banner=0
@@ -845,7 +874,7 @@ let g:netrw_hide=0
 let g:netrw_list_hide='.*\.png$,.*\.pdf,.*\.mp4,.*\.mp3,.*\.svg,.*\.jpg'
 
 "}}}
-" Column depth gutter -----------------------------------------------------{{{2
+" Column depth gutter {{{2
 "let g:last_fold_column_width = 2
 
 "function! FoldColumnToggle()
@@ -859,7 +888,7 @@ let g:netrw_list_hide='.*\.png$,.*\.pdf,.*\.mp4,.*\.mp3,.*\.svg,.*\.jpg'
 
 "nnoremap <LEADER>f :call FoldColumnToggle()<cr>
 " }}}
-" Redraw ------------------------------------------------------------------{{{1
+" Redraw {{{1
 autocmd VimEnter * redraw!
 "}}}
 

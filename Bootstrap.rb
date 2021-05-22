@@ -100,15 +100,7 @@ class Dotfiles
 end
 
 #}}}
-
-#
-# TODO: add logger for the methods and output.
-# TODO: ignore directories specified.
-#
-
-#------------------------------------------------------------------------------
-# Logger
-#------------------------------------------------------------------------------
+# Logger ------------------------------------------------------------------{{{1
 # Create an instance of logger and set the time date format.
 $LOG = Logger.new STDOUT
 
@@ -121,7 +113,7 @@ $LOG.formatter = lambda do |severity, datetime, progname, msg|
 end
 
 $LOG.info blue("subtitles started")
-
+# }}}
 #------------------------------------------------------------------------------
 # Dotfiles
 #------------------------------------------------------------------------------
