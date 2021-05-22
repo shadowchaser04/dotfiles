@@ -1,8 +1,12 @@
-#------------------------------------------------------------------------------
+#==============================================================================
+# Version:2.0
+# Author: Shadow
+# Last Update: Saturday, 22 May, 2021,  3:53 PM
+#==============================================================================
 # ZSHRC
-#------------------------------------------------------------------------------
+#==============================================================================
 # Setopt {{{1
-#-------------------------------------------------------------------------------
+
 #print -Pn "\e]0; %n@%M: %~\a"
 
 # autocd without the cd command
@@ -26,7 +30,7 @@ setopt rm_star_wait
 setopt extendedglob
 
 # If the argument to a cd command (or an implied cd with the AUTO_CD option set)
-# is not a directory, and does not begin with a slash, try to expand the expression 
+# is not a directory, and does not begin with a slash, try to expand the expression
 # as if it were preceded by a ‘~’
 setopt cdable_vars
 
@@ -55,14 +59,15 @@ unsetopt hup
 zle -N hist_replay
 
 #}}}
-#{{{1 Unsetopt
+# Unsetopt {{{1
+
 # Zsh has a spelling corrector
 unsetopt CORRECT
 unsetopt CORRECTALL
+
 #}}}
-#{{{1 Prompt
-#------------------------------------------------------------------------------
-# Root
+# Prompt {{{1
+# Root {{{2
 #------------------------------------------------------------------------------
 if [ "$USER" = "root" ]; then
     prompt_user="%F{red}%n%f"
@@ -70,8 +75,8 @@ else
     prompt_user="%F{white}%n%f"
 fi;
 
-#------------------------------------------------------------------------------
-# Prompt color variables
+# }}}
+# Prompt color variables {{{2
 #------------------------------------------------------------------------------
 unicode_char="❯"
 div=""
@@ -86,10 +91,10 @@ prompt_machine="%F{blue}%m%f"
 prompt_symbol="%F{white}${unicode_char}${unicode_char}%f"
 prompt_exit_code=" %(?.%F{blue}.%F{red})❯%f"
 
+# }}}
+# Git Prompt {{{2
 #-------------------------------------------------------------------------------
-# Git Prompt
-#-------------------------------------------------------------------------------
-#
+
 # git branch to check if there is a git repo in the directory, use sed to find
 # the branch.
 
@@ -112,9 +117,8 @@ function parse_git_branch() {
 
 setopt PROMPT_SUBST
 
-
-#-------------------------------------------------------------------------------
-# Git commits
+# }}}
+# Git commits {{{2
 #-------------------------------------------------------------------------------
 function ahead_behind {
     # get the curretn branch
@@ -137,20 +141,19 @@ function ahead_behind {
     echo "$COMMITED"
 }
 
-# ------------------------------------------------------------------------------
-# basic layout
+# }}}
+# basic layout {{{2
 # ------------------------------------------------------------------------------
 # apple logo and date
-# time 
+# time
 # jobs
 # user, @, machine
 basic="${prompt_apple}%K{white} ${prompt_date}%k%K{blue}%F{white}${div}%f%k\
 %K{blue}%F{white}${prompt_time}%f%k%K{black}%F{blue}${div}%f%k\
 %K{black}${prompt_jobs}%k\
 %K ${prompt_user}${prompt_at}${prompt_machine}%k%K{cyan}%F${div}%f%k"
-
-#------------------------------------------------------------------------------
-# PS1 - %k = background color
+# }}}
+# PS1 {{{2
 #------------------------------------------------------------------------------
 # define a function that sets PS1, then add that function to the
 # precmd_functions array so that it is executed prior to displaying each
@@ -163,17 +166,20 @@ ${pre_lower}${prompt_exit_code}${prompt_symbol}"
 precmd_functions+=(prompt)
 
 #}}}
-#{{{1 Set Title
+# }}}
+# Set Title {{{1
+
 # When directory is changed set xterm title to host:dir
 chpwd() {
-    [[ -t 1 ]] || return
-    case $TERM in
+	[[ -t 1 ]] || return
+	case $TERM in
 	sun-cmd) print -Pn "\e]l%~\e\\";;
-        *xterm*|rxvt|(dt|k|E)term) print -Pn "\e]2;%m:%~\a";;
-    esac
+		*xterm*|rxvt|(dt|k|E)term) print -Pn "\e]2;%m:%~\a";;
+	esac
 }
+
 # }}}
-#{{{1 History
+# History {{{1
 #------------------------------------------------------------------------------
 # History
 #------------------------------------------------------------------------------
@@ -200,24 +206,23 @@ setopt HIST_IGNORE_ALL_DUPS
 # This will cause the oldest history duplicate to be lost
 setopt HIST_EXPIRE_DUPS_FIRST
 # When searching history don't display results already cycled through twice
-setopt HIST_FIND_NO_DUPS 
+setopt HIST_FIND_NO_DUPS
 
 # Remove from history list when first character on the line is a space
 setopt HIST_IGNORE_SPACE
 # Remove extra blanks from each command line being added to history
-setopt HIST_REDUCE_BLANKS 
+setopt HIST_REDUCE_BLANKS
 
 # Don't execute, just expand history: append :p to print the command without running it
 # setopt HIST_VERIFY
 
-
 #}}}
-# {{{1 Named Dirs
+# Named Dirs {{{1
 hash -d proj=$HOME/Code/Ruby/Projects/
 hash -d dot=$HOME/.dotfiles
 hash -d notes=$HOME/.notes
 # }}}
-#{{{1 Dir Stack
+# Dir Stack {{{1
 autoload -Uz add-zsh-hook
 
 DIRSTACKFILE="$HOME/.cache/zsh/recent_dirs.txt"
@@ -240,13 +245,14 @@ setopt PUSHD_IGNORE_DUPS
 ## This reverts the +/- operators.
 #setopt PUSHD_MINUS
 #}}}
-#{{{1 Functions
+# Functions {{{1
 
 # functions autoload and add to functions path
 autoload -U $HOME/.zsh/functions/*(:t)
 fpath=($ZSH/functions/ $fpath)
+
 #}}}
-# {{{1 Auto Comp
+# Auto Comp {{{1
 
 #setopt complete_aliases
 setopt COMPLETE_ALIASES
@@ -313,7 +319,8 @@ zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec))'
 zstyle ':completion:*:rm:*' ignore-line yes
 
 #}}}
-#{{{1 Switch Term
+# Switch Term {{{1
+
 # switch between term and vim (start v first)
 foreground-vi() {
   fg %vi
@@ -322,9 +329,7 @@ zle -N foreground-vi
 bindkey '^Z' foreground-vi
 
 # }}}
-#{{{1 vimmode
-#-------------------------------------------------------------------------------
-# vimode keybindings
+# Vimmode {{{1
 #-------------------------------------------------------------------------------
 bindkey -v
 
@@ -338,25 +343,12 @@ bindkey "^[[B" history-beginning-search-forward
 # in command mode seach history on the home row
 bindkey -M vicmd 'j' history-beginning-search-forward
 bindkey -M vicmd 'k' history-beginning-search-backward
-#bindkey -M vicmd "k" up-line-or-beginning-search
-#bindkey -M vicmd "j" down-line-or-beginning-search
-
-# Better searching in command mode
-# * turned it off still working?
-#bindkey -M vicmd '/' history-incremental-search-backward
-#bindkey -M vicmd '?' history-incremental-search-forward
 
 # delete rerun commands
 bindkey '^?' backward-delete-char
-#bindkey '^h' backward-delete-char
-#bindkey '^w' backward-kill-word
-
-# Beginning search with arrow keys
-#bindkey "^[OA" up-line-or-beginning-search
-#bindkey "^[OB" down-line-or-beginning-search
 
 #}}}
-#{{{1 rbenv
+# rbenv {{{1
 #
 export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
 
@@ -364,7 +356,6 @@ export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
 eval "$(rbenv init -)"
 #
 #}}}
-#
 # Source {{{1
 #-------------------------------------------------------------------------------
 # git username and tokens
@@ -385,8 +376,7 @@ for config_file ($ZSH/lib/*.zsh); do
 done
 
 # }}}
-# {{{1 Zsh Autosuggest
+# Zsh Autosuggest {{{1
 # change the forground color
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#4b4b4b'
 #}}}
-

@@ -1,6 +1,11 @@
-#-------------------------------------------------------------------------------
-# Editor
-#-------------------------------------------------------------------------------
+#==============================================================================
+# Version::2.0
+# Author: Shadow
+# Last Update: Saturday, 22 May, 2021,  3:53 PM
+#==============================================================================
+# Zsh Aliases
+#==============================================================================
+# Editor {{{1
 alias v="$EDITOR"                           # use the env var $EDITOR, vim
 #-------------------------------------------------------------------------------
 # List files/directories
@@ -11,15 +16,13 @@ alias v="$EDITOR"                           # use the env var $EDITOR, vim
 # s=sort by size but keep alphabetical order
 alias l="ls -lAs"
 alias ll="ls -l"
-#-------------------------------------------------------------------------------
-# History and grep
-#-------------------------------------------------------------------------------
+# }}}
+# History and grep {{{1
 alias grep="grep --color=auto"              # color grep
 alias history="history -i 1 -1"             # history
 alias h="history"                           # history
-#-------------------------------------------------------------------------------
-#
-#-------------------------------------------------------------------------------
+# }}}
+# Misc {{{1
 alias t="touch"                             # create a new file
 alias j="jobs -l"                           # jobs
 alias get="curl -O -L"                      # curl aliased to get
@@ -28,17 +31,15 @@ alias td="v $(find ~/.notes/todo.md)"       # todo
 alias za="v $(find ~/.zsh_aliases)"         # zsh aliases
 alias c_last="fc -l -1 | cut -d\  -f3- | pbcopy"    # copy last command to clip
 alias d_sizes="df -H"                        # show disc space
-#-------------------------------------------------------------------------------
-# Show/hide hidden files in Finder
-#------------------------------------------------------------------------------
+# }}}
+# Show/hide hidden files in Finder {{{1
 alias finder='open .'                       # opens finder in $PWD
 # reveal hidden files
 alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
 # hide hidden files
 alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
-#------------------------------------------------------------------------------
-# globals
-#------------------------------------------------------------------------------
+# }}}
+# globals {{{1
 alias -g G='| grep'
 alias -g C='| wc -l'
 alias -g H='| head'
@@ -47,11 +48,8 @@ alias -g L="| less"
 alias -g N="| /dev/null"
 alias -g S='| sort'
 alias -g A='| awk'
-
-#------------------------------------------------------------------------------
-# suffix
-#------------------------------------------------------------------------------
-
+# }}}
+# suffix {{{1
 # text and programing
 alias -s txt="$EDITOR"
 alias -s md="$EDITOR"
@@ -77,8 +75,8 @@ alias -s eac3="open"
 alias -s movi="open"
 alias -s caf="open"
 alias -s aiff="open"
-#-------------------------------------------------------------------------------
-# dir stack
+# }}}
+# dir stack {{{1
 #-------------------------------------------------------------------------------
 
 # print the stack.
@@ -96,9 +94,8 @@ alias 7='cd +7'
 alias 8='cd +8'
 alias 9='cd +9'
 
-#-------------------------------------------------------------------------------
-# counts and files
-#-------------------------------------------------------------------------------
+# }}}
+# counts and files {{{1
 alias wordy='wc -w * | sort '               # sort files in current directory by the number of words they contain
 alias du='du -h -c'                         # Calculate total disk usage for a folder
 alias topten="history | commands | sort -rn | head"
@@ -110,73 +107,64 @@ alias watchlist="ruby ~/Code/Ruby/Projects/watchlist/scripts/watchlist.rb"
 # directory and child directories, giving you a quick overview of what you
 # still have to do!
 #alias tasks='grep --exclude-dir=.git -rEI "TODO|FIXME|NOTE" . 2>/dev/null'
-#-------------------------------------------------------------------------------
-# git
-#-------------------------------------------------------------------------------
+# }}}
+# git {{{1
 alias g='git'
-#-------------------------------------------------------------------------------
-# add, commit, status
-#-------------------------------------------------------------------------------
+# }}}
+# add, commit, status {{{1
 alias ga='g a'                          # git add changes
 alias gaa='g aa'                        # git add changes
 alias gs='g st'                         # git status
 alias gcm='g cm'                        # git commit -message
 alias gacm='g acm'                      # git add commit -message
 alias gu='g up'                         # pulls from remote, rebase local commits.
-#-------------------------------------------------------------------------------
-# branches
-#-------------------------------------------------------------------------------
+# }}}
+# branches {{{1
 alias gco='g co'                        # git check out
 alias gcob='g cob'                      # git check out branch
 alias gcol='g col'                      # git check out last branch
-#-------------------------------------------------------------------------------
-# display branches
-#-------------------------------------------------------------------------------
+# }}}
+# display branches {{{1
 alias gbl='g bl'                        # git branch local
 alias gbr='g br'                        # git branch remote
-#-------------------------------------------------------------------------------
-# push
-#-------------------------------------------------------------------------------
+# }}}
+# push {{{1
 alias gp='g push'                       # git push
 alias gpm='g psuom'                     # git push -u origin master
-#-------------------------------------------------------------------------------
-# log
-#-------------------------------------------------------------------------------
+# }}}
+# log {{{1
 alias gl='g l'                          # git log short
 alias gll='g la'                        # git log long
-#-------------------------------------------------------------------------------
-# un
-#-------------------------------------------------------------------------------
+# }}}
+# un {{{1
 alias gund='g undo'                     # git undo
 alias guns='g unstage'                  # git unstage
 alias gunc='g uncommit'                 # git unstage
-#-------------------------------------------------------------------------------
-# status
-#-------------------------------------------------------------------------------
+# }}}
+# status {{{1
 alias gn='g new'                        # git new commits
 alias gsh='g sh'                        # git show head additions and deletions
-#-------------------------------------------------------------------------------
-# diff
-#-------------------------------------------------------------------------------
+# }}}
+# diff {{{1
 alias gd='g diff'                       # git diff
-#-------------------------------------------------------------------------------
-# update
-#-------------------------------------------------------------------------------
+# }}}
+# update {{{1
 alias gru='g update'                    # git remote update - get remote comits
-#-------------------------------------------------------------------------------
-# Ruby scripts
-#-------------------------------------------------------------------------------
+# }}}
+# Ruby scripts {{{1
 alias ginit="ruby ~/.bin/git_init/git_init.rb"          # init a git repo local and remote
 alias lookfor="ruby ~/.bin/lookfor/lookfor.rb"          # look up
 alias quote="ruby $HOME/.bin/quotes.rb"                 # find quotes
 alias lyric="ruby $HOME/.bin/lyrics.rb"                 # find lyrics
 alias samp="ruby $HOME/.bin/samples.rb"                 # find samples
 alias subs="ruby $HOME/.bin/subtitles/subs.rb"          # search subtitles
-#------------------------------------------------------------------------------
-# resource
-#------------------------------------------------------------------------------
+# }}}
+# resource {{{1
 alias vr="$EDITOR $HOME/.vimrc"
 alias zr="$EDITOR $HOME/.zshrc"
 
+# }}}
+# old function {{{1
 # update has been made into a function for formatting reasons
 # ~/.zsh/function/update
+# }}}

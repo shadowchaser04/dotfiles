@@ -1,16 +1,7 @@
 "==============================================================================
-" Version::2.0
+" Version:2.0
 " Author: Shadow
 " Last Update: Wednesday, 19 May 2021  4:05 AM
-"==============================================================================
-
-" NOTE: For plugin docs. pwd in the pluging docs directory.
-" Then in vim type :helptags /Users/{username}/.vim/bundle/{plugin}/doc
-"
-" TODO: When in terminal or tree mode <control> hjkl are not working.
-" TODO: Repl using pry binding for ruby.
-" TODO: Autocomplete consistency, input best match.
-"
 "==============================================================================
 "
 "    .o oOOOOOOOo                                       .....0OOOo
@@ -30,6 +21,9 @@
 "                      `$"  `OOOO' `O"! ' `OOOO'  o             .
 "    .                  .      O"          : o     .
 
+"==============================================================================
+" Vimrc
+"==============================================================================
 " Notes {{{1
 
 " ----Toggle----
@@ -256,9 +250,6 @@ set highlight+=@:ColorColumn
 " }}}
 " Folding {{{2
 
-" zM - Close all folds
-" zR - Open all folds
-
 set foldlevelstart=0
 set foldenable
 set foldmethod=marker
@@ -266,36 +257,7 @@ set foldnestmax=5
 
 hi Folded term=bold ctermfg=12 ctermbg=8 guifg=Cyan guibg=DarkGrey
 
-" textwidth = 80
-" Full width = 200
-
-function! MyFoldText()
-	let line = getline(v:foldstart)
-	let foldedlinecount = v:foldend - v:foldstart
-	let separator = 80 - len(line) - 4
-
-	let line_end = foldedlinecount . ' - lines |' . ' depth '
-	let line_separator = repeat('-', separator - len(line_end) + 3)
-	let line = substitute(line,' {{{',' ' . line_separator . line_end,'g')
-
-	" Create the space for after the 80 text width
-	let space = 200 - len(line)
-	return line.'...'.repeat(" ",space)
-
-endfunction
-
-	"let windowwidth = winwidth(0) - nucolwidth - 3
-	"let fillcharcount = winwidth(0) - len(line) - len(foldedlinecount)
-	" count the amount of fines from one marker to the next
-	"let onetab = strpart('    ',0,&tabstop)
-	" count the line then subtract from 80 chars. This gives us to the end.
-	"let line = strpart(line,0,windowwidth - 2 - len(foldedlinecount))
-	"return line.''.repeat(" ",fillcharcount)
-
-set foldtext=MyFoldText()
-
 "}}}
-"
 " Splits {{{2
 " When on, splitting a window will put the new window below the current one.
 set splitbelow
@@ -471,7 +433,7 @@ set pastetoggle=<F1>
 "nnoremap <f3> :set nonumber! number?<CR>
 
 " }}}
-" Substitution ------------------------------------------------------------{{{3
+" Substitution {{{3
 " The word boundary is set by adding /\<word\>/ " This will replace <in> but
 " not <inside>.
 " Word under the cursor, specifies just the line.
@@ -483,18 +445,18 @@ nnoremap <leader>s :%s/\<<C-r><C-w>\>//
 " One key substitution within a paragraph, word under cursor.
 nnoremap & :'{,'}s/<c-r>=expand('<cword>')<cr>/
 " }}}
-" Grep --------------------------------------------------------------------{{{3
+" Grep {{{3
 " Greps through project for the word under the cursor.
 nnoremap <leader>gr :vimgrep /\<<c-r>=expand('<cword>')<cr>\>/ % \| :copen<CR>
 
 " funky - find def || classes in the file.
 nnoremap <leader>f :vimgrep /\<\(def\\|^class\\|^module\)\>/ % \| :copen<CR>
 " }}}
-" Split -------------------------------------------------------------------{{{3
+" Split {{{3
 " Shift s to split the line at cursor. Same as shift j for join.
 nnoremap S i<CR><esc>^mwgk:silent! s/\v+$//<cr>:noh<CR>`w
 " }}}
-" Capitalisation ----------------------------------------------------------{{{3
+" Capitalisation {{{3
 " Upper word
 nnoremap <leader>uw gUiw
 " Upper line
@@ -504,7 +466,7 @@ nnoremap <leader>lw guaw
 " Lower line
 nnoremap <leader>ll guu
 " }}}
-" Search and center -------------------------------------------------------{{{3
+" Search and center {{{3
 " Keep search matches in the middle of the window.
 nnoremap n nzzzv
 nnoremap N Nzzzv
@@ -522,20 +484,20 @@ nnoremap <silent><leader>/ : execute 'vimgrep / '.@/.'/g %'<CR>:copen<CR>
 "nnoremap g; g;zz
 "nnoremap g, g,zz
 " }}}
-" No highlight ------------------------------------------------------------{{{3
+" No highlight {{{3
 nnoremap <leader><space> :noh<CR>
 " }}}
-" Edit resource files -----------------------------------------------------{{{3
+" Edit resource files {{{3
 nnoremap <leader>vr :vsplit $MYVIMRC<cr>
 " }}}
-" Quick edits -------------------------------------------------------------{{{3
+" Quick edits {{{3
 
 let $MYVIM = $HOME.'/.vim'
 nnoremap <leader>ed :vsplit $MYVIM/custom-dictionary.utf-8.add<CR>
 nnoremap <leader>ea :vsplit $MYVIM/abbrevs.vim<CR>
 
 " }}}
-" Comand mode -------------------------------------------------------------{{{3
+" Comand mode {{{3
 " emacs bindings in command line mode.
 " H and L = left and right.
 " Shift H and L = beginning and end of a line in normal mode.
@@ -544,28 +506,28 @@ cnoremap <c-h> <home>
 cnoremap <c-l> <end>
 
 " }}}
-" Format options ----------------------------------------------------------{{{3
+" Format options {{{3
 nnoremap <leader>fp gq}<CR>
 " }}}
-" Session make ------------------------------------------------------------{{{3
+" Session make {{{3
 nnoremap <leader>se :mks %:h/session.vim<cr>
 " }}}
-" Explore -----------------------------------------------------------------{{{3
+" Explore {{{3
 " Uses the builtin directory search.
 nnoremap <leader>x :Lexplore<CR>
 " }}}
-" Folding -----------------------------------------------------------------{{{3
+" Folding {{{3
 
 " close all folds except the current fold except
  nnoremap <leader>z zMzvzz
 " }}}
-" Arrow Keys --------------------------------------------------------------{{{3
+" Arrow Keys {{{3
 nnoremap <UP> :resize -2<Cr>
 nnoremap <DOWN> :resize +2<Cr>
 nnoremap <LEFT> :vertical resize +2<Cr>
 nnoremap <RIGHT> :vertical resize -2<Cr>
 " }}}
-" Unmap -------------------------------------------------------------------{{{3
+" Unmap {{{3
 " clear k so i don't keep pressing it when i join lines.
 nnoremap K <nop>
 
@@ -657,6 +619,7 @@ augroup END
 
 " }}}
 " Cursor and Cursorline {{{3
+
 " Only show the statusline in the window that has current focus.
 augroup CursorLineFocus
     au!
@@ -673,6 +636,7 @@ augroup END
 
 " }}}
 " SpellGroup {{{3
+
 " Sets formatting options specific to markdown
 augroup SpellGroups
 	au!
@@ -683,6 +647,7 @@ augroup END
 
 " }}}
 " Strip white space {{{3
+
 " clear white space and return cursor to position. The * is all filetypes
 function! <SID>StripTrailingWhitespaces()
     let l = line(".")
@@ -696,11 +661,6 @@ autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 " }}}
 " Misc {{{3
 
-" Check if any buffers were changed outside of Vim.
-" Each loaded buffer is checked for its associated file being changed.  If the
-" file was changed Vim will take action.  If there are no changes in the buffer
-" and 'autoread' is set, the buffer is reloaded.
-" NOTE: needs somthing that excludes command windows.
 " au FocusGained,BufEnter * checktime
 
 " If the terminal frame is reduce or expanded keep the windows equal.
@@ -710,16 +670,48 @@ au VimResized * :wincmd =
 autocmd InsertLeave * set nopaste
 
 " Source my vimrc file when the full buffer is writen.
-augroup vimrc
-autocmd!
 " automatically source $MYVIMRC or $DOTVIMRC when writing to a .vimrc file.
+augroup vimrc
+
+autocmd!
 autocmd! BufWritePost $MYVIMRC,$DOTVIMRC source $MYVIMRC | echom "Reloaded $MYVIMRC"
 augroup END
 
 endif
+
 " }}}
 "}}}
 " Functions {{{2
+" Fold Text {{{3
+
+" Get each line from the foldstart.
+" Create a seperator by subtracting the line length from the textwidth which is
+" 80. The remainder is then the length needed. The end of the line displays the
+" lines and depth. This is created as a string, the length of which is then
+" subtracted from the seperator. This gives us the length of 80. Repeat is then
+" used on empty space until the end of the line. 200 width subtracting the line
+" length. This should always equal 80.
+" There is a substitution on the fold marker \{\{\{. Adding in the seperator and
+" the line_end.
+
+function! MyFoldText()
+	let line = getline(v:foldstart)
+	let foldedlinecount = v:foldend - v:foldstart
+	let separator = 80 - len(line)
+
+	let line_end = foldedlinecount . ' - lines |' . ' depth '
+	let line_separator = repeat('-', separator - len(line_end) - 1)
+	let line = substitute(line," \{\{\{",' ' . line_separator . line_end,'g')
+
+	" Create the space for after the 80 text width
+	let space = 200 - len(line)
+	return toupper(line).'...'.repeat(" ",space)
+
+endfunction
+
+set foldtext=MyFoldText()
+
+" }}}
 " Number Toggle {{{3
 " when setting paste this would be good to remove.
 function! NumberToggle()
@@ -738,6 +730,7 @@ endfunction
 nnoremap <f2> :call NumberToggle()<CR>
 " }}}
 " Notes Grep {{{3
+
 " Get the line and column. This is so the cursor can be returend to the line.
 " Search notes with vims built in grep. Use a word boundary to stop grep looking
 " for words inside words like todo - autodone. If the string is not empty and
@@ -766,6 +759,7 @@ endfunction
 nnoremap <leader>n :call NoteGreper()<cr>
 
 " Project Grep {{{3
+
 " Get the line and the column. Take a user input. Expand the path, this is so
 " it can tested to make sure we are not in the home Directory. Grep for the
 " search term. If there are results in the QuickFix open it.
@@ -798,6 +792,7 @@ endfunction
 
 nnoremap <leader>g :call ProjectGrep()<cr>
 
+" }}}
 " }}}
 " }}}
 " Plugins {{{1
@@ -874,22 +869,7 @@ let g:netrw_hide=0
 let g:netrw_list_hide='.*\.png$,.*\.pdf,.*\.mp4,.*\.mp3,.*\.svg,.*\.jpg'
 
 "}}}
-" Column depth gutter {{{2
-"let g:last_fold_column_width = 2
-
-"function! FoldColumnToggle()
-    "if&foldcolumn
-        "let g:last_fold_column_width = &foldcolumn
-        "setlocal foldcolumn=0
-    "else
-        "let &l:foldcolumn = g:last_fold_column_width
-    "endif
-"endfunction
-
-"nnoremap <LEADER>f :call FoldColumnToggle()<cr>
 " }}}
 " Redraw {{{1
 autocmd VimEnter * redraw!
 "}}}
-
-

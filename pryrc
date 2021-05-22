@@ -1,5 +1,11 @@
-#------------------------------------------------------------------------------
-# awsome print
+#==============================================================================
+# Version::2.0
+# Author: Shadow
+# Last Update: Saturday, 22 May, 2021,  3:05 PM
+#==============================================================================
+# Pryrc
+#==============================================================================
+# awsome print {{{1
 #------------------------------------------------------------------------------
 
 begin
@@ -36,57 +42,52 @@ if defined?(Rails)
     )
 end
 
-#------------------------------------------------------------------------------
-# config
+# config {{{1
 #------------------------------------------------------------------------------
 Pry.config.editor = "vim"
 
 Pry.config.pager = false
 
-#------------------------------------------------------------------------------
-# Indent
+# }}}
+# Indent {{{1
 #------------------------------------------------------------------------------
 # automatic indenting of input will occur.
 Pry.config.auto_indent = false
 
-# Pry.config.correct_indent is a boolean option determining whether 
+# Pry.config.correct_indent is a boolean option determining whether
 # correction of indenting will occur (requires auto_indent to be set to true).
 # Setting it to false disables correction.
 
 Pry.config.correct_indent = true
 
-#------------------------------------------------------------------------------
-# color
+# }}}
+# color {{{1
 #------------------------------------------------------------------------------
 Pry.config.ls.heading_color = :magenta
 Pry.config.ls.instance_var_color = :green
 Pry.config.ls.public_method_color = :white
 Pry.config.ls.protected_method_color = :yellow
 Pry.config.ls.private_method_color = :bright_black
-
-#------------------------------------------------------------------------------
-# prompt
+# }}}
+# prompt {{{1
 #------------------------------------------------------------------------------
 # project base name
 Pry.config.prompt_name = File.basename(Dir.pwd)
-
-#------------------------------------------------------------------------------
-# Exception reformatting
+# }}}
+# Exception reformatting {{{1
 #------------------------------------------------------------------------------
 Pry.config.exception_handler = proc do |output, exception, _|
   output.puts "\e[31m#{exception.class}: #{exception.message}"
   output.puts "\001\e[0;37m\002=>\e[31m from #{exception.backtrace.first}\e[0m"
 end
-
-#------------------------------------------------------------------------------
-# Last command
+# }}}
+# Last command {{{1
 #------------------------------------------------------------------------------
 Pry::Commands.command /^$/, "repeat last command" do
   _pry_.run_command Pry.history.to_a.last
 end
-
-#------------------------------------------------------------------------------
-# Aliases
+# }}}
+# Aliases {{{1
 #------------------------------------------------------------------------------
 #Pry.commands.alias_command 'hi', 'hist -a'
 Pry.commands.alias_command 'w', 'whereami'
@@ -110,8 +111,8 @@ if defined?(PryByebug)
   Pry.commands.alias_command 'bda', 'break --disable-all'
 end
 
-#------------------------------------------------------------------------------
-# Cheat sheet
+# }}}
+# Cheat sheet {{{1
 #------------------------------------------------------------------------------
 Pry::Commands.block_command('cheat', 'Display Cheatsheet') do
   puts '-----------------------------------------------------------------------'
@@ -145,14 +146,14 @@ Pry::Commands.block_command('cheat', 'Display Cheatsheet') do
   puts 'find-method : <search-text>  – list methods that match method-name'
 end
 
-#------------------------------------------------------------------------------
-# repeat the last command by hitting the Enter key
+# }}}
+# repeat last {{{1
 #------------------------------------------------------------------------------
 #Pry::Commands.command /^$/, "repeat last command" do
   #_pry_.run_command Pry.history.to_a.last
 #end
-#------------------------------------------------------------------------------
-# Dir
+# }}}
+# Dir {{{1
 #------------------------------------------------------------------------------
 # Print (current) working directory
 def pwd
@@ -174,8 +175,9 @@ Pry.config.commands.command 'pbcopy', 'Copy input to clipboard' do |input|
   input = input ? target.eval(input) : _pry_.last_result
   IO.popen('pbcopy', 'w') { |io| io << input }
 end
-#------------------------------------------------------------------------------
-# History
+
+# }}}
+# History {{{1
 #------------------------------------------------------------------------------
 # load history on start up.
 Pry.history.load
@@ -198,3 +200,4 @@ def search_history(filter)
     puts `cat ~/.pry_history | grep "#{filter}"`
 end
 
+# }}}
