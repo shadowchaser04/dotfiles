@@ -1,5 +1,5 @@
 #==============================================================================
-# Version::2.0
+# Version: 2.0
 # Author: Shadow
 # Last Update: Wednesday, 19 May 2021  4:05 AM
 #==============================================================================
@@ -395,6 +395,7 @@ stash-count = !git stash list | wc -l 2>/dev/null | grep -oEi '[0-9][0-9]*'
 # }}}
 # tag {{{1
 #--------------------------------------------------------------------------
+
 t = tag
 
 # }}}
@@ -405,6 +406,7 @@ ahead = !git rev-list --right-only --count $(git bu)...HEAD
 # }}}
 # submodules {{{1
 #--------------------------------------------------------------------------
+
 # add submodule from remote repo git subadd <user-name>/<repo-name>
 # root-to-bundle from base dir.
 # example: git subadd shadow-chasing/headfuck vim/bundle
@@ -415,6 +417,7 @@ subup = submodule update --init --recursive
 
 # re-clone each of the listed modules
 subpull = !git submodule foreach git pull --tags origin master
+
 # }}}
 # help {{{1
 #--------------------------------------------------------------------------

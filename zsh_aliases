@@ -1,12 +1,14 @@
 #==============================================================================
-# Version::2.0
+# Version: 2.0
 # Author: Shadow
 # Last Update: Saturday, 22 May, 2021,  3:53 PM
 #==============================================================================
 # Zsh Aliases
 #==============================================================================
 # Editor {{{1
+
 alias v="$EDITOR"                           # use the env var $EDITOR, vim
+
 #-------------------------------------------------------------------------------
 # List files/directories
 #-------------------------------------------------------------------------------
@@ -16,11 +18,14 @@ alias v="$EDITOR"                           # use the env var $EDITOR, vim
 # s=sort by size but keep alphabetical order
 alias l="ls -lAs"
 alias ll="ls -l"
+
 # }}}
 # History and grep {{{1
+
 alias grep="grep --color=auto"              # color grep
 alias history="history -i 1 -1"             # history
 alias h="history"                           # history
+
 # }}}
 # Misc {{{1
 alias t="touch"                             # create a new file
@@ -96,6 +101,7 @@ alias 9='cd +9'
 
 # }}}
 # counts and files {{{1
+
 alias wordy='wc -w * | sort '               # sort files in current directory by the number of words they contain
 alias du='du -h -c'                         # Calculate total disk usage for a folder
 alias topten="history | commands | sort -rn | head"
@@ -107,11 +113,13 @@ alias watchlist="ruby ~/Code/Ruby/Projects/watchlist/scripts/watchlist.rb"
 # directory and child directories, giving you a quick overview of what you
 # still have to do!
 #alias tasks='grep --exclude-dir=.git -rEI "TODO|FIXME|NOTE" . 2>/dev/null'
+
 # }}}
 # git {{{1
+# main git {{{2
 alias g='git'
 # }}}
-# add, commit, status {{{1
+# add, commit, status {{{2
 alias ga='g a'                          # git add changes
 alias gaa='g aa'                        # git add changes
 alias gs='g st'                         # git status
@@ -119,37 +127,38 @@ alias gcm='g cm'                        # git commit -message
 alias gacm='g acm'                      # git add commit -message
 alias gu='g up'                         # pulls from remote, rebase local commits.
 # }}}
-# branches {{{1
+# branches {{{2
 alias gco='g co'                        # git check out
 alias gcob='g cob'                      # git check out branch
 alias gcol='g col'                      # git check out last branch
 # }}}
-# display branches {{{1
+# display branches {{{2
 alias gbl='g bl'                        # git branch local
 alias gbr='g br'                        # git branch remote
 # }}}
-# push {{{1
+# push {{{2
 alias gp='g push'                       # git push
 alias gpm='g psuom'                     # git push -u origin master
 # }}}
-# log {{{1
+# log {{{2
 alias gl='g l'                          # git log short
 alias gll='g la'                        # git log long
 # }}}
-# un {{{1
+# status {{{2
+alias gn='g new'                        # git new commits
+alias gsh='g sh'                        # git show head additions and deletions
+# }}}
+# diff {{{2
+alias gd='g diff'                       # git diff
+# }}}
+# un {{{2
 alias gund='g undo'                     # git undo
 alias guns='g unstage'                  # git unstage
 alias gunc='g uncommit'                 # git unstage
 # }}}
-# status {{{1
-alias gn='g new'                        # git new commits
-alias gsh='g sh'                        # git show head additions and deletions
-# }}}
-# diff {{{1
-alias gd='g diff'                       # git diff
-# }}}
-# update {{{1
+# update {{{2
 alias gru='g update'                    # git remote update - get remote comits
+# }}}
 # }}}
 # Ruby scripts {{{1
 alias ginit="ruby ~/.bin/git_init/git_init.rb"          # init a git repo local and remote

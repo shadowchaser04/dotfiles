@@ -1,5 +1,5 @@
 "==============================================================================
-" Version:2.0
+" Version: 2.0
 " Author: Shadow
 " Last Update: Wednesday, 19 May 2021  4:05 AM
 "==============================================================================
@@ -22,7 +22,7 @@
 "    .                  .      O"          : o     .
 
 "==============================================================================
-" Vimrc
+" VIMRC
 "==============================================================================
 " Notes {{{1
 
@@ -37,8 +37,11 @@
 " helpgrep - grep helpfiles.
 " ge - Always forget back end
 " control f/b forwad by page and back
+" g; || g, - last insert changes
 
 " ----search----
+"  changes
+"  jumps
 " history - q:
 " search  - q/
 " control a, control x - increment and decrement
@@ -111,11 +114,10 @@ colorscheme solarized
 " A leader key is used like a prefix. It precedes a map/remap. So as to avoid
 " clashing with vim's builtin key settings.
 "
-" Big deal new spacebar leader key. I understand the distinction between space
-" bar and the empty quotes. This is what i was told to follow and works.
-" the expected example: \<space> does not??????????????????????????????????????
-let mapleader = ' '
-let maplocalleader = ' '
+" Big deal new spacebar leader key.
+let mapleader = "\<space>"
+let maplocalleader = "\<space>"
+
 " }}}
 " Locational Variables {{{2
 " Some variables are set to avoid misspellings. In a Vim script variables
@@ -135,7 +137,7 @@ let $CACHE=$HOME.'/.cache'
 " Layout {{{1
 " Screen Layout {{{2
 
-" The title of the window will be set to the value of 'titlestring' (if it is not empty)
+" The title of the window will be set to the value of 'titlestring'
 set title
 
 " Display the literal line number
@@ -146,6 +148,7 @@ set number
 set relativenumber
 
 set cursorline
+
 " Remove the underline default from the line number
 hi CursorLineNr term=bold cterm=bold ctermfg=12 gui=bold
 
@@ -259,6 +262,7 @@ hi Folded term=bold ctermfg=12 ctermbg=8 guifg=Cyan guibg=DarkGrey
 
 "}}}
 " Splits {{{2
+
 " When on, splitting a window will put the new window below the current one.
 set splitbelow
 " When on, splitting a window will put the new window to the right of the
@@ -267,11 +271,11 @@ set splitright
 
 " Always use vertical diffs
 set diffopt=vertical
+
 "}}}
 " }}}
 " Formatting {{{1
 " Format Options {{{2
-" NOTE: Paste inserts tabs not spaces
 
 " When on a comment, Automatically insert the current comment leader after
 " hitting o or O in Normal mode.
@@ -287,6 +291,7 @@ set nojoinspaces
 
 " }}}
 " Tab {{{2
+
 " **FTPLUGIN** - can set the tablevel for programing launguages itself. Paste
 " will preserve the user defined levels set and the choice of tabs or spaces.
 
@@ -330,7 +335,64 @@ set matchtime=3
 " When a bracket is inserted, briefly jump to the matching one.
 set showmatch
 
-" }}} Search
+" }}}
+" }}}
+" completion {{{1
+
+" menuone   - Display a menu even if there is only one menu.
+" longest   - Inserts the longest string.
+" noinsert  - Does not insert the first word. No effect if longest is present.
+" popup     - Show extra information about the currently selected completion in
+"             a popup window.  Only works in combination with "menu" or "menuone".
+set completeopt=menuone,noinsert
+" . - current buffer
+" w - buffer in other windows
+" b - other loaded buffers
+" u - unloaded buffer
+" t - tags
+" i - included files
+set complete+=.,w,b,u,t
+
+" The active spell checking dictionary, when spell checking is enabled.
+set complete+=kspell
+set dictionary+=/usr/share/dict/words
+
+" Dimensions of the popup window.
+set completepopup=height:10,width:60,highlight:InfoPopup
+
+"}}}
+" Search {{{1
+
+" If the 'ignorecase' option is on, the case of normal letters is ignored.
+" 'smartcase' can be set to ignore case when the pattern contains lowercase
+" letters only
+set ignorecase
+" Override the 'ignorecase' option if the search pattern contains upper case
+" characters.
+set smartcase
+
+" While typing a search command, show where the pattern is matched.
+set incsearch
+
+" last search pattern highlighting
+set hlsearch
+
+" When on, the :substitute flag 'g' is default on.
+set gdefault
+
+" For regular expression
+set magic
+
+"}}}
+" Ignore {{{1
+set wildignore+=.hg,.git,.svn                    " Version control
+set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip         " MacOSX/Linux
+set wildignore+=*.spl                            " compiled spelling word lists
+set wildignore+=*.sw?                            " Vim swap files
+set wildignore+=*.DS_Store                       " OSX bullshit
 "}}}
 " History, Spell, Undo and Abbrev {{{1
 
@@ -367,106 +429,44 @@ if filereadable(expand("~/.vim/abbrevs.vim"))
 endif
 
 "}}}
-" Search {{{1
-
-" If the 'ignorecase' option is on, the case of normal letters is ignored.
-" 'smartcase' can be set to ignore case when the pattern contains lowercase
-" letters only
-set ignorecase
-" Override the 'ignorecase' option if the search pattern contains upper case
-" characters.
-set smartcase
-
-" While typing a search command, show where the pattern is matched.
-set incsearch
-
-" last search pattern highlighting
-set hlsearch
-
-" When on, the :substitute flag 'g' is default on.
-set gdefault
-
-" For regular expression
-set magic
-
-"}}}
-" Ignore {{{1
-set wildignore+=.hg,.git,.svn                    " Version control
-set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
-set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
-set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip         " MacOSX/Linux
-set wildignore+=*.spl                            " compiled spelling word lists
-set wildignore+=*.sw?                            " Vim swap files
-set wildignore+=*.DS_Store                       " OSX bullshit
-"}}}
 " Hackey Stuff {{{1
 " Remaps {{{2
-" Movement {{{3
-" Easier escaping
+" esc {{{3
+
+" keep hands on the homerow
 inoremap jj <Esc>
+
+" }}}
+" Movement {{{3
 
 " Make j and k work well on wrapped lines
 noremap j gj
 noremap k gk
 
-" To the beginning and end of the line
+" Control-j/k jump through the change list, to last inserts point.
+nnoremap <C-j> g;
+nnoremap <C-k> g,
+
+" Shift-h/l to the beginning and end of the line
 nnoremap H ^
 nnoremap L g_
 
+" Control-h/l To the beginning and end of the line in command mode
+cnoremap <C-h> <home>
+cnoremap <C-l> <end>
+
+" }}}
+" split windows {{{3
+
 " Remap control instead of control w to jump between splits
-" TODO: Why doesn't this work in the terminal.
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
+nnoremap <UP> <C-w>k
+nnoremap <DOWN> <C-w>j
+nnoremap <LEFT> <C-w>h
+nnoremap <RIGHT> <C-w>l
 
-nnoremap <C-l> <C-w>l
-nnoremap <C-j> <C-w>j
-" }}}
-" Paste {{{3
-" Copy to system clipboard with ''
-vmap '' :w !pbcopy<CR><CR>
-
-" set paste unsets some of vims indent and format options.
-set pastetoggle=<F1>
-
-" this seems to be a way to toggle boolean values.
-"nnoremap <f3> :set nonumber! number?<CR>
-
-" }}}
-" Substitution {{{3
-" The word boundary is set by adding /\<word\>/ " This will replace <in> but
-" not <inside>.
-" Word under the cursor, specifies just the line.
-" NOTE: use &
-
-" %s    - Word under the cursor, specifies all lines.
-nnoremap <leader>s :%s/\<<C-r><C-w>\>//
-
-" One key substitution within a paragraph, word under cursor.
-nnoremap & :'{,'}s/<c-r>=expand('<cword>')<cr>/
-" }}}
-" Grep {{{3
-" Greps through project for the word under the cursor.
-nnoremap <leader>gr :vimgrep /\<<c-r>=expand('<cword>')<cr>\>/ % \| :copen<CR>
-
-" funky - find def || classes in the file.
-nnoremap <leader>f :vimgrep /\<\(def\\|^class\\|^module\)\>/ % \| :copen<CR>
-" }}}
-" Split {{{3
-" Shift s to split the line at cursor. Same as shift j for join.
-nnoremap S i<CR><esc>^mwgk:silent! s/\v+$//<cr>:noh<CR>`w
-" }}}
-" Capitalisation {{{3
-" Upper word
-nnoremap <leader>uw gUiw
-" Upper line
-nnoremap <leader>ul gUU
-" Lower word
-nnoremap <leader>lw guaw
-" Lower line
-nnoremap <leader>ll guu
 " }}}
 " Search and center {{{3
+
 " Keep search matches in the middle of the window.
 nnoremap n nzzzv
 nnoremap N Nzzzv
@@ -484,50 +484,107 @@ nnoremap <silent><leader>/ : execute 'vimgrep / '.@/.'/g %'<CR>:copen<CR>
 "nnoremap g; g;zz
 "nnoremap g, g,zz
 " }}}
-" No highlight {{{3
-nnoremap <leader><space> :noh<CR>
+" Grep {{{3
+
+" Greps through project for the word under the cursor.
+nnoremap ? :vimgrep /\<<c-r>=expand('<cword>')<cr>\>/ % \| :copen<CR>
+
+" funky - find def || classes in the file.
+nnoremap <leader>f :vimgrep /\<\(def\\|^class\\|^module\)\>/ % \| :copen<CR>
+
 " }}}
-" Edit resource files {{{3
-nnoremap <leader>vr :vsplit $MYVIMRC<cr>
+" Substitution {{{3
+
+" Word under the cursor, replaces all lines.
+nnoremap <leader>s :%s/\<<C-r><C-w>\>/
+
+" One key substitution within a paragraph, word under cursor.
+nnoremap & :'{,'}s/<c-r>=expand('<cword>')<cr>/
+
+" }}}
+" Split {{{3
+
+" Shift s to split the line at cursor. Same as shift j for join.
+nnoremap S i<CR><esc>^mwgk:silent! s/\v+$//<cr>:noh<CR>`w
+
+" }}}
+" Paste {{{3
+" Copy to system clipboard with ''
+vmap '' :w !pbcopy<CR><CR>
+
+" set paste unsets some of vims indent and format options.
+set pastetoggle=<F1>
+
+" this seems to be a way to toggle boolean values.
+"nnoremap <f3> :set nonumber! number?<CR>
+
+" }}}
+" Capitalisation {{{3
+
+" Upper word
+nnoremap <leader>uw gUiw
+" Upper line
+nnoremap <leader>ul gUU
+
+" Lower word
+" nnoremap <leader>lw guaw
+" Lower line
+" nnoremap <leader>ll guu
+
+" }}}
+" No highlight {{{3
+
+" clear highlights
+nnoremap <leader><space> :noh<CR>
+
+" }}}
+" Toggle between space and tab. {{{3
+
+" spaces and tabs
+nnoremap <leader><TAB> :set et! list!<CR>
+
 " }}}
 " Quick edits {{{3
 
 let $MYVIM = $HOME.'/.vim'
+nnoremap <leader>er :vsplit $MYVIMRC<cr>
 nnoremap <leader>ed :vsplit $MYVIM/custom-dictionary.utf-8.add<CR>
 nnoremap <leader>ea :vsplit $MYVIM/abbrevs.vim<CR>
 
 " }}}
-" Comand mode {{{3
-" emacs bindings in command line mode.
-" H and L = left and right.
-" Shift H and L = beginning and end of a line in normal mode.
-" Command H and L = beginning and end of a line in command mode.
-cnoremap <c-h> <home>
-cnoremap <c-l> <end>
+" Format options {{{3
+
+" format the lines unbroken by space.
+nnoremap <leader>fp gq}<CR>
 
 " }}}
-" Format options {{{3
-nnoremap <leader>fp gq}<CR>
-" }}}
 " Session make {{{3
+
+"make session
 nnoremap <leader>se :mks %:h/session.vim<cr>
+
 " }}}
 " Explore {{{3
+
 " Uses the builtin directory search.
 nnoremap <leader>x :Lexplore<CR>
+
 " }}}
 " Folding {{{3
 
 " close all folds except the current fold except
  nnoremap <leader>z zMzvzz
+
 " }}}
-" Arrow Keys {{{3
-nnoremap <UP> :resize -2<Cr>
-nnoremap <DOWN> :resize +2<Cr>
-nnoremap <LEFT> :vertical resize +2<Cr>
-nnoremap <RIGHT> :vertical resize -2<Cr>
+" Ctrl-P {{{3
+
+nnoremap <leader>m :CtrlPMRUFiles<cr>
+nnoremap <leader>b :CtrlPBuffer<cr>
+nnoremap <leader>bd :CtrlPBookmarkDir<cr>
+
 " }}}
 " Unmap {{{3
+
 " clear k so i don't keep pressing it when i join lines.
 nnoremap K <nop>
 
@@ -536,25 +593,23 @@ nnoremap K <nop>
 " you have deleted a character.
 nnoremap s <nop>
 
+" map beginning, end
+nnoremap 0 <nop>
+nnoremap $ <nop>
+
 "}}}
 " }}}
 " Bangs {{{2
 
+" Correct misspellings.
 command! -bang Q q<bang>
 command! -bang W w<bang>
 command! -bang Wq wq<bang>
 
-"                       ====SCRATCH BUFFER====
-" Create a disposable buffer that cannot be written to for jotting.
+" Create a disposable buffer that cannot be written.
 command! -nargs=0 Scratch vnew | setlocal bt=nofile bh=wipe nobl noswapfile nu
 nnoremap <f3> :Scratch<cr>
-" -----------------------------------------------------------------------------
-"  notes
-" -----------------------------------------------------------------------------
-" Provide one Arg with nargs <args>. Ngrep is the name of the function. Vimgrep
-" is vim's built in grep. $NOTE is defined in my variables. /** is all
-" directories recursively under the CWD and /* is the files. In this case a type
-" is specified .md, so all markdown files will be looked in.
+
 "command! -nargs=1 Ngrep vimgrep "<args>" $NOTES/**/*.md
 "nnoremap <leader>n :Ngrep<space>
 
@@ -563,39 +618,18 @@ nnoremap <f3> :Scratch<cr>
 if has('autocmd')
 " Auto completion {{{3
 
-" menuone   - Display a menu even if there is only one menu.
-" longest   - Inserts the longest string.
-" noinsert  - Does not insert the first word. No effect if longest is present.
-" popup     - Show extra information about the currently selected completion in
-"             a popup window.  Only works in combination with "menu" or "menuone".
-set completeopt=menuone,noinsert
-" . - current buffer
-" w - buffer in other windows
-" b - other loaded buffers
-" u - unloaded buffer
-" t - tags
-" i - included files
-set complete+=.,w,b,u,t
-
-" The active spell checking dictionary, when spell checking is enabled.
-set complete+=kspell
-set dictionary+=/usr/share/dict/words
-
-" Dimensions of the popup window.
-set completepopup=height:10,width:60,highlight:InfoPopup
 
 inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
 
 autocmd InsertCharPre * call AutoComplete()
 fun! AutoComplete()
-    if v:char =~ '\K'
-        \ && getline('.')[col('.') - 4] !~ '\K'
-        \ && getline('.')[col('.') - 3] =~ '\K'
-        \ && getline('.')[col('.') - 2] =~ '\K' " last char
-        \ && getline('.')[col('.') - 1] !~ '\K'
-
-        call feedkeys("\<C-P>", 'n')
-    end
+	if v:char =~ '\K'
+		\ && getline('.')[col('.') - 4] !~ '\K'
+		\ && getline('.')[col('.') - 3] =~ '\K'
+		\ && getline('.')[col('.') - 2] =~ '\K' " last char
+		\ && getline('.')[col('.') - 1] !~ '\K'
+		call feedkeys("\<C-P>", 'n')
+	end
 endfun
 
 " Filetype
@@ -610,11 +644,11 @@ autocmd FileType python setl omnifunc=pythoncomplete#Complete
 
 " Make sure Vim returns to the same line when you reopen a file.
 augroup line_return
-    au!
-    au BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \     execute 'normal! g`"zvzz' |
-        \ endif
+	au!
+	au BufReadPost *
+		\ if line("'\"") > 0 && line("'\"") <= line("$") |
+		\     execute 'normal! g`"zvzz' |
+		\ endif
 augroup END
 
 " }}}
@@ -622,68 +656,72 @@ augroup END
 
 " Only show the statusline in the window that has current focus.
 augroup CursorLineFocus
-    au!
-    au WinLeave * set nocursorline nocursorcolumn
-    au WinEnter * set cursorline
+	au!
+	au WinLeave * set nocursorline nocursorcolumn
+	au WinEnter * set cursorline
 augroup END
 
 " When in insert mode set no cursorline.
 augroup InsertNoCursorLine
-    au!
-    au InsertEnter * set nocursorline nocursorcolumn
-    au InsertLeave * set cursorline
+	au!
+	au InsertEnter * set nocursorline nocursorcolumn
+	au InsertLeave * set cursorline
 augroup END
 
 " }}}
 " SpellGroup {{{3
 
-" Sets formatting options specific to markdown
+" Sets formatting options specific to markdown.
 augroup SpellGroups
 	au!
 	autocmd FileType md,markdown,txt, set spell
 	autocmd FileType md,markdown,txt, set formatoptions+=a
 augroup END
 
-
 " }}}
 " Strip white space {{{3
 
 " clear white space and return cursor to position. The * is all filetypes
 function! <SID>StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
+	let l = line(".")
+	let c = col(".")
+	%s/\s\+$//e
+	call cursor(l, c)
 endfun
 
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 " }}}
-" Misc {{{3
-
-" au FocusGained,BufEnter * checktime
-
-" If the terminal frame is reduce or expanded keep the windows equal.
-au VimResized * :wincmd =
-
-" see if this is a good idea
-autocmd InsertLeave * set nopaste
+" save and source {{{3
 
 " Source my vimrc file when the full buffer is writen.
 " automatically source $MYVIMRC or $DOTVIMRC when writing to a .vimrc file.
 augroup vimrc
-
-autocmd!
-autocmd! BufWritePost $MYVIMRC,$DOTVIMRC source $MYVIMRC | echom "Reloaded $MYVIMRC"
+	autocmd!
+	autocmd! BufWritePost $MYVIMRC,$DOTVIMRC source $MYVIMRC | echom "Reloaded $MYVIMRC"
 augroup END
 
-endif
+" }}}
+" window equal {{{3
+" If the terminal frame is reduce or expanded keep the windows equal.
+au VimResized * :wincmd =
+" }}}
+" paste auto exit {{{3
+
+" exit paste when past has been set.
+autocmd InsertLeave * set nopaste
+
+" au FocusGained,BufEnter * checktime
 
 " }}}
-"}}}
+
+endif
+" }}}
 " Functions {{{2
 " Fold Text {{{3
 
+" Text width = 80
+" Full width = 200
 " Get each line from the foldstart.
 " Create a seperator by subtracting the line length from the textwidth which is
 " 80. The remainder is then the length needed. The end of the line displays the
@@ -722,7 +760,7 @@ function! NumberToggle()
 	else
 		set relativenumber
 		set number
-		set nolist
+		set list
 	endif
 
 endfunction
@@ -758,6 +796,7 @@ endfunction
 
 nnoremap <leader>n :call NoteGreper()<cr>
 
+" }}}
 " Project Grep {{{3
 
 " Get the line and the column. Take a user input. Expand the path, this is so
@@ -815,14 +854,10 @@ let g:UltiSnipsEditSplit="vertical"
 
 "}}}
 " Ctlp {{{2
-nnoremap <leader>m :CtrlPMRUFiles<cr>
-nnoremap <leader>bd :CtrlPBookmarkDir<cr>
-nnoremap <leader>b :CtrlPBuffer<cr>
 
 " Set the directory to store the cache files
 let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
 
-let g:ctrlp_match_window = 'top,order:btt,min:1,max:10,results:10'
 " Set this to 1 if you want CtrlP to scan for dotfiles and dotdirs: >
 " ttb           - from top to the bottom
 " btt           - from bottom to the top
@@ -831,6 +866,7 @@ let g:ctrlp_match_window = 'top,order:btt,min:1,max:10,results:10'
 " results:{n}   - list maximum {n} results
 "               - (default: sync with max height).
 " Note: you can quickly purge the cache by pressing <F5> while inside CtrlP
+let g:ctrlp_match_window = 'top,order:btt,min:1,max:10,results:10'
 
 let g:ctrlp_show_hidden = 0
 " The maximum depth of a directory tree to recurse into: >
