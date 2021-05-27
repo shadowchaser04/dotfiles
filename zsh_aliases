@@ -28,6 +28,7 @@ alias h="history"                           # history
 
 # }}}
 # Misc {{{1
+
 alias t="touch"                             # create a new file
 alias j="jobs -l"                           # jobs
 alias get="curl -O -L"                      # curl aliased to get
@@ -36,6 +37,7 @@ alias td="v $(find ~/.notes/todo.md)"       # todo
 alias za="v $(find ~/.zsh_aliases)"         # zsh aliases
 alias c_last="fc -l -1 | cut -d\  -f3- | pbcopy"    # copy last command to clip
 alias d_sizes="df -H"                        # show disc space
+
 # }}}
 # Show/hide hidden files in Finder {{{1
 alias finder='open .'                       # opens finder in $PWD
@@ -112,7 +114,7 @@ alias watchlist="ruby ~/Code/Ruby/Projects/watchlist/scripts/watchlist.rb"
 # it will give you a list of all TODO and FIXME comments in the current
 # directory and child directories, giving you a quick overview of what you
 # still have to do!
-#alias tasks='grep --exclude-dir=.git -rEI "TODO|FIXME|NOTE" . 2>/dev/null'
+# alias tasks='grep --exclude-dir=.git -rEI "TODO|FIXME|NOTE" . 2>/dev/null'
 
 # }}}
 # git {{{1
@@ -161,19 +163,24 @@ alias gru='g update'                    # git remote update - get remote comits
 # }}}
 # }}}
 # Ruby scripts {{{1
+
 alias ginit="ruby ~/.bin/git_init/git_init.rb"          # init a git repo local and remote
 alias lookfor="ruby ~/.bin/lookfor/lookfor.rb"          # look up
 alias quote="ruby $HOME/.bin/quotes.rb"                 # find quotes
 alias lyric="ruby $HOME/.bin/lyrics.rb"                 # find lyrics
 alias samp="ruby $HOME/.bin/samples.rb"                 # find samples
 alias subs="ruby $HOME/.bin/subtitles/subs.rb"          # search subtitles
+
 # }}}
 # resource {{{1
+
 alias vr="$EDITOR $HOME/.vimrc"
 alias zr="$EDITOR $HOME/.zshrc"
 
 # }}}
 # old function {{{1
+
 # update has been made into a function for formatting reasons
 # ~/.zsh/function/update
+
 # }}}

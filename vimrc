@@ -464,6 +464,12 @@ nnoremap <DOWN> <C-w>j
 nnoremap <LEFT> <C-w>h
 nnoremap <RIGHT> <C-w>l
 
+" resize splits
+nnoremap <S-Up> :resize +2<CR>
+nnoremap <S-Down> :resize -2<CR>
+nnoremap <S-Left> :vertical resize +2<CR>
+nnoremap <S-Right> :vertical resize -2<CR>
+
 " }}}
 " Search and center {{{3
 
@@ -509,6 +515,7 @@ nnoremap S i<CR><esc>^mwgk:silent! s/\v+$//<cr>:noh<CR>`w
 
 " }}}
 " Paste {{{3
+
 " Copy to system clipboard with ''
 vmap '' :w !pbcopy<CR><CR>
 
@@ -550,6 +557,7 @@ let $MYVIM = $HOME.'/.vim'
 nnoremap <leader>er :vsplit $MYVIMRC<cr>
 nnoremap <leader>ed :vsplit $MYVIM/custom-dictionary.utf-8.add<CR>
 nnoremap <leader>ea :vsplit $MYVIM/abbrevs.vim<CR>
+nnoremap <leader>es :UltiSnipsEdit<CR>
 
 " }}}
 " Format options {{{3
@@ -844,8 +852,6 @@ let g:airline_theme='dark'
 " }}}
 " UltiSnippets {{{2
 
-" Open the snippets editor for specific filetype
-nnoremap <leader>es :UltiSnipsEdit<CR>
 
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/ultisnips']
 let g:UltiSnipsExpandTrigger="<tab>"

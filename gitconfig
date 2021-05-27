@@ -175,9 +175,11 @@ c-t = log --author=\"`git config user.name`\" --since=\"6am\"
 # }}}
 # tasks {{{1
 #--------------------------------------------------------------------------
+
 # Source: http://www.commandlinefu.com/commands/view/12842/get-a-list-of-all-todofixme-tasks-left-to-be-done-in-your-git-project
 tasks = grep --extended-regexp -I --line-number --break --heading --color=auto "TODO|FIXME|NOTE"
 tasks-count = grep --extended-regexp -I --line-number --count "TODO|FIXME|NOTE"
+
 # }}}
 # checkout {{{1
 #--------------------------------------------------------------------------
