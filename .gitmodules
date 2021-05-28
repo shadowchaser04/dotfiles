@@ -19,3 +19,6 @@
 [submodule "vim/pack/myplugins/start/ctrlp-mark"]
 	path = vim/pack/myplugins/start/ctrlp-mark
 	url = git@github.com:mattn/ctrlp-mark.git
+[submodule "vim/pack/myplugins/start/ctrlp-sessions"]
+	path = vim/pack/myplugins/start/ctrlp-sessions
+	url = git@github.com:pielgrzym/ctrlp-sessions.git
