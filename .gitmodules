@@ -7,9 +7,6 @@
 [submodule "vim/pack/myplugins/start/vim-commentary"]
 	path = vim/pack/myplugins/start/vim-commentary
 	url = git@github.com:tpope/vim-commentary.git
-[submodule "vim/pack/myplugins/start/ultisnips"]
-	path = vim/pack/myplugins/start/ultisnips
-	url = git@github.com:SirVer/ultisnips.git
 [submodule "vim/pack/myplugins/start/vim-colors-solarized"]
 	path = vim/pack/myplugins/start/vim-colors-solarized
 	url = git@github.com:altercation/vim-colors-solarized.git
