@@ -240,15 +240,21 @@ set sidescrolloff=100
 " Chars {{{2
 
 set list
-set listchars=tab:▸\ ,trail:•,extends:❯,precedes:❮
+set listchars=tab:│\ ,trail:•,extends:❯,precedes:❮
 
 " Folding character used when folded.
-set fillchars=fold:-
+set fillchars=fold:━
 
 " When the terminal is more compact this indicates breaks
 set showbreak=↪
 " ~/@ at end of window, 'showbreak'
 set highlight+=@:ColorColumn
+
+" diff and VertSplit devide
+set fillchars=diff:⣿,vert:\▏
+
+" verticle split line - blue
+hi VertSplit ctermfg=4 ctermbg=0 gui=reverse
 
 " }}}
 " Folding {{{2
@@ -259,6 +265,8 @@ set foldmethod=marker
 set foldnestmax=5
 
 hi Folded term=bold ctermfg=12 ctermbg=8 guifg=Cyan guibg=DarkGrey
+" red
+hi FoldColumn ctermfg=1 ctermbg=0 gui=bold guifg=Blue guibg=DarkCyan
 
 "}}}
 " Splits {{{2
@@ -277,7 +285,6 @@ set diffopt=vertical
 " Formatting {{{1
 " Format Options {{{2
 
-" When on a comment, Automatically insert the current comment leader after
 " hitting o or O in Normal mode.
 set formatoptions+=o
 
@@ -626,7 +633,6 @@ nnoremap <f3> :Scratch<cr>
 if has('autocmd')
 " Auto completion {{{3
 
-
 inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
 
 autocmd InsertCharPre * call AutoComplete()
@@ -739,19 +745,19 @@ endif
 " length. This should always equal 80.
 " There is a substitution on the fold marker \{\{\{. Adding in the seperator and
 " the line_end.
-
+" four lines are added for the marker and depth that is replaced.
 function! MyFoldText()
 	let line = getline(v:foldstart)
 	let foldedlinecount = v:foldend - v:foldstart
 	let separator = 80 - len(line)
 
-	let line_end = foldedlinecount . ' - lines |' . ' depth '
-	let line_separator = repeat('-', separator - len(line_end) - 1)
-	let line = substitute(line," \{\{\{",' ' . line_separator . line_end,'g')
+	let line_end = foldedlinecount . ' ━ lines │ depth '
+	let line_separator = repeat('─', separator - len(line_end)+4)
+	let line = substitute(line," \{\{\{",' ' . line_separator . ' ' . line_end,'g')
 
 	" Create the space for after the 80 text width
 	let space = 200 - len(line)
-	return toupper(line).'...'.repeat(" ",space)
+	return toupper(line).'…'.repeat(" ",space)
 
 endfunction
 
@@ -911,6 +917,22 @@ let g:netrw_hide=0
 let g:netrw_list_hide='.*\.png$,.*\.pdf,.*\.mp4,.*\.mp3,.*\.svg,.*\.jpg'
 
 "}}}
+" Git Gutter {{{2
+
+" TODO: timeout.
+set signcolumn=yes
+set updatetime=100
+let g:airline_powerline_fonts=1
+let g:gitgutter_sign_removed = '-'
+
+highlight GitGutterAdd    ctermfg=28
+highlight GitGutterChange ctermfg=3
+highlight GitGutterDelete ctermfg=1
+
+" background sign column
+hi SignColumn ctermfg=12 ctermbg=0 guifg=Cyan guibg=Grey
+
+" }}}
 " }}}
 " Redraw {{{1
 autocmd VimEnter * redraw!
