@@ -13,3 +13,6 @@
 [submodule "vim/pack/myplugins/start/vim-gitgutter"]
 	path = vim/pack/myplugins/start/vim-gitgutter
 	url = git@github.com:airblade/vim-gitgutter.git
+[submodule "vim/pack/myplugins/start/ultisnips"]
+	path = vim/pack/myplugins/start/ultisnips
+	url = git@github.com:shadowchaser04/ultisnips.git
