@@ -16,3 +16,12 @@
 [submodule "vim/pack/myplugins/start/ultisnips"]
 	path = vim/pack/myplugins/start/ultisnips
 	url = git@github.com:shadowchaser04/ultisnips.git
+[submodule "vim/pack/myplugins/start/nerdtree"]
+	path = vim/pack/myplugins/start/nerdtree
+	url = git@github.com:preservim/nerdtree.git
+[submodule "vim/pack/myplugins/start/ctrlp-modified.vim"]
+	path = vim/pack/myplugins/start/ctrlp-modified.vim
+	url = git@github.com:jasoncodes/ctrlp-modified.vim.git
+[submodule "vim/pack/myplugins/start/ctrlp-mark"]
+	path = vim/pack/myplugins/start/ctrlp-mark
+	url = git@github.com:mattn/ctrlp-mark.git

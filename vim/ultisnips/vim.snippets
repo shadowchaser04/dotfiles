@@ -6,7 +6,6 @@ function! ${1:condition}()
 endfunction
 endsnippet
 
-
 snippet aug "augroup <condition> ... augroup END" b
 augroup ${1:condition}
 	au!
@@ -28,5 +27,19 @@ else
 endif
 endsnippet
 
+snippet let "let var = value"
+let ${1:variable} = ${0: value}
+endsnippet
 
+snippet se "set"
+set ${1:setting};
+endsnippet
+
+snippet set "set variable"
+set ${1:setting} = ${0:value}
+endsnippet
+
+snippet nn "nnoremap"
+nnoremap ${1} ${2}
+endsnippet
 

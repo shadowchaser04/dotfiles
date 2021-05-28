@@ -900,29 +900,6 @@ let g:ctrlp_prompt_mappings = { 'ToggleMRURelative()': ['<F4>'] }
 
 
 "}}}
-" Extplorer {{{2
-let g:netrw_home=$CACHE.'/netrw/'
-" remove the top banner
-let g:netrw_banner=0
-" set the window size to a fixed size
-let g:netrw_winsize=24
-" set the minimum window size.
-let g:netrw_wiw=22
-" tree style listing
-let g:netrw_liststyle = 3
-
-" controls maximum quantity of past history. May be zero to supppress history.
-let g:netrw_dirhistmax=10
-
-" when browsing, <cr> will open the file, vertically splitting the window first
-let g:netrw_browse_split=2
-" 0: show all, 1: show not-hidden files. 2: show hidden file only. Default 1
-" hide dotfiles or not.
-let g:netrw_hide=0
-" ignore
-let g:netrw_list_hide='.*\.png$,.*\.pdf,.*\.mp4,.*\.mp3,.*\.svg,.*\.jpg'
-
-"}}}
 " Git Gutter {{{2
 
 " TODO: timeout.
@@ -941,6 +918,15 @@ highlight GitGutterDelete ctermfg=1
 hi SignColumn ctermfg=12 ctermbg=0 guifg=Cyan guibg=Grey
 
 " }}}
+" Nerdtree {{{2
+
+" Exit Vim if NERDTree is the only window left.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+let NERDTreeShowBookmarks=1
+
+" open close toggle
+nnoremap <leader>x :NERDTreeToggle<CR>
+
 " }}}
 " Redraw {{{1
 autocmd VimEnter * redraw!

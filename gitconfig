@@ -23,6 +23,10 @@
 	helper = osxkeychain
 
 # }}}
+# template {{{1
+[init]
+	templatedir = ~/.git_template
+# }}}
 # Commit {{{1
 #------------------------------------------------------------------------------
 [commit]
@@ -163,6 +167,10 @@ up = pull --rebase --prune
 
 # makes sure the loacal and remote are synced.
 update = remote update
+# }}}
+# ctags {{{1
+#--------------------------------------------------------------------------
+ctags = !.git/hooks/ctags
 # }}}
 # commits {{{1
 #--------------------------------------------------------------------------
