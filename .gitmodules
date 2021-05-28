@@ -1,3 +1,9 @@
 [submodule "vim/pack/myplugins/start/ctrlp.vim"]
 	path = vim/pack/myplugins/start/ctrlp.vim
 	url = git@github.com:kien/ctrlp.vim.git
+[submodule "vim/pack/myplugins/start/vim-airline"]
+	path = vim/pack/myplugins/start/vim-airline
+	url = git@github.com:vim-airline/vim-airline.git
+[submodule "vim/pack/myplugins/start/vim-commentary"]
+	path = vim/pack/myplugins/start/vim-commentary
+	url = git@github.com:tpope/vim-commentary.git
