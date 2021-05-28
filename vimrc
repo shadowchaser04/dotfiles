@@ -109,8 +109,10 @@ endif
 set t_Co=256
 
 " Colorscheme should always be set to dark if there is a dark/light option.
+if !empty(glob("~/.vim/pack/myplugins/start/solarized.vim"))
+	colorscheme solarized
+endif
 set background=dark
-colorscheme solarized
 
 
 "}}}

@@ -22,3 +22,6 @@
 [submodule "vim/pack/myplugins/start/ctrlp-sessions"]
 	path = vim/pack/myplugins/start/ctrlp-sessions
 	url = git@github.com:pielgrzym/ctrlp-sessions.git
+[submodule "vim/pack/myplugins/start/vim-colors-solarized"]
+	path = vim/pack/myplugins/start/vim-colors-solarized
+	url = git@github.com:altercation/vim-colors-solarized.git

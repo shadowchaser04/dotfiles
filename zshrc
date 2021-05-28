@@ -217,11 +217,6 @@ setopt HIST_REDUCE_BLANKS
 # setopt HIST_VERIFY
 
 #}}}
-# Named Dirs {{{1
-hash -d proj=$HOME/Code/Ruby/Projects/
-hash -d dot=$HOME/.dotfiles
-hash -d notes=$HOME/.notes
-# }}}
 # Dir Stack {{{1
 autoload -Uz add-zsh-hook
 
