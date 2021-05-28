@@ -86,6 +86,11 @@ set autochdir
 " Allows you to hide buffers with unsaved changes without being prompted.
 set hidden
 
+" This will check the current folder for tags file and keep going one directory
+" up all the way to the root folder. So you can be in any sub-folder in your
+" project and it'll be able to find the tags files.
+set tags=tags;/
+
 "}}}
 " Colors {{{2
 
@@ -256,6 +261,7 @@ set fillchars=diff:⣿,vert:\▏
 " verticle split line - blue
 hi VertSplit ctermfg=4 ctermbg=0 gui=reverse
 
+
 " }}}
 " Folding {{{2
 
@@ -264,7 +270,7 @@ set foldenable
 set foldmethod=marker
 set foldnestmax=5
 
-hi Folded term=bold ctermfg=12 ctermbg=8 guifg=Cyan guibg=DarkGrey
+hi Folded cterm=bold term=bold ctermfg=12 ctermbg=8 guifg=Cyan guibg=DarkGrey
 " red
 hi FoldColumn ctermfg=1 ctermbg=0 gui=bold guifg=Blue guibg=DarkCyan
 
@@ -923,7 +929,9 @@ let g:netrw_list_hide='.*\.png$,.*\.pdf,.*\.mp4,.*\.mp3,.*\.svg,.*\.jpg'
 set signcolumn=yes
 set updatetime=100
 let g:airline_powerline_fonts=1
+let g:gitgutter_sign_added  = '+'
 let g:gitgutter_sign_removed = '-'
+let g:gitgutter_sign_modified = '˟'
 
 highlight GitGutterAdd    ctermfg=28
 highlight GitGutterChange ctermfg=3
