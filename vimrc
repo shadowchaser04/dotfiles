@@ -582,7 +582,7 @@ nnoremap <leader>fp gq}<CR>
 " Session make {{{3
 
 "make session
-nnoremap <leader>se :mks %:h/session.vim<cr>
+nnoremap <leader>se :mks $HOME/.vim/sessions/%:h.vim<cr>
 
 " }}}
 " Explore {{{3
@@ -602,6 +602,7 @@ nnoremap <leader>x :Lexplore<CR>
 nnoremap <leader>m :CtrlPMRUFiles<cr>
 nnoremap <leader>b :CtrlPBuffer<cr>
 nnoremap <leader>bd :CtrlPBookmarkDir<cr>
+nnoremap <leader>l :CtrlPMark<cr>
 
 " }}}
 " Unmap {{{3
@@ -734,7 +735,12 @@ autocmd InsertLeave * set nopaste
 " au FocusGained,BufEnter * checktime
 
 " }}}
+" Colorscheme After {{{2
 
+" This is supposed to make sure the adter colors get loaded.
+autocmd ColorScheme common runtime "after/colors/" . expand("<amatch>") . ".vim"
+
+" }}}
 endif
 " }}}
 " Functions {{{2
@@ -875,6 +881,8 @@ let g:UltiSnipsEditSplit="vertical"
 
 " Set the directory to store the cache files
 let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
+let g:ctrlp_session_dir = '/.vim/sessions'
+let g:ctrlp_extensions = ['sessions']
 
 " Set this to 1 if you want CtrlP to scan for dotfiles and dotdirs: >
 " ttb           - from top to the bottom
@@ -897,7 +905,6 @@ let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*' " MacOSX/Linux
 " Relative results toggle. Return Mru results specific to the CWD
 let g:ctrlp_mruf_relative = 1
 let g:ctrlp_prompt_mappings = { 'ToggleMRURelative()': ['<F4>'] }
-
 
 "}}}
 " Git Gutter {{{2

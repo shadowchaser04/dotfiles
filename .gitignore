@@ -14,6 +14,8 @@ Thumbs.db
 #------------------------------------------------------------------------------
 .env
 vim/tmp/**
+vim/tmp/**
+vim/sessions/**
 vim/.netrwhist
 zsh/zsh_history/**
 zsh/marks/**
