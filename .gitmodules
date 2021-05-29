@@ -28,3 +28,6 @@
 [submodule "zsh/lib/zsh-autocomplete"]
 	path = zsh/lib/zsh-autocomplete
 	url = https://github.com/marlonrichert/zsh-autocomplete.git
+[submodule "zsh/lib/zsh-autosuggestions"]
+	path = zsh/lib/zsh-autosuggestions
+	url = git@github.com:zsh-users/zsh-autosuggestions.git
