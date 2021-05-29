@@ -421,6 +421,13 @@ export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
 eval "$(rbenv init -)"
 #
 #}}}
+# zsh autosuggestions {{{1
+
+# Will first try to find a suggestion from your history, but, if it can't find
+# a match, will find a suggestion from the completion engine.
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+# ZSH_AUTOSUGGEST_USE_ASYNC
+# }}}
 # Source {{{1
 #-------------------------------------------------------------------------------
 # git username and tokens
