@@ -157,9 +157,6 @@ set relativenumber
 
 set cursorline
 
-" Remove the underline default from the line number
-hi CursorLineNr term=bold cterm=bold ctermfg=12 gui=bold
-
 " Text width 79 if colorcolumn is set to 1 and there is no colorcolumn join.
 " Text width 80 if there is no colorcolumn set to 1
 set textwidth=79
@@ -260,7 +257,8 @@ set showbreak=↪
 set highlight+=@:ColorColumn
 
 " diff and VertSplit devide
-set fillchars=diff:⣿,vert:\▏
+set fillchars=diff:⣿
+set fillchars=vert:\▏
 
 " verticle split line - blue
 hi VertSplit ctermfg=4 ctermbg=0 gui=reverse
@@ -274,9 +272,20 @@ set foldenable
 set foldmethod=marker
 set foldnestmax=5
 
-hi Folded cterm=bold term=bold ctermfg=12 ctermbg=8 guifg=Cyan guibg=DarkGrey
-" red
+"}}}
+" highlight {{{2
+
+" Fold remove unwanted default settings
+hi Folded cterm=NONE term=NONE ctermfg=12 ctermbg=8 guifg=Cyan guibg=DarkGrey
+
+" Set the fold colmn color for unfolds
 hi FoldColumn ctermfg=1 ctermbg=0 gui=bold guifg=Blue guibg=DarkCyan
+
+" Remove the underline default from the line number
+hi CursorLineNr term=bold cterm=bold ctermfg=12 gui=bold
+
+" Gitgutter background sign column
+hi SignColumn ctermfg=12 ctermbg=0 guifg=Cyan guibg=Grey
 
 "}}}
 " Splits {{{2
@@ -586,7 +595,7 @@ nnoremap <leader>fp gq}<CR>
 " Session make {{{3
 
 "make session
-nnoremap <leader>se :mks $HOME/.vim/sessions/%:h.vim<cr>
+nnoremap <leader>se :mks $HOME/.vim/sessions/%:r.vim<cr>
 
 " }}}
 " Explore {{{3
@@ -924,8 +933,6 @@ highlight GitGutterAdd    ctermfg=28
 highlight GitGutterChange ctermfg=3
 highlight GitGutterDelete ctermfg=1
 
-" background sign column
-hi SignColumn ctermfg=12 ctermbg=0 guifg=Cyan guibg=Grey
 
 " }}}
 " Nerdtree {{{2

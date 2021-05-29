@@ -16,8 +16,9 @@ alias v="$EDITOR"                           # use the env var $EDITOR, vim
 # l=list all information
 # A=loose the . / .. directories
 # s=sort by size but keep alphabetical order
-alias l="ls -lAs"
-alias ll="ls -l"
+#alias l="ls -lAs"
+alias l='colorls -lA --sd'
+alias ll='colorls -l --sd'
 
 # }}}
 # History and grep {{{1

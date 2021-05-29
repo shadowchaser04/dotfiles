@@ -247,71 +247,141 @@ autoload -U $HOME/.zsh/functions/*(:t)
 fpath=($ZSH/functions/ $fpath)
 
 #}}}
+# completion {{{1
+zstyle ':autocomplete:*' default-context ''
+# '': Start each new command line with normal autocompletion.
+# history-incremental-search-backward: Start in live history search mode.
+
+zstyle ':autocomplete:*' min-delay 0.0  # number of seconds (float)
+# 0.0: Start autocompletion immediately when you stop typing.
+# 0.4: Wait 0.4 seconds for more keyboard input before showing completions.
+
+zstyle ':autocomplete:*' min-input 1  # number of characters (integer)
+# 0: Show completions immediately on each new command line.
+# 1: Wait for at least 1 character of input.
+
+zstyle ':autocomplete:*' ignored-input '' # extended glob pattern
+# '':     Always show completions.
+# '..##': Don't show completions when the input consists of two or more dots.
+
+# When completions don't fit on screen, show up to this many lines:
+zstyle ':autocomplete:*' list-lines 16  # (integer)
+# 💡 NOTE: The actual amount shown can be less.
+
+# If any of the following are shown at the same time, list them in this order:
+zstyle ':completion:*:' group-order \
+    expansions history-words options \
+    aliases functions builtins reserved-words \
+    executables local-directories directories suffix-aliases
+# 💡 NOTE: This is NOT the order in which they are generated.
+
+zstyle ':autocomplete:*' insert-unambiguous no
+# no:  Tab inserts the top completion.
+# yes: Tab first inserts substring common to all listed completions, if any.
+
+zstyle ':autocomplete:*' widget-style complete-word
+# complete-word: (Shift-)Tab inserts the top (bottom) completion.
+# menu-complete: Press again to cycle to next (previous) completion.
+# menu-select:   Same as `menu-complete`, but updates selection in menu.
+# ⚠️ NOTE: This can NOT be changed at runtime.
+
+zstyle ':autocomplete:*' fzf-completion no
+# no:  Tab uses Zsh's completion system only.
+# yes: Tab first tries Fzf's completion, then falls back to Zsh's.
+# ⚠️ NOTE: This can NOT be changed at runtime and requires that you have
+# installed Fzf's shell extensions.
+
+# Add a space after these completions:
+zstyle ':autocomplete:*' add-space \
+    executables aliases functions builtins reserved-words commands
+
+source ~/.zsh/lib/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+
+bindkey $key[Up] up-line-or-search
+# up-line-or-search:  Open history menu.
+# up-line-or-history: Cycle to previous history line.
+
+bindkey $key[Down] down-line-or-select
+# down-line-or-select:  Open completion menu.
+# down-line-or-history: Cycle to next history line.
+
+bindkey $key[Control-Space] list-expand
+# list-expand:      Reveal hidden completions.
+# set-mark-command: Activate text selection.
+
+bindkey -M menuselect $key[Return] .accept-line
+# .accept-line: Accept command line.
+# accept-line:  Accept selection and exit menu.
+
+# Uncomment the following lines to disable live history search:
+# zle -A {.,}history-incremental-search-forward
+# zle -A {.,}history-incremental-search-backward
+# }}}
 # Auto Comp {{{1
 
-#setopt complete_aliases
-setopt COMPLETE_ALIASES
+##setopt complete_aliases
+#setopt COMPLETE_ALIASES
 
-# This is needed for the prefix completer
-#setopt COMPLETE_IN_WORD
+## This is needed for the prefix completer
+##setopt COMPLETE_IN_WORD
 
-# move the cursor to the end AFTER a completion was inserted
-setopt ALWAYS_TO_END
+## move the cursor to the end AFTER a completion was inserted
+#setopt ALWAYS_TO_END
 
-# make dir if it doenst exist.
-[[ -d $HOME/.cache/zsh ]] || mkdir -p $HOME/.cache/zsh
+## make dir if it doenst exist.
+#[[ -d $HOME/.cache/zsh ]] || mkdir -p $HOME/.cache/zsh
 
-autoload -Uz compinit && compinit -u
+#autoload -Uz compinit && compinit -u
 
-# If an ambiguous completion produces at least <NUM> possibilities, # menu
-# selection is started.
-zstyle ':completion:*' use-perl true
-zstyle ':completion:*' menu yes select
-zstyle ':completion:*' force-list always
-zstyle ':completion:*' add-space true
-zstyle ':completion:*' verbose yes
-zstyle ':completion:*' remove-all-dups true     # remove all dups
-zstyle ':completion:*' squeeze-slashes true     # remove trailing slash
-zstyle ':completion:*:commands' rehash true     # rehash on commands
+## If an ambiguous completion produces at least <NUM> possibilities, # menu
+## selection is started.
+#zstyle ':completion:*' use-perl true
+#zstyle ':completion:*' menu yes select
+#zstyle ':completion:*' force-list always
+#zstyle ':completion:*' add-space true
+#zstyle ':completion:*' verbose yes
+#zstyle ':completion:*' remove-all-dups true     # remove all dups
+#zstyle ':completion:*' squeeze-slashes true     # remove trailing slash
+#zstyle ':completion:*:commands' rehash true     # rehash on commands
 
-# When looking for matches, first try exact matches, then case-insensiive, then
-# partial word completion.
-zstyle ':completion:*' completer _expand _complete _match _ignored _correct
-zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|[._-]=* r:|=*'
-zstyle ':completion:*' list-colors '=(#b) #([0-9]#)*( *[a-z])*=34=31=33'
-zstyle ':completion:*' file-list all            # list
+## When looking for matches, first try exact matches, then case-insensiive, then
+## partial word completion.
+#zstyle ':completion:*' completer _expand _complete _match _ignored _correct
+#zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|[._-]=* r:|=*'
+#zstyle ':completion:*' list-colors '=(#b) #([0-9]#)*( *[a-z])*=34=31=33'
+#zstyle ':completion:*' file-list all            # list
 
-zstyle ':completion:*' glob 0
-zstyle ':completion:*' substitute 0
-zstyle ':completion:*' max-errors 2 numeric     # allow for 2 numeric errors
-zstyle ':completion:*' group-name ''            # group results by category
+#zstyle ':completion:*' glob 0
+#zstyle ':completion:*' substitute 0
+#zstyle ':completion:*' max-errors 2 numeric     # allow for 2 numeric errors
+#zstyle ':completion:*' group-name ''            # group results by category
 
-#zstyle ':completion:*:cd:*' menu yes select
-zstyle ':completion:*:cd:*' ignore-parents parent pwd
-zstyle ':completion:*:*:cd:*' tag-order local-directories path-directories
+##zstyle ':completion:*:cd:*' menu yes select
+#zstyle ':completion:*:cd:*' ignore-parents parent pwd
+#zstyle ':completion:*:*:cd:*' tag-order local-directories path-directories
 
-# Enable history menu selection
-zstyle ':completion:*:history-words' remove-all-dups yes
-zstyle ':completion:*:history-words' stop yes
+## Enable history menu selection
+#zstyle ':completion:*:history-words' remove-all-dups yes
+#zstyle ':completion:*:history-words' stop yes
 
-# Show nice warning when nothing matched
-zstyle ':completion:*:warnings' format '%F{red}%No matches:%F{white} %d%b'
-zstyle ':completion:*:descriptions' format "%U%B%F{yellow}» %d%u%b%f"
-zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
+## Show nice warning when nothing matched
+#zstyle ':completion:*:warnings' format '%F{red}%No matches:%F{white} %d%b'
+#zstyle ':completion:*:descriptions' format "%U%B%F{yellow}» %d%u%b%f"
+#zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
 
-# Enable processes completion for all user processes
-zstyle ':completion:*:processes' command 'ps -au$USER'
-#------------------------------------------------------------------------------
-# ignore
-#------------------------------------------------------------------------------
-# Don't complete backup files as commands.
-zstyle ':completion:*:complete:-command-::*' ignored-patterns '*\~'
+## Enable processes completion for all user processes
+#zstyle ':completion:*:processes' command 'ps -au$USER'
+##------------------------------------------------------------------------------
+## ignore
+##------------------------------------------------------------------------------
+## Don't complete backup files as commands.
+#zstyle ':completion:*:complete:-command-::*' ignored-patterns '*\~'
 
-# Prevent completion of functions for commands you don't have
-zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec))'
+## Prevent completion of functions for commands you don't have
+#zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec))'
 
-# Prevent commands like rm
-zstyle ':completion:*:rm:*' ignore-line yes
+## Prevent commands like rm
+#zstyle ':completion:*:rm:*' ignore-line yes
 
 #}}}
 # Switch Term {{{1
@@ -328,19 +398,19 @@ bindkey '^Z' foreground-vi
 #-------------------------------------------------------------------------------
 bindkey -v
 
-# search for word being typed, option x or z
-bindkey "≈" history-beginning-search-backward
-bindkey "Ω" history-beginning-search-forward
-# arrow keys do the same
-bindkey "^[[A" history-beginning-search-backward
-bindkey "^[[B" history-beginning-search-forward
+# # search for word being typed, option x or z
+# bindkey "≈" history-beginning-search-backward
+# bindkey "Ω" history-beginning-search-forward
+# # arrow keys do the same
+# bindkey "^[[A" history-beginning-search-backward
+# bindkey "^[[B" history-beginning-search-forward
 
-# in command mode seach history on the home row
-bindkey -M vicmd 'j' history-beginning-search-forward
-bindkey -M vicmd 'k' history-beginning-search-backward
+# # in command mode seach history on the home row
+# bindkey -M vicmd 'j' history-beginning-search-forward
+# bindkey -M vicmd 'k' history-beginning-search-backward
 
-# delete rerun commands
-bindkey '^?' backward-delete-char
+# # delete rerun commands
+# bindkey '^?' backward-delete-char
 
 #}}}
 # rbenv {{{1
