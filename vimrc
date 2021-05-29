@@ -109,11 +109,12 @@ endif
 set t_Co=256
 
 " Colorscheme should always be set to dark if there is a dark/light option.
-if !empty(glob("~/.vim/pack/myplugins/start/solarized.vim"))
+if !empty(glob("~/.vim/pack/myplugins/start/vim-colors-solarized/colors/solarized.vim"))
 	colorscheme solarized
 endif
-set background=dark
 
+" Set dark and light theme
+set background=dark
 
 "}}}
 " Leader {{{2
@@ -176,6 +177,7 @@ set shortmess+=I
 " if exists('+colorcolumn')
     " let &l:colorcolumn='+'  .  join(range(0, 254), ',+')
 " endif
+
 
 " }}}
 " CMD Window and Status bar {{{2
@@ -698,7 +700,7 @@ augroup END
 augroup SpellGroups
 	au!
 	autocmd FileType md,markdown,txt, set spell
-	autocmd FileType md,markdown,txt, set formatoptions+=a
+"	autocmd FileType md,markdown,txt, set formatoptions+=a
 augroup END
 
 " }}}
@@ -861,7 +863,6 @@ nnoremap <leader>g :call ProjectGrep()<cr>
 
 " }}}
 " }}}
-" }}}
 " Plugins {{{1
 " Airline {{{2
 
@@ -936,6 +937,10 @@ let NERDTreeShowBookmarks=1
 " open close toggle
 nnoremap <leader>x :NERDTreeToggle<CR>
 
+" }}}
+" matchit {{{2
+" buitin but needs enabling
+packadd! matchit " bundled default plugin
 " }}}
 " Redraw {{{1
 autocmd VimEnter * redraw!
