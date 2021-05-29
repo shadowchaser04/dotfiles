@@ -116,7 +116,7 @@ endif
 " Set dark and light theme
 set background=dark
 
-"}}}
+" }}}
 " Leader {{{2
 
 " A leader key is used like a prefix. It precedes a map/remap. So as to avoid
@@ -463,15 +463,11 @@ endif
 inoremap jj <Esc>
 
 " }}}
-" Movement {{{3
+" jkhl {{{3
 
 " Make j and k work well on wrapped lines
 noremap j gj
 noremap k gk
-
-" Control-j/k jump through the change list, to last inserts point.
-nnoremap <C-j> g;
-nnoremap <C-k> g,
 
 " Shift-h/l to the beginning and end of the line
 nnoremap H ^
@@ -482,15 +478,23 @@ cnoremap <C-h> <home>
 cnoremap <C-l> <end>
 
 " }}}
+" change list {{{3
+" Control-j/k jump through the change list, to last inserts point.
+nnoremap <UP> g;
+nnoremap <DOWN> g,
+
+" }}}
 " split windows {{{3
 
-" Remap control instead of control w to jump between splits
-nnoremap <UP> <C-w>k
-nnoremap <DOWN> <C-w>j
-nnoremap <LEFT> <C-w>h
-nnoremap <RIGHT> <C-w>l
+" cotrol jkhl to navigate split
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
 
-" resize splits
+" }}}
+" resize {{{3
+
 nnoremap <S-Up> :resize +2<CR>
 nnoremap <S-Down> :resize -2<CR>
 nnoremap <S-Left> :vertical resize +2<CR>
@@ -615,7 +619,8 @@ nnoremap <leader>x :Lexplore<CR>
 nnoremap <leader>m :CtrlPMRUFiles<cr>
 nnoremap <leader>b :CtrlPBuffer<cr>
 nnoremap <leader>bd :CtrlPBookmarkDir<cr>
-nnoremap <leader>l :CtrlPMark<cr>
+nnoremap <leader>cm :CtrlPMark<cr>
+nnoremap <leader>cs :CtrlPSessions<cr>
 
 " }}}
 " Unmap {{{3
@@ -746,12 +751,6 @@ au VimResized * :wincmd =
 autocmd InsertLeave * set nopaste
 
 " au FocusGained,BufEnter * checktime
-
-" }}}
-" Colorscheme After {{{2
-
-" This is supposed to make sure the adter colors get loaded.
-autocmd ColorScheme common runtime "after/colors/" . expand("<amatch>") . ".vim"
 
 " }}}
 endif

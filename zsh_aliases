@@ -8,6 +8,7 @@
 # Editor {{{1
 
 alias v="$EDITOR"                           # use the env var $EDITOR, vim
+alias vs="$EDITOR -S"                       # open as session
 
 #-------------------------------------------------------------------------------
 # List files/directories

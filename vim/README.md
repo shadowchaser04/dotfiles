@@ -1,7 +1,8 @@
 # Vim 8.2
 
-Vim 8.2 has implemented its own package manager Pack. This means we can finally
-get rid of pathogen. Start auto loads, opt needs to be called in the vimrc.
+Vim 8.2 has implemented its own package manager `Pack`. This means we can
+finally get rid of pathogen. Start auto loads, opt needs to be called in the
+vimrc.
 
     ├── after
     │   └── common.vim
