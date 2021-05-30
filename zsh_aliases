@@ -18,8 +18,8 @@ alias vs="$EDITOR -S"                       # open as session
 # A=loose the . / .. directories
 # s=sort by size but keep alphabetical order
 #alias l="ls -lAs"
-alias l='colorls -lA --sd'
-alias ll='colorls -l --sd'
+alias l='colorls -lA --sd --gs'
+alias ll='colorls -l --sd --gs'
 
 # }}}
 # History and grep {{{1

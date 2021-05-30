@@ -428,6 +428,9 @@ eval "$(rbenv init -)"
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 # ZSH_AUTOSUGGEST_USE_ASYNC
 # }}}
+# colorls {{{1
+source $(dirname $(gem which colorls))/tab_complete.sh
+#
 # Source {{{1
 #-------------------------------------------------------------------------------
 # git username and tokens
