@@ -27,11 +27,11 @@ ssh
 ### Setup
 
 
-Set up is easy. Assuming you have ruby installed, (because it is a ruby script) `cd` to the directory you downloaded the dotfiles to: `$HOME/.dotfiles`. 
+Set up is easy. Assuming you have ruby installed, (because it is a ruby script) `cd` to the directory you downloaded the dotfiles to: `$HOME/.dotfiles`
 
 `` chmod u+x bootstrap.rb ``
 
-You can then run the script like any executable 
+You can then run the script like any executable
 
 `` ./Bootstrap.rb ``
 
@@ -42,3 +42,5 @@ or
 `` ruby Bootstrap.rb ``
 
 The bootstrap will then symbolic link all files and directorys excluding anything with a filetype. Example: `~/.dotfiles/zshrc` becomes `~/.zshrc`
+
+Senseless change
