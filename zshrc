@@ -266,14 +266,14 @@ zstyle ':autocomplete:*' ignored-input '' # extended glob pattern
 
 # When completions don't fit on screen, show up to this many lines:
 zstyle ':autocomplete:*' list-lines 16  # (integer)
-# 💡 NOTE: The actual amount shown can be less.
+# NOTE: The actual amount shown can be less.
 
 # If any of the following are shown at the same time, list them in this order:
 zstyle ':completion:*:' group-order \
     expansions history-words options \
     aliases functions builtins reserved-words \
     executables local-directories directories suffix-aliases
-# 💡 NOTE: This is NOT the order in which they are generated.
+# NOTE: This is NOT the order in which they are generated.
 
 zstyle ':autocomplete:*' insert-unambiguous no
 # no:  Tab inserts the top completion.
@@ -283,12 +283,12 @@ zstyle ':autocomplete:*' widget-style complete-word
 # complete-word: (Shift-)Tab inserts the top (bottom) completion.
 # menu-complete: Press again to cycle to next (previous) completion.
 # menu-select:   Same as `menu-complete`, but updates selection in menu.
-# ⚠️ NOTE: This can NOT be changed at runtime.
+# NOTE: This can NOT be changed at runtime.
 
 zstyle ':autocomplete:*' fzf-completion no
 # no:  Tab uses Zsh's completion system only.
 # yes: Tab first tries Fzf's completion, then falls back to Zsh's.
-# ⚠️ NOTE: This can NOT be changed at runtime and requires that you have
+# NOTE: This can NOT be changed at runtime and requires that you have
 # installed Fzf's shell extensions.
 
 # Add a space after these completions:
@@ -316,17 +316,18 @@ bindkey -M menuselect $key[Return] .accept-line
 # Uncomment the following lines to disable live history search:
 # zle -A {.,}history-incremental-search-forward
 # zle -A {.,}history-incremental-search-backward
+
 # }}}
 # Auto Comp {{{1
 
 ##setopt complete_aliases
-#setopt COMPLETE_ALIASES
+setopt COMPLETE_ALIASES
 
 ## This is needed for the prefix completer
-##setopt COMPLETE_IN_WORD
+setopt COMPLETE_IN_WORD
 
 ## move the cursor to the end AFTER a completion was inserted
-#setopt ALWAYS_TO_END
+setopt ALWAYS_TO_END
 
 ## make dir if it doenst exist.
 #[[ -d $HOME/.cache/zsh ]] || mkdir -p $HOME/.cache/zsh
@@ -337,11 +338,11 @@ bindkey -M menuselect $key[Return] .accept-line
 ## selection is started.
 #zstyle ':completion:*' use-perl true
 #zstyle ':completion:*' menu yes select
-#zstyle ':completion:*' force-list always
+zstyle ':completion:*' force-list always
 #zstyle ':completion:*' add-space true
 #zstyle ':completion:*' verbose yes
-#zstyle ':completion:*' remove-all-dups true     # remove all dups
-#zstyle ':completion:*' squeeze-slashes true     # remove trailing slash
+zstyle ':completion:*' remove-all-dups true     # remove all dups
+zstyle ':completion:*' squeeze-slashes true     # remove trailing slash
 #zstyle ':completion:*:commands' rehash true     # rehash on commands
 
 ## When looking for matches, first try exact matches, then case-insensiive, then
@@ -398,19 +399,6 @@ bindkey '^Z' foreground-vi
 #-------------------------------------------------------------------------------
 bindkey -v
 
-# # search for word being typed, option x or z
-# bindkey "≈" history-beginning-search-backward
-# bindkey "Ω" history-beginning-search-forward
-# # arrow keys do the same
-# bindkey "^[[A" history-beginning-search-backward
-# bindkey "^[[B" history-beginning-search-forward
-
-# # in command mode seach history on the home row
-# bindkey -M vicmd 'j' history-beginning-search-forward
-# bindkey -M vicmd 'k' history-beginning-search-backward
-
-# # delete rerun commands
-# bindkey '^?' backward-delete-char
 
 #}}}
 # rbenv {{{1
@@ -426,11 +414,16 @@ eval "$(rbenv init -)"
 # Will first try to find a suggestion from your history, but, if it can't find
 # a match, will find a suggestion from the completion engine.
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#4b4b4b'
+
 # ZSH_AUTOSUGGEST_USE_ASYNC
 # }}}
 # colorls {{{1
+
+# Enable tab completion for flags by entering following line to your shell
+# configuration file
 source $(dirname $(gem which colorls))/tab_complete.sh
-#
+
 # Source {{{1
 #-------------------------------------------------------------------------------
 # git username and tokens
@@ -451,7 +444,3 @@ for config_file ($ZSH/lib/*.zsh); do
 done
 
 # }}}
-# Zsh Autosuggest {{{1
-# change the forground color
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#4b4b4b'
-#}}}

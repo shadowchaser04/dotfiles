@@ -20,6 +20,7 @@ alias vs="$EDITOR -S"                       # open as session
 #alias l="ls -lAs"
 alias l='colorls -lA --sd --gs'
 alias ll='colorls -l --sd --gs'
+alias tree='colorls --tree'
 
 # }}}
 # History and grep {{{1

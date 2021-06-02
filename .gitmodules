@@ -25,12 +25,12 @@
 [submodule "vim/pack/myplugins/start/vim-colors-solarized"]
 	path = vim/pack/myplugins/start/vim-colors-solarized
 	url = git@github.com:altercation/vim-colors-solarized.git
-[submodule "zsh/lib/zsh-autocomplete"]
-	path = zsh/lib/zsh-autocomplete
-	url = https://github.com/marlonrichert/zsh-autocomplete.git
 [submodule "zsh/lib/zsh-autosuggestions"]
 	path = zsh/lib/zsh-autosuggestions
 	url = git@github.com:zsh-users/zsh-autosuggestions.git
 [submodule "zsh/lib/zsh-syntax-highlighting"]
 	path = zsh/lib/zsh-syntax-highlighting
 	url = git@github.com:zsh-users/zsh-syntax-highlighting.git
+[submodule "vim/pack/myplugins/start/reply.vim"]
+	path = vim/pack/myplugins/start/reply.vim
+	url = git@github.com:rhysd/reply.vim.git

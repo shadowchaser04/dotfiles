@@ -753,6 +753,10 @@ autocmd InsertLeave * set nopaste
 " au FocusGained,BufEnter * checktime
 
 " }}}
+autocmd BufNewFile,BufRead *.html.erb set filetype=html.eruby
+
+autocmd BufNewFile,BufRead *.css.scss set filetype=css
+
 endif
 " }}}
 " Functions {{{2
