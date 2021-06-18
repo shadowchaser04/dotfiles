@@ -885,7 +885,6 @@ let g:airline_theme='dark'
 " }}}
 " UltiSnippets {{{2
 
-
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/ultisnips']
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"

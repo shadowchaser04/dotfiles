@@ -19,7 +19,7 @@ export HOSTTYPE
 # path {{{1
 
 # Add mysql to the path
-export PATH="${PATH:+${PATH}:}$HOME/.bin:/usr/local/mysql/bin:/usr/local/bin"
+export PATH="${PATH:+${PATH}:}$HOME/.bin:/usr/local/bin"
 
 # Add user gems
 export PATH="${PATH:+${PATH}:}/Users/shadow_chaser/.gem/ruby/2.6.0/bin"
@@ -40,11 +40,6 @@ export ZSH=$HOME/.zsh
 export LDFLAGS="-L/usr/local/opt/readline/lib"
 export CPPFLAGS="-I/usr/local/opt/readline/include"
 export PKG_CONFIG_PATH="/usr/local/opt/readline/lib/pkgconfig"
-# }}}
-# mysql {{{1
-
-export MYSQL_PS1="\R:\m:\s \h.\d> "
-
 # }}}
 # vim {{{1
 
@@ -112,3 +107,4 @@ export CLICOLOR=1
 export LSCOLORS='exfxhxDefxhxhxhxhxcxcx'
 
 # }}}
+

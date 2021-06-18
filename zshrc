@@ -321,13 +321,13 @@ bindkey -M menuselect $key[Return] .accept-line
 # Auto Comp {{{1
 
 ##setopt complete_aliases
-setopt COMPLETE_ALIASES
+#setopt COMPLETE_ALIASES
 
 ## This is needed for the prefix completer
-setopt COMPLETE_IN_WORD
+##setopt COMPLETE_IN_WORD
 
 ## move the cursor to the end AFTER a completion was inserted
-setopt ALWAYS_TO_END
+#setopt ALWAYS_TO_END
 
 ## make dir if it doenst exist.
 #[[ -d $HOME/.cache/zsh ]] || mkdir -p $HOME/.cache/zsh
@@ -338,11 +338,11 @@ setopt ALWAYS_TO_END
 ## selection is started.
 #zstyle ':completion:*' use-perl true
 #zstyle ':completion:*' menu yes select
-zstyle ':completion:*' force-list always
+#zstyle ':completion:*' force-list always
 #zstyle ':completion:*' add-space true
 #zstyle ':completion:*' verbose yes
-zstyle ':completion:*' remove-all-dups true     # remove all dups
-zstyle ':completion:*' squeeze-slashes true     # remove trailing slash
+#zstyle ':completion:*' remove-all-dups true     # remove all dups
+#zstyle ':completion:*' squeeze-slashes true     # remove trailing slash
 #zstyle ':completion:*:commands' rehash true     # rehash on commands
 
 ## When looking for matches, first try exact matches, then case-insensiive, then
@@ -399,6 +399,19 @@ bindkey '^Z' foreground-vi
 #-------------------------------------------------------------------------------
 bindkey -v
 
+# # search for word being typed, option x or z
+# bindkey "≈" history-beginning-search-backward
+# bindkey "Ω" history-beginning-search-forward
+# # arrow keys do the same
+# bindkey "^[[A" history-beginning-search-backward
+# bindkey "^[[B" history-beginning-search-forward
+
+# # in command mode seach history on the home row
+# bindkey -M vicmd 'j' history-beginning-search-forward
+# bindkey -M vicmd 'k' history-beginning-search-backward
+
+# # delete rerun commands
+# bindkey '^?' backward-delete-char
 
 #}}}
 # rbenv {{{1
@@ -420,8 +433,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#4b4b4b'
 # }}}
 # colorls {{{1
 
-# Enable tab completion for flags by entering following line to your shell
-# configuration file
+# Enable tab completion for flags by entering following line to your shell configuration file
 source $(dirname $(gem which colorls))/tab_complete.sh
 
 # Source {{{1

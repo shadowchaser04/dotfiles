@@ -34,3 +34,9 @@
 [submodule "vim/pack/myplugins/start/reply.vim"]
 	path = vim/pack/myplugins/start/reply.vim
 	url = git@github.com:rhysd/reply.vim.git
+[submodule "vim/pack/myplugins/start/zsh-autocomplete"]
+	path = vim/pack/myplugins/start/zsh-autocomplete
+	url = https://github.com/marlonrichert/zsh-autocomplete.git
+[submodule "zsh/lib/zsh-autocomplete"]
+	path = zsh/lib/zsh-autocomplete
+	url = https://github.com/marlonrichert/zsh-autocomplete.git

@@ -17,17 +17,21 @@ alias vs="$EDITOR -S"                       # open as session
 # l=list all information
 # A=loose the . / .. directories
 # s=sort by size but keep alphabetical order
+
 #alias l="ls -lAs"
-alias l='colorls -lA --sd --gs'
-alias ll='colorls -l --sd --gs'
+alias l='colorls -lA --sd'
+alias ll='colorls -l --sd'
 alias tree='colorls --tree'
 
 # }}}
 # History and grep {{{1
 
-alias grep="grep --color=auto"              # color grep
-alias history="history -i 1 -1"             # history
-alias h="history"                           # history
+# color grep
+alias grep="grep --color=auto"
+# history
+alias history="history -i 1 -1"
+# history
+alias h="history"
 
 # }}}
 # Misc {{{1
@@ -41,15 +45,26 @@ alias za="v $(find ~/.zsh_aliases)"         # zsh aliases
 alias c_last="fc -l -1 | cut -d\  -f3- | pbcopy"    # copy last command to clip
 alias d_sizes="df -H"                        # show disc space
 
+alias qb="open /Applications/qutebrowser.app"
+# }}}
+# browser {{{1
+# until i can work out why it is not opening the same from
+# open /usr/local/Caskroom/qutebrowser/2.2.3/qutebrowser.app
+# i am only opening fro alfred
+# alias qb="open /Applications/qutebrowser.app"
 # }}}
 # Show/hide hidden files in Finder {{{1
-alias finder='open .'                       # opens finder in $PWD
+
+# opens finder in $PWD
+alias finder='open .'
 # reveal hidden files
 alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
 # hide hidden files
 alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
+
 # }}}
 # globals {{{1
+
 alias -g G='| grep'
 alias -g C='| wc -l'
 alias -g H='| head'
@@ -58,6 +73,7 @@ alias -g L="| less"
 alias -g N="| /dev/null"
 alias -g S='| sort'
 alias -g A='| awk'
+
 # }}}
 # suffix {{{1
 # text and programing
