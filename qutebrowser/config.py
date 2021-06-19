@@ -76,6 +76,7 @@ c.aliases = {
 
 # }}}
 # key mappings {{{1
+
 ## Map keys to other keys, so that they are equivalent in all modes. When
 ## the key used as dictionary-key is pressed, the binding for the key
 ## used as dictionary-value is invoked instead. This is useful for global
@@ -105,6 +106,7 @@ c.changelog_after_upgrade = 'minor'
 
 # }}}
 # standard color {{{1
+
 ## Background color of the completion widget category headers.
 ## Type: QssColor
 # c.colors.completion.category.bg = 'qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #888888, stop:1 #505050)'
@@ -2035,6 +2037,7 @@ c.tabs.undo_stack_size = 100
 
 # }}}
 # search engines and defaults {{{1
+
 ## What search to start when something else than a URL is entered.
 ## Type: String
 ## Valid values:
@@ -2153,8 +2156,7 @@ c.zoom.levels = ['25%', '33%', '50%', '60%', '70%', '80%', '90%', '100%', '110%'
 
 # }}}
 # bindings {{{1
-
-## Bindings for normal mode
+## Bindings for normal mode {{{2
 # config.bind("'", 'mode-enter jump_mark')
 # config.bind('+', 'zoom-in')
 # config.bind('-', 'zoom-out')
@@ -2164,7 +2166,6 @@ c.zoom.levels = ['25%', '33%', '50%', '60%', '70%', '80%', '90%', '100%', '110%'
 # config.bind(';I', 'hint images tab')
 # config.bind(';O', 'hint links fill :open -t -r {hint-url}')
 # config.bind(';R', 'hint --rapid links window')
-# config.bind(';Y', 'hint links yank-primary')
 # config.bind(';b', 'hint all tab-bg')
 # config.bind(';d', 'hint links download')
 # config.bind(';f', 'hint all tab-fg')
@@ -2173,7 +2174,6 @@ c.zoom.levels = ['25%', '33%', '50%', '60%', '70%', '80%', '90%', '100%', '110%'
 # config.bind(';o', 'hint links fill :open {hint-url}')
 # config.bind(';r', 'hint --rapid links tab-bg')
 # config.bind(';t', 'hint inputs')
-# config.bind(';y', 'hint links yank')
 # config.bind('<Alt-1>', 'tab-focus 1')
 # config.bind('<Alt-2>', 'tab-focus 2')
 # config.bind('<Alt-3>', 'tab-focus 3')
@@ -2330,21 +2330,35 @@ c.zoom.levels = ['25%', '33%', '50%', '60%', '70%', '80%', '90%', '100%', '110%'
 # config.bind('xO', 'set-cmd-text :open -b -r {url:pretty}')
 # config.bind('xo', 'set-cmd-text -s :open -b')
 
-# yanks
-# config.bind('yD', 'yank domain -s')
-# config.bind('yM', 'yank inline [{title}]({url}) -s')
-# config.bind('yP', 'yank pretty-url -s')
-# config.bind('yT', 'yank title -s')
-# config.bind('yY', 'yank -s')
-# config.bind('yd', 'yank domain')
-# config.bind('ym', 'yank inline [{title}]({url})')
-# config.bind('yp', 'yank pretty-url')
-# config.bind('yt', 'yank title')
-# config.bind('yy', 'yank')
+# }}}
+## bindings for yanks {{{2
+
+# url
+config.bind('yy', 'yank')
+config.bind('yY', 'yank -s')
+# title
+config.bind('yt', 'yank title')
+config.bind('yT', 'yank title -s')
+# domain
+config.bind('yd', 'yank domain')
+config.bind('yD', 'yank domain -s')
+# url
+config.bind('yp', 'yank pretty-url')
+config.bind('yP', 'yank pretty-url -s')
+# markdown link
+config.bind('ym', 'yank inline [{title}]({url})')
+config.bind('yM', 'yank inline [{title}]({url}) -s')
+# yank the link
+config.bind('yl', 'hint links yank')
+config.bind('Yl', 'hint links yank-primary')
+
+# NOTE: not sure i want to blindly follow links???
 # config.bind('{{', 'navigate prev -t')
 # config.bind('}}', 'navigate next -t')
 
-## Bindings for caret mode
+# }}}
+## Bindings for caret mode {{{2
+
 # config.bind('$', 'move-to-end-of-line', mode='caret')
 # config.bind('0', 'move-to-start-of-line', mode='caret')
 # config.bind('<Ctrl-Space>', 'selection-drop', mode='caret')
@@ -2375,7 +2389,9 @@ c.zoom.levels = ['25%', '33%', '50%', '60%', '70%', '80%', '90%', '100%', '110%'
 # config.bind('{', 'move-to-end-of-prev-block', mode='caret')
 # config.bind('}', 'move-to-end-of-next-block', mode='caret')
 
-## Bindings for command mode
+# }}}
+## Bindings for command mode {{{2
+
 # config.bind('<Alt-B>', 'rl-backward-word', mode='command')
 # config.bind('<Alt-Backspace>', 'rl-backward-kill-word', mode='command')
 # config.bind('<Alt-D>', 'rl-kill-word', mode='command')
@@ -2408,22 +2424,28 @@ c.zoom.levels = ['25%', '33%', '50%', '60%', '70%', '80%', '90%', '100%', '110%'
 # config.bind('<Tab>', 'completion-item-focus next', mode='command')
 # config.bind('<Up>', 'completion-item-focus --history prev', mode='command')
 
-## Bindings for hint mode
+# }}}
+## Bindings for hint mode {{{2
+
 # config.bind('<Ctrl-B>', 'hint all tab-bg', mode='hint')
 # config.bind('<Ctrl-F>', 'hint links', mode='hint')
 # config.bind('<Ctrl-R>', 'hint --rapid links tab-bg', mode='hint')
 # config.bind('<Escape>', 'mode-leave', mode='hint')
 # config.bind('<Return>', 'hint-follow', mode='hint')
 
-## Bindings for insert mode
+# }}}
+## Bindings for insert mode {{{2
+
 # config.bind('<Ctrl-E>', 'edit-text', mode='insert')
 # config.bind('<Escape>', 'mode-leave', mode='insert')
 # config.bind('<Shift-Ins>', 'insert-text -- {primary}', mode='insert')
 
-## Bindings for passthrough mode
+# }}}
+## Bindings for passthrough mode {{{2
 # config.bind('<Shift-Escape>', 'mode-leave', mode='passthrough')
+# }}}
+## Bindings for prompt mode {{{2
 
-## Bindings for prompt mode
 # config.bind('<Alt-B>', 'rl-backward-word', mode='prompt')
 # config.bind('<Alt-Backspace>', 'rl-backward-kill-word', mode='prompt')
 # config.bind('<Alt-D>', 'rl-kill-word', mode='prompt')
@@ -2449,10 +2471,14 @@ c.zoom.levels = ['25%', '33%', '50%', '60%', '70%', '80%', '90%', '100%', '110%'
 # config.bind('<Tab>', 'prompt-item-focus next', mode='prompt')
 # config.bind('<Up>', 'prompt-item-focus prev', mode='prompt')
 
-## Bindings for register mode
+# }}}
+## Bindings for register mode {{{2
+
 # config.bind('<Escape>', 'mode-leave', mode='register')
 
-## Bindings for yesno mode
+# }}}
+## Bindings for yesno mode {{{2
+
 # config.bind('<Alt-Shift-Y>', 'prompt-yank --sel', mode='yesno')
 # config.bind('<Alt-Y>', 'prompt-yank', mode='yesno')
 # config.bind('<Escape>', 'mode-leave', mode='yesno')
@@ -2462,6 +2488,7 @@ c.zoom.levels = ['25%', '33%', '50%', '60%', '70%', '80%', '90%', '100%', '110%'
 # config.bind('n', 'prompt-accept no', mode='yesno')
 # config.bind('y', 'prompt-accept yes', mode='yesno')
 
+# }}}
 # }}}
 # user settings {{{1
 # Tabs {{{2

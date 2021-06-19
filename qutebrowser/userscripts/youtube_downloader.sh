@@ -1,3 +1,3 @@
 #!/bin/zsh
 
-youtube-dl $QUTE_URL
+youtube-dl --extract-audio --audio-format mp3 $QUTE_URL
