@@ -2467,8 +2467,8 @@ config.bind('Yl', 'hint links yank-primary')
 # config.bind('<Down>', 'prompt-item-focus next', mode='prompt')
 # config.bind('<Escape>', 'mode-leave', mode='prompt')
 # config.bind('<Return>', 'prompt-accept', mode='prompt')
-# config.bind('<Shift-Tab>', 'prompt-item-focus prev', mode='prompt')
-# config.bind('<Tab>', 'prompt-item-focus next', mode='prompt')
+config.bind('<Shift-Tab>', 'prompt-item-focus prev', mode='prompt')
+config.bind('<Tab>', 'prompt-item-focus next', mode='prompt')
 # config.bind('<Up>', 'prompt-item-focus prev', mode='prompt')
 
 # }}}
