@@ -9,6 +9,10 @@
 ##   qute://help/configuring.html
 ##   qute://help/settings.html
 
+from qutebrowser.mainwindow import tabwidget
+# tabwidget.TabWidget.MUTE_STRING = "▷ "
+tabwidget.TabWidget.AUDIBLE_STRING = "▶ "
+
 ## This is here so configs done via the GUI are still loaded.
 ## Remove it to not load settings done via the GUI.
 config.load_autoconfig(False)
@@ -19,15 +23,18 @@ config.load_autoconfig(False)
 ## aliases, while the values are the commands they map to.
 ## Type: Dict
 c.aliases = {
-    'w': 'session-save',
-    'q': 'close',
-    'qa': 'quit',
-    'wq': 'quit --save',
-    'wqa': 'quit --save'
+    'w':    'session-save',
+    'q':    'close',
+    'qa':   'quit',
+    'wq':   'quit --save',
+    'wqa':  'quit --save',
+    'm':    'messages',
+    'p':    'process',
+    'h':    'help'
 }
 
 # }}}
-# autosave {{{1
+# session and autosave {{{1
 ## Time interval (in milliseconds) between auto-saves of
 ## config/cookies/etc.
 ## Type: Int
@@ -86,6 +93,7 @@ c.aliases = {
 
 # }}}
 # changelog {{{1
+
 ## When to show a changelog after qutebrowser was upgraded.
 ## Type: String
 ## Valid values:
@@ -93,7 +101,8 @@ c.aliases = {
 ##   - minor: Show changelog for major and minor upgrades (e.g. v2.0.0 -> v2.1.0).
 ##   - patch: Show changelog for major, minor and patch upgrades (e.g. v2.0.0 -> v2.0.1).
 ##   - never: Never show changelog after upgrades.
-# c.changelog_after_upgrade = 'minor'
+c.changelog_after_upgrade = 'minor'
+
 # }}}
 # standard color {{{1
 ## Background color of the completion widget category headers.
@@ -524,7 +533,7 @@ c.aliases = {
 ## `colors.webpage.darkmode.threshold.background` to 205.  - "With
 ## selective inversion of everything": Combines the two variants   above.
 ## Type: Bool
-# c.colors.webpage.darkmode.enabled = False
+c.colors.webpage.darkmode.enabled = False
 
 ## Render all colors as grayscale. This only has an effect when
 ## `colors.webpage.darkmode.algorithm` is set to `lightness-hsl` or
@@ -586,6 +595,7 @@ c.aliases = {
 # c.colors.webpage.preferred_color_scheme = 'auto'
 # }}}
 # completion {{{1
+
 ## Number of commands to save in the command history. 0: no history / -1:
 ## unlimited
 ## Type: Int
@@ -596,6 +606,7 @@ c.completion.cmd_history_max_items = 100
 ## Type: Int
 c.completion.delay = 0
 
+# TODO - find out more about this
 ## Default filesystem autocomplete suggestions for :open. The elements of
 ## this list show up in the completion window under the Filesystem
 ## category when the command line contains `:open` but no argument.
@@ -604,11 +615,11 @@ c.completion.delay = 0
 
 ## Height (in pixels or as percentage of the window) of the completion.
 ## Type: PercOrInt
-# c.completion.height = '50%'
+c.completion.height = '35%'
 
 ## Minimum amount of characters needed to update completions.
 ## Type: Int
-# c.completion.min_chars = 1
+c.completion.min_chars = 1
 
 ## Which categories to show (in which order) in the :open completion.
 ## Type: FlagList
@@ -618,7 +629,7 @@ c.completion.delay = 0
 ##   - bookmarks
 ##   - history
 ##   - filesystem
-# c.completion.open_categories = ['searchengines', 'quickmarks', 'bookmarks', 'history', 'filesystem']
+c.completion.open_categories = ['searchengines', 'quickmarks', 'bookmarks', 'history', 'filesystem']
 
 ## Move on to the next part when there's only one possible completion
 ## left.
@@ -644,7 +655,7 @@ c.completion.delay = 0
 ## Shrink the completion to be smaller than the configured size if there
 ## are no scrollbars.
 ## Type: Bool
-# c.completion.shrink = False
+c.completion.shrink = False
 
 ## Format of timestamps (e.g. for the history completion). See
 ## https://sqlite.org/lang_datefunc.html and
@@ -672,16 +683,7 @@ c.completion.delay = 0
 c.completion.web_history.max_items = -1
 
 # }}}
-# settings {{{1
-
-## Require a confirmation before quitting the application.
-## Type: ConfirmQuit
-## Valid values:
-##   - always: Always show a confirmation.
-##   - multiple-tabs: Show a confirmation if multiple tabs are opened.
-##   - downloads: Show a confirmation if downloads are running
-##   - never: Never show a confirmation.
-c.confirm_quit = ['downloads']
+# content {{{1
 
 ## Automatically start playing `<video>` elements.
 ## Type: Bool
@@ -831,7 +833,7 @@ c.content.autoplay = False
 ##   - true
 ##   - false
 ##   - ask
-# c.content.geolocation = 'ask'
+c.content.geolocation = 'ask'
 
 ## Value to send in the `Accept-Language` header. Note that the value
 ## read from JavaScript is always the global value.
@@ -961,7 +963,7 @@ c.content.media.audio_video_capture = False
 ##   - true
 ##   - false
 ##   - ask
-# c.content.media.video_capture = 'ask'
+c.content.media.video_capture = False
 
 ## Allow websites to lock your mouse pointer.
 ## Type: BoolAsk
@@ -1156,7 +1158,7 @@ c.downloads.location.prompt = False
 ##   - path: Show only the download path.
 ##   - filename: Show only download filename.
 ##   - both: Show download path and filename.
-# c.downloads.location.suggestion = 'path'
+c.downloads.location.suggestion = 'filename'
 
 ## Default program used to open downloads. If null, the default internal
 ## handler is used. Any `{}` in the string will be expanded to the
@@ -1174,7 +1176,17 @@ c.downloads.position = 'top'
 ## Duration (in milliseconds) to wait before removing finished downloads.
 ## If set to -1, downloads are never removed.
 ## Type: Int
-# c.downloads.remove_finished = -1
+c.downloads.remove_finished = 6000
+
+## Require a confirmation before quitting the application.
+## Type: ConfirmQuit
+## Valid values:
+##   - always: Always show a confirmation.
+##   - multiple-tabs: Show a confirmation if multiple tabs are opened.
+##   - downloads: Show a confirmation if downloads are running
+##   - never: Never show a confirmation.
+c.confirm_quit = ['downloads']
+
 # }}}
 # editor {{{1
 
@@ -1193,6 +1205,7 @@ c.editor.encoding = 'utf-8'
 
 # }}}
 # fileselect {{{1
+
 ## Command (and arguments) to use for selecting a single folder in forms.
 ## The command should write the selected folder path to the specified
 ## file or stdout. The following placeholders are defined: * `{}`:
@@ -1351,7 +1364,7 @@ c.editor.encoding = 'utf-8'
 ##   - unique-match: Auto-follow whenever there is a unique non-empty match in either the hint string (word mode) or filter (number mode).
 ##   - full-match: Follow the hint when the user typed the whole hint (letter, word or number mode) or the element's text (only in number mode).
 ##   - never: The user will always need to press Enter to follow a hint.
-# c.hints.auto_follow = 'unique-match'
+c.hints.auto_follow = 'unique-match'
 
 ## Duration (in milliseconds) to ignore normal-mode key bindings after a
 ## successful auto-follow.
@@ -1395,7 +1408,7 @@ c.hints.min_chars = 1
 ##   - number: Use numeric hints. (In this mode you can also type letters from the hinted element to filter and reduce the number of elements that are hinted.)
 ##   - letter: Use the characters in the `hints.chars` setting.
 ##   - word: Use hints words based on the html elements and the extra words.
-# c.hints.mode = 'letter'
+c.hints.mode = 'letter'
 
 ## Comma-separated list of regular expressions to use for 'next' links.
 ## Type: List of Regex
@@ -1465,7 +1478,7 @@ c.input.insert_mode.auto_leave = True
 ## unreliable on this setting, and they may match the url you are
 ## navigating to, or the URL you are navigating from.
 ## Type: Bool
-# c.input.insert_mode.leave_on_load = True
+c.input.insert_mode.leave_on_load = True
 
 ## Switch to insert mode when clicking flash and other plugins.
 ## Type: Bool
@@ -1557,6 +1570,7 @@ c.messages.timeout = 4000
 
 # }}}
 # new instance {{{1
+
 ## How to open links in an existing instance if a new one is launched.
 ## This happens when e.g. opening a link from a terminal. See
 ## `new_instance_open_target_window` to customize in which window the
@@ -1709,7 +1723,7 @@ c.search.incremental = True
 ## Wrap around at the top and bottom of the page when advancing through
 ## text matches using `:search-next` and `:search-prev`.
 ## Type: Bool
-# c.search.wrap = True
+c.search.wrap = True
 
 # }}}
 # session {{{1
@@ -1772,7 +1786,7 @@ c.search.incremental = True
 ##   - tr-TR: Turkish (Turkey)
 ##   - uk-UA: Ukrainian (Ukraine)
 ##   - vi-VN: Vietnamese (Viet Nam)
-c.spellcheck.languages = ["en-GB"]
+# c.spellcheck.languages = ["en-GB"]
 
 # }}}
 # status bar {{{1
@@ -1785,7 +1799,7 @@ c.spellcheck.languages = ["en-GB"]
 ## Valid values:
 ##   - top
 ##   - bottom
-# c.statusbar.position = 'bottom'
+c.statusbar.position = 'bottom'
 
 ## When to show the statusbar.
 ## Type: String
@@ -1793,7 +1807,7 @@ c.spellcheck.languages = ["en-GB"]
 ##   - always: Always show the statusbar.
 ##   - never: Always hide the statusbar.
 ##   - in-mode: Show the statusbar when in modes other than normal mode.
-# c.statusbar.show = 'always'
+c.statusbar.show = 'always'
 
 ## List of widgets displayed in the statusbar.
 ## Type: List of StatusbarWidget
@@ -1927,6 +1941,7 @@ c.tabs.new_position.unrelated = 'last'
 ## Type: Padding
 c.tabs.padding = {'top': 4, 'bottom': 4, 'left': 5, 'right': 5}
 
+# TODO - investigate more tab stacks
 ## Force pinned tabs to stay at fixed URL.
 ## Type: Bool
 # c.tabs.pinned.frozen = True
@@ -1950,7 +1965,7 @@ c.tabs.position = 'top'
 ##   - prev: Select the tab which came before the closed one (left in horizontal, above in vertical).
 ##   - next: Select the tab which came after the closed one (right in horizontal, below in vertical).
 ##   - last-used: Select the previously selected tab.
-# c.tabs.select_on_remove = 'next'
+c.tabs.select_on_remove = 'prev'
 
 ## When to show the tab bar.
 ## Type: String
@@ -1976,7 +1991,7 @@ c.tabs.show = 'multiple'
 ##   - left
 ##   - right
 ##   - center
-# c.tabs.title.alignment = 'left'
+c.tabs.title.alignment = 'left'
 
 ## Format to use for the tab title. The following placeholders are
 ## defined:  * `{perc}`: Percentage as a string like `[10%]`. *
@@ -1991,7 +2006,8 @@ c.tabs.show = 'multiple'
 ## web page. * `{protocol}`: Protocol (http/https/...) of the current web
 ## page. * `{audio}`: Indicator for audio/mute status.
 ## Type: FormatString
-# c.tabs.title.format = '{audio}{index}: {current_title}'
+# TODO - Audio on off symbol?j
+c.tabs.title.format = '{audio}{index}: {current_title}'
 
 ## Format to use for the tab title for pinned tabs. The same placeholders
 ## like for `tabs.title.format` are defined.
@@ -2006,7 +2022,7 @@ c.tabs.show = 'multiple'
 ## Number of closed tabs (per window) and closed windows to remember for
 ## :undo (-1 for no maximum).
 ## Type: Int
-# c.tabs.undo_stack_size = 100
+c.tabs.undo_stack_size = 100
 
 ## Width (in pixels or as percentage of the window) of the tab bar if
 ## it's vertical.
@@ -2033,6 +2049,7 @@ c.tabs.show = 'multiple'
 ## Type: FuzzyUrl
 c.url.default_page = 'https://google.com'
 
+# TODO - I dont understan what that does
 ## URL segments where `:navigate increment/decrement` will search for a
 ## number.
 ## Type: FlagList
@@ -2082,12 +2099,12 @@ c.url.searchengines = {
     'p':       'https://pry.sh/{}',
     'r':       'https://www.reddit.com/search?q={}',
     't':       'https://www.thesaurus.com/browse/{}',
+    'di':      'https://www.dictionary.com/browse/{}',
     'tw':      'https://twitter.com/search?q={}',
     'w':       'https://en.wikipedia.org/wiki/{}',
     'yt':      'https://www.youtube.com/results?search_query={}',
     'so':      'https://stackoverflow.com/search?q={}',
-    'ar':      'https://wiki.archlinux.org/index.php?search={}',
-    'di':      'https://www.dict.cc/browse/{}'
+    'ar':      'https://wiki.archlinux.org/index.php?search={}'
 
 }
 
@@ -2120,11 +2137,11 @@ c.window.title_format = '{perc}{current_title}{title_sep}qutebrowser'
 
 ## Default zoom level.
 ## Type: Perc
-# c.zoom.default = '100%'
+c.zoom.default = '100%'
 
 ## Available zoom levels.
 ## Type: List of Perc
-# c.zoom.levels = ['25%', '33%', '50%', '67%', '75%', '90%', '100%', '110%', '125%', '150%', '175%', '200%', '250%', '300%', '400%', '500%']
+c.zoom.levels = ['25%', '33%', '50%', '60%', '70%', '80%', '90%', '100%', '110%', '125%', '150%', '175%', '200%', '250%', '300%', '400%', '500%']
 
 ## Number of zoom increments to divide the mouse wheel movements to.
 ## Type: Int
@@ -2133,6 +2150,7 @@ c.window.title_format = '{perc}{current_title}{title_sep}qutebrowser'
 ## Apply the zoom factor on a frame only to the text or to all content.
 ## Type: Bool
 # c.zoom.text_only = False
+
 # }}}
 # bindings {{{1
 
@@ -2151,7 +2169,7 @@ c.window.title_format = '{perc}{current_title}{title_sep}qutebrowser'
 # config.bind(';d', 'hint links download')
 # config.bind(';f', 'hint all tab-fg')
 # config.bind(';h', 'hint all hover')
-# config.bind(';i', 'hint images')
+# download image from hint
 # config.bind(';o', 'hint links fill :open {hint-url}')
 # config.bind(';r', 'hint --rapid links tab-bg')
 # config.bind(';t', 'hint inputs')
@@ -2205,8 +2223,6 @@ c.window.title_format = '{perc}{current_title}{title_sep}qutebrowser'
 # config.bind('F', 'hint all tab')
 # config.bind('G', 'scroll-to-perc')
 # config.bind('H', 'back')
-# config.bind('J', 'tab-next')
-# config.bind('K', 'tab-prev')
 # config.bind('L', 'forward')
 # config.bind('M', 'bookmark-add')
 # config.bind('N', 'search-prev')
@@ -2235,7 +2251,6 @@ c.window.title_format = '{perc}{current_title}{title_sep}qutebrowser'
 # config.bind('g$', 'tab-focus -1')
 # config.bind('g0', 'tab-focus 1')
 # config.bind('gB', 'set-cmd-text -s :bookmark-load -t')
-# config.bind('gC', 'tab-clone')
 # config.bind('gD', 'tab-give')
 # config.bind('gJ', 'tab-move +')
 # config.bind('gK', 'tab-move -')
@@ -2449,23 +2464,40 @@ c.window.title_format = '{perc}{current_title}{title_sep}qutebrowser'
 
 # }}}
 # user settings {{{1
+# Tabs {{{2
 
-# very basic script, no feed back if it works or not.
+# prev and next tab
+config.bind('K', 'tab-next')
+config.bind('J', 'tab-prev')
 
-# config.bind('Z', "hint links userscript youtube_downloader.sh")
-# config.bind('z', "hint links userscript mpv_play.sh")
-
-# needed to be ran via the script when the browser was being opend via system
-# wide settings instead of the user. Which gives acces to all the brew cellar
-# stuff.
-
-config.bind('Z', "hint links spawn youtube-dl {hint-url}")
-
-config.bind('z', "hint links spawn mpv {hint-url}")
-
-# open with the tab switch
+# open command window ready for a search. The result apears in a new tab
 config.bind('t', 'set-cmd-text -s :open -t')
 
+# config.bind("<ctrl-o>", "open {url:pretty}")
+# config.bind("<ctrl-t>", "open -t {url:pretty}")
+
+# clone open tab
+config.bind('T', 'tab-clone')
+
+# }}}
+# Downloads {{{2
+
+# download video from hint
+config.bind('Z', "hint links spawn youtube-dl {hint-url}")
+
+# play video from hint
+config.bind('z', "hint links spawn mpv {hint-url}")
+
+# download image from hint
+config.bind('x', 'hint images download')
+
+# }}}
+# misc {{{2
+
+# use yank to gab a word then ,x will look it up in online dictionary.
+config.bind(',x', ':open -t https://www.dictionary.com/browse/{clipboard}')
+
+# }}}
 # }}}
 # theme colors {{{1
 # base16-qutebrowser (https://github.com/theova/base16-qutebrowser)
