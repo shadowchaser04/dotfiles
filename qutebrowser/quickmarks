@@ -1,3 +1,14 @@
 /cs https://www.imdb.com/movies-coming-soon/?ref_=nv_mv_cs
 /it https://www.imdb.com/movies-in-theaters/?ref_=nv_mv_inth
 /t https://www.imdb.com/trailers/?ref_=nv_mv_tr
+pv player https://www.google.com/search?q=impressive+things+mpv+player+can+do&hl=en&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjdoZepr6XxAhWODxQKHV0tBRUQ_AUoAnoECAEQBA&biw=1440&bih=866
+add blocker http://ix.io/2pPv
+mpv playlist manager https://github.com/jonniek/mpv-playlistmanager
+subtitles https://github.com/davidde/mpv-autosub
+youtube-dl docs https://github.com/ytdl-org/youtube-dl/blob/master/README.md#readme
+playlist probs https://github.com/mpv-player/mpv/issues/3635
+pause toggle idea https://github.com/rickyjon/mpv_pause_toggle/blob/master/pause_toggle.lua
+thumbnail mpv https://github.com/felipefacundes/mpv_thumbnail_script
+lua doc helper https://github.com/mpv-player/mpv/blob/master/DOCS/man/lua.rst
+customize the progress bar https://github.com/torque/mpv-progressbar/blob/master/torque-progressbar.conf
+customize the mpv https://www.programmersought.com/article/37104856925/
