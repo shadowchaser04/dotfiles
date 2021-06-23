@@ -6,10 +6,9 @@
 # USER CONFIG
 #==============================================================================
 # User {{{1
-[user]
-    name = shadowchaser04
-    email = shadowchasing@icloud.com
-    username = shadowchaser04
+
+[includeIf "gitdir:~/.config/git/gitconfig-personal"]
+  path = ~/.config/git/gitconfig-personal
 
 #[url "https://github.com/"]
 #    insteadOf = gh:
