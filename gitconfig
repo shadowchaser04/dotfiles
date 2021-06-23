@@ -25,17 +25,12 @@
 # }}}
 # template {{{1
 [init]
-	templatedir = ~/.git_template
-# }}}
-# Commit {{{1
-#------------------------------------------------------------------------------
-[commit]
-	template = /Users/shadow_chaser/.gitmessage.txt
+	templatedir = ~/.config/git/git_template
 # }}}
 # Core {{{1
 #------------------------------------------------------------------------------
 [core]
-	excludesfile = /Users/shadowchaser/.gitignore_global
+	excludesfile = /Users/shadowchaser/.config/git/gitignore_global
     editor = vim
 
     # The -r flag causes "raw" control characters to be displayed.

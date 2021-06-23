@@ -1,0 +1,2 @@
+# Save all my videos to the Videos directory:
+-f best[ext=mp4] -o ~/Downloads/Movies/%(title)s.%(ext)s

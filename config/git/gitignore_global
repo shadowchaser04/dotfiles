@@ -1,0 +1,3 @@
+# never have to deal with .DS_Store again.
+.DS_Store
+*.log
