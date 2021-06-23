@@ -83,6 +83,11 @@ export MANPAGER="/bin/sh -c \"sed -e 's/.$(echo -e '\010')//g' | vim -R -c 'set 
 #export NERDTREE_BOOKMARKS=$HOME/.cache/nerdtree/NerdTreeBookmarks
 
 # }}}
+# mpv home {{{1
+
+export MPV_HOME="$HOME/.config/mpv"
+
+# }}}
 # misc {{{!
 
 # Esc key reduced lag time

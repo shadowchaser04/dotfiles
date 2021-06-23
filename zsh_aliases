@@ -46,6 +46,9 @@ alias c_last="fc -l -1 | cut -d\  -f3- | pbcopy"    # copy last command to clip
 alias d_sizes="df -H"                        # show disc space
 
 alias qb="open /Applications/qutebrowser.app"
+alias m_plist="mpv ~/Downloads/Movies/**"
+alias m_audio="mpv ~/Downloads/Audio/**"
+alias m_img="mpv ~/Downloads/Images/**"
 # }}}
 # browser {{{1
 # until i can work out why it is not opening the same from
