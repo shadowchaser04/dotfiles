@@ -7,8 +7,10 @@
 #==============================================================================
 # User {{{1
 
-[includeIf "gitdir:~/.config/git/gitconfig-personal"]
-  path = ~/.config/git/gitconfig-personal
+[user]
+    name = shadowchaser04
+    email = shadowchasing@icloud.com
+    username = shadowchaser04
 
 #[url "https://github.com/"]
 #    insteadOf = gh:
