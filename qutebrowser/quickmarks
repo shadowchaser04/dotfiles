@@ -12,3 +12,4 @@ thumbnail mpv https://github.com/felipefacundes/mpv_thumbnail_script
 lua doc helper https://github.com/mpv-player/mpv/blob/master/DOCS/man/lua.rst
 customize the progress bar https://github.com/torque/mpv-progressbar/blob/master/torque-progressbar.conf
 customize the mpv https://www.programmersought.com/article/37104856925/
+mpv doc https://mpv.io/manual/stable/
