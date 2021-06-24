@@ -5,11 +5,19 @@
 #==============================================================================
 # Zsh Aliases
 #==============================================================================
-# Editor {{{1
+# globals {{{1
 
-alias v="$EDITOR"                           # use the env var $EDITOR, vim
-alias vs="$EDITOR -S"                       # open as session
+alias -g G='| grep'
+alias -g C='| wc -l'
+alias -g H='| head'
+alias -g T='| tail'
+alias -g L="| less"
+alias -g N="| /dev/null"
+alias -g S='| sort'
+alias -g A='| awk'
 
+# }}}
+# ls {{{1
 #-------------------------------------------------------------------------------
 # List files/directories
 #-------------------------------------------------------------------------------
@@ -24,14 +32,34 @@ alias ll='colorls -l --sd'
 alias tree='colorls --tree'
 
 # }}}
-# History and grep {{{1
+# Editor {{{1
+
+alias v="$EDITOR"                           # use the env var $EDITOR, vim
+alias vs="$EDITOR -S"                       # open as session
+
+# }}}
+# grep {{{1
 
 # color grep
 alias grep="grep --color=auto"
+
+# }}}
+# history {{{1
+
 # history
 alias history="history -i 1 -1"
 # history
 alias h="history"
+
+# }}}
+# Show/hide hidden files in Finder {{{1
+
+# opens finder in $PWD
+alias finder='open .'
+# reveal hidden files
+alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
+# hide hidden files
+alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
 
 # }}}
 # Misc {{{1
@@ -45,37 +73,18 @@ alias za="v $(find ~/.zsh_aliases)"         # zsh aliases
 alias c_last="fc -l -1 | cut -d\  -f3- | pbcopy"    # copy last command to clip
 alias d_sizes="df -H"                        # show disc space
 
+# }}}
+# qutebrowser {{{1
+
+# qute browser
 alias qb="open /Applications/qutebrowser.app"
+
+# }}}
+# mpv {{{1
+
 alias m_plist="mpv ~/Downloads/Movies/**"
 alias m_audio="mpv ~/Downloads/Audio/**"
 alias m_img="mpv ~/Downloads/Images/**"
-# }}}
-# browser {{{1
-# until i can work out why it is not opening the same from
-# open /usr/local/Caskroom/qutebrowser/2.2.3/qutebrowser.app
-# i am only opening fro alfred
-# alias qb="open /Applications/qutebrowser.app"
-# }}}
-# Show/hide hidden files in Finder {{{1
-
-# opens finder in $PWD
-alias finder='open .'
-# reveal hidden files
-alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
-# hide hidden files
-alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
-
-# }}}
-# globals {{{1
-
-alias -g G='| grep'
-alias -g C='| wc -l'
-alias -g H='| head'
-alias -g T='| tail'
-alias -g L="| less"
-alias -g N="| /dev/null"
-alias -g S='| sort'
-alias -g A='| awk'
 
 # }}}
 # suffix {{{1
@@ -131,11 +140,7 @@ alias du='du -h -c'                         # Calculate total disk usage for a f
 alias topten="history | commands | sort -rn | head"
 alias dup="duplicates"                      # two file list dups
 alias ndup="nduplicate"                     # two file list none dups
-alias watchlist="ruby ~/Code/Ruby/Projects/watchlist/scripts/watchlist.rb"
 
-# it will give you a list of all TODO and FIXME comments in the current
-# directory and child directories, giving you a quick overview of what you
-# still have to do!
 # alias tasks='grep --exclude-dir=.git -rEI "TODO|FIXME|NOTE" . 2>/dev/null'
 
 # }}}
